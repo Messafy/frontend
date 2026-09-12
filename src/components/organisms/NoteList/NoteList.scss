@@ -1,0 +1,76 @@
+@use '../../../styles/tokens' as *;
+
+.note-list {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    gap: 14px;
+    padding: 16px;
+    background-color: $color-menu-notes;
+    border-left: 1px solid $color-border;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        max-width: 360px;
+        margin: 0 auto;
+        flex-shrink: 0;
+
+        .text--size-h2 {
+            font-size: 24px;
+        }
+    }
+
+    &__title {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 360px;
+        margin: 0 auto;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            gap: 12px;
+            padding: 18px;
+
+            .text--size-h2 {
+                font-size: 20px;
+                line-height: 1.15;
+            }
+
+            .text--size-body {
+                font-size: 14px;
+                line-height: 1.45;
+            }
+
+            .collection-tags {
+                gap: 8px;
+            }
+
+            .tag {
+                padding: 5px 7px;
+                font-size: 11px;
+            }
+        }
+    }
+}

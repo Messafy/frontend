@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import Icon from '../Icon/Icon.jsx'
 import Text from "../Text/Text.jsx";
 
-export default function Label({ icon = null, text = "", className = "" })
+export default function Label({ icon = null, text = "", className = "", ...props })
 {
     return (
-        <div className={`label ${className}`}>
+        <button type="button" className={`label ${className}`} {...props}>
             {icon && <Icon icon={icon} />}
             <Text size="small" as="span">
                 {text}
             </Text>
-        </div>
+        </button>
     );
 }
 
