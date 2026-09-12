@@ -6,8 +6,8 @@
   gap: 20px;
   width: 100%;
   padding: 28px;
-  background-color: $color-badge;
-  @include control-border($color-badge-border);
+  background-color: $color-card;
+  @include control-border($color-border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   color: $color-text-primary;
   transition: border-color 180ms ease;

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import './Note.scss'
 import Card from '../../molecules/Card/Card.jsx'
 import Date from '../../atoms/Date/Date.jsx'
 import Text from '../../atoms/Text/Text.jsx'
