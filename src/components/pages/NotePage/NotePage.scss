@@ -1,0 +1,19 @@
+@use '../../../styles/tokens' as *;
+
+.note-page {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 280px minmax(340px, 420px) minmax(0, 1fr);
+
+  background-color: transparent;
+}
+
+.menu-aside {
+
+}
+.collection-notes {
+  background-color: $color-menu-notes;
+}
