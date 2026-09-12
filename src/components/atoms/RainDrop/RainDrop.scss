@@ -1,0 +1,40 @@
+@use "../../../styles/tokens" as *;
+
+.rain-drop {
+  display: block;
+  width: var(--rain-drop-width);
+  height: var(--rain-drop-height);
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: calc(0.08 + (var(--rain-drop-depth) * 0.068));
+  background: linear-gradient(
+    180deg,
+    rgba($rain-blue-soft, 0) 0%,
+    rgba($rain-blue-soft, 0.14) 16%,
+    rgba($rain-blue, 0.58) 48%,
+    rgba($rain-blue-deep, 0.28) 78%,
+    rgba($rain-blue-deep, 0) 100%
+  );
+  filter: blur(calc((6 - var(--rain-drop-depth)) * 0.07px));
+  box-shadow: 0 0 calc(var(--rain-drop-depth) * 0.45px)
+    rgba($rain-blue-soft, 0.12);
+  transform: translate3d(0, -12vh, 0) rotate(var(--rain-drop-angle));
+  transform-origin: top center;
+  animation-name: rain-drop-fall;
+  animation-duration: var(--rain-drop-duration);
+  animation-timing-function: linear;
+  animation-delay: var(--rain-drop-delay);
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes rain-drop-fall {
+  from {
+    transform: translate3d(0, -12vh, 0) rotate(var(--rain-drop-angle));
+  }
+
+  to {
+    transform: translate3d(var(--rain-drop-drift), 112vh, 0)
+      rotate(var(--rain-drop-angle));
+  }
+}
