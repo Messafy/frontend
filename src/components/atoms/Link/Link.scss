@@ -5,16 +5,14 @@
   display: inline-flex;
   outline: 0;
   cursor: pointer;
-  text-decoration-color: transparent;
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  transition: color 160ms ease, text-decoration-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  text-decoration: none;
+  transition: color 220ms ease, box-shadow 220ms ease;
+  width: fit-content;
+  height: fit-content;
 }
 
 .link:hover {
   color: $color-link-hover;
-  transform: scale(1.03);
 }
 
 .link:active {
