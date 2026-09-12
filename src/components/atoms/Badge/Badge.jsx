@@ -1,8 +1,8 @@
 import './Badge.scss'
 
-export default function Badge({ text, children, className = '', ...props }) {
+export default function Badge ({ text, children }) {
     return (
-        <span className={`badge ${className}`.trim()} {...props}>
+        <span className='badge'>
             {children ?? text}
         </span>
     )

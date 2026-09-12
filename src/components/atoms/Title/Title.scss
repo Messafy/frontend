@@ -75,67 +75,6 @@
     mix-blend-mode: screen;
     animation: title-spectral-flash 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
-
-  &--sm {
-    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    max-inline-size: min(28ch, 94vw);
-  }
-
-  &--md {
-    font-size: clamp(1.85rem, 4.2vw, 3rem);
-    line-height: 1.12;
-    letter-spacing: -0.025em;
-    max-inline-size: min(26ch, 94vw);
-  }
-
-  &--lg {
-    font-size: clamp(2.25rem, 5vw, 4rem);
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    max-inline-size: min(24ch, 94vw);
-  }
-
-  &--ghost {
-    background: linear-gradient(
-      180deg,
-      rgba($zinc-50, 0.95) 0%,
-      rgba($zinc-300, 0.75) 45%,
-      rgba($zinc-600, 0.4) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    &::before {
-      background: radial-gradient(
-        ellipse 50% 45% at 50% 50%,
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba($zinc-700, 0.08) 60%,
-        transparent 85%
-      );
-    }
-  }
-
-  &--glow {
-    text-shadow:
-      0 0 16px rgba(#ffffff, 0.35),
-      0 0 36px rgba(255, 255, 255, 0.2),
-      0 0 64px rgba(255, 255, 255, 0.1);
-
-    &::before {
-      opacity: 1;
-      filter: blur(36px);
-      background: radial-gradient(
-        ellipse 70% 60% at 50% 50%,
-        rgba(255, 255, 255, 0.14) 0%,
-        rgba($zinc-200, 0.06) 40%,
-        transparent 75%
-      );
-    }
-  }
-
   @media (max-width: 768px) {
     font-size: clamp(2.1rem, 8.5vw, 3.4rem);
     line-height: 1.1;

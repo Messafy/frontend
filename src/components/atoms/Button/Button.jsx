@@ -1,12 +1,10 @@
 import { motion } from 'motion/react'
 import './Button.scss'
 
-export default function Button ({children, className = '', variant = 'primary', ...props}) {
-    const buttonClass = `button ${variant !== 'primary' ? `button--${variant}` : ''} ${className}`.trim()
-
+export default function Button ({ children, ...props }) {
     return (
         <motion.button
-            className={buttonClass}
+            className='button'
             type='button'
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
