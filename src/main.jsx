@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/globals.scss'
-import LoginPage from "./components/pages/LoginPage/LoginPage.jsx";
+import App from './app/App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <LoginPage/>
+    <App/>
   </StrictMode>,
 )
