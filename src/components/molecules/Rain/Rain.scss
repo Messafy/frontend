@@ -1,0 +1,15 @@
+@use "../../../styles/tokens" as *;
+
+.rain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rain__drop-position {
+  position: absolute;
+  top: var(--rain-drop-top);
+  left: var(--rain-drop-left);
+}

@@ -1,0 +1,25 @@
+@use "../../../styles/tokens" as *;
+
+.link {
+  color: $color-link;
+  display: inline-flex;
+  outline: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 220ms ease, box-shadow 220ms ease;
+  width: fit-content;
+  height: fit-content;
+}
+
+.link:hover {
+  color: $color-link-hover;
+}
+
+.link:active {
+  color: $color-link-active;
+}
+
+.link:focus-visible {
+  color: $color-link-focus;
+  box-shadow: 0 2px 0 0 currentColor;
+}

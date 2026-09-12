@@ -1,0 +1,21 @@
+@use "../../../styles/tokens" as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: $font-family-base;
+  font-size: $font-size-badge;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background-color: $color-badge;
+  border: 1px solid $color-badge-border;
+  color: $color-badge-foreground;
+  width: fit-content;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
