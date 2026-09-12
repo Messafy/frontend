@@ -1,18 +1,15 @@
 @use "../../../styles/tokens" as *;
 
 .badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  @include inline-center;
   gap: 6px;
   font-family: $font-family-base;
   font-size: $font-size-badge;
   font-weight: $font-weight-medium;
   line-height: 1;
-  padding: 6px 8px;
-  border-radius: 999px;
+  padding: 8px 10px;
   background-color: $color-badge;
-  border: 1px solid $color-badge-border;
+  @include circle-border($color-badge-border);
   color: $color-badge-foreground;
   width: fit-content;
   white-space: nowrap;

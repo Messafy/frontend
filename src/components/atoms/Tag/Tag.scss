@@ -1,0 +1,11 @@
+@use "../../../styles/tokens" as *;
+
+.tag {
+  display: inline-block;
+  background-color: $color-muted;
+  @include soft-border($color-border, 2px);
+  padding: 7px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}

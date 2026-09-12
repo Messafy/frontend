@@ -1,9 +1,15 @@
+import PropTypes from 'prop-types';
 import './Profile.scss';
+import Text from '../Text/Text.jsx';
 
-export default function Profile({src, alt, name = 'U'}) {
+export default function Profile ({ name = 'U' }) {
     return (
-      <div className="profile">
-          {src ? <img src={src} alt={alt || name} /> : <span>{name.charAt(0).toUpperCase()}</span>}
+      <div className='profile'>
+          <Text as='span' size='small' weight='semibold'>{name.charAt(0).toUpperCase()}</Text>
       </div>
     );
 }
+
+Profile.propTypes = {
+    name: PropTypes.string,
+};

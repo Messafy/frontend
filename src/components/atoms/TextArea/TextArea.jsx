@@ -1,14 +1,19 @@
+import PropTypes from 'prop-types'
 import './TextArea.scss'
 
-export default function TextArea ({ className = '', rows = 5, ...props }) {
+export default function TextArea ({ ...props }) {
     return (
         <textarea
-            className={`textarea ${className}`.trim()}
+            className='textarea'
             autoCapitalize='sentences'
             autoComplete='off'
             spellCheck={true}
-            rows={rows}
+            rows={5}
             {...props}
         />
     )
+}
+
+TextArea.propTypes = {
+    placeholder: PropTypes.string,
 }

@@ -1,14 +1,11 @@
 @use "../../../styles/tokens" as *;
 
 .profile {
-  align-items: center;
+  @include inline-center;
   background-color: $color-profile;
-  border: 1px solid $color-profile-border;
-  border-radius: 999px;
+  @include circle-border($color-profile-border);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  display: inline-flex;
   height: 36px;
-  justify-content: center;
   overflow: hidden;
   width: 36px;
   color: $color-profile-foreground;
@@ -16,10 +13,4 @@
   font-weight: 600;
   user-select: none;
   flex-shrink: 0;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 }
