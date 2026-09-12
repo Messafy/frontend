@@ -1,6 +1,4 @@
 import './NotePage.scss';
-import Rain from "../../molecules/Rain/Rain.jsx";
-import Title from "../../atoms/Title/Title.jsx";
 import Card from "../../molecules/Card/Card.jsx";
 import Link from "../../atoms/Link/Link.jsx";
 import Button from "../../atoms/Button/Button.jsx";
@@ -9,6 +7,7 @@ import TextArea from "../../atoms/TextArea/TextArea.jsx";
 import Profile from "../../atoms/Profile/Profile.jsx";
 import Badge from "../../atoms/Badge/Badge.jsx";
 import Tag from "../../atoms/Tag/Tag.jsx";
+import CollectionTags from "../../molecules/CollectionTags/CollectionTags.jsx";
 
 export default function NotePage() {
     return <div>
@@ -24,6 +23,15 @@ export default function NotePage() {
         <h2>Hola que tal estas</h2>
         <h3>Hola que tal estas</h3>
         <h4>Hola que tal estas</h4>
-        <Tag>Bienvenido usuario</Tag>
+        <CollectionTags maxLength={3}>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+            <Tag>Bienvenido usuario</Tag>
+        </CollectionTags>
     </div>
 }

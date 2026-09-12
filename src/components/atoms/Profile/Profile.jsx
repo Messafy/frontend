@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import './Profile.scss';
 
 export default function Profile ({ name = 'U' }) {
@@ -7,3 +8,7 @@ export default function Profile ({ name = 'U' }) {
       </div>
     );
 }
+
+Profile.propTypes = {
+    name: PropTypes.string,
+};

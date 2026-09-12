@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import './Input.scss'
 
 export default function Input ({ children, ...props }) {
@@ -14,4 +15,9 @@ export default function Input ({ children, ...props }) {
             />
         </label>
     )
+}
+
+Input.propTypes = {
+    children: PropTypes.node,
+    placeholder: PropTypes.string,
 }

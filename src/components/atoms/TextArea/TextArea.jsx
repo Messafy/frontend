@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import './TextArea.scss'
 
 export default function TextArea ({ ...props }) {
@@ -11,4 +12,8 @@ export default function TextArea ({ ...props }) {
             {...props}
         />
     )
+}
+
+TextArea.propTypes = {
+    placeholder: PropTypes.string,
 }

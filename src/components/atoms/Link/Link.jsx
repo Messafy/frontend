@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import PropTypes from 'prop-types'
 import './Link.scss'
 
 export default function Link({ children, href, rel, target, ...props}) {
@@ -19,4 +20,11 @@ export default function Link({ children, href, rel, target, ...props}) {
             {children}
         </motion.a>
     )
+}
+
+Link.propTypes = {
+    children: PropTypes.node,
+    href: PropTypes.string.isRequired,
+    rel: PropTypes.string,
+    target: PropTypes.string,
 }

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import './Tag.scss';
 
 export default function Tag({ children }) {
@@ -7,3 +8,7 @@ export default function Tag({ children }) {
         </div>
     )
 }
+
+Tag.propTypes = {
+    children: PropTypes.node,
+};

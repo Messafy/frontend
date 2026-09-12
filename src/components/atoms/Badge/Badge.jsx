@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import './Badge.scss'
 
 export default function Badge ({ text, children }) {
@@ -6,4 +7,9 @@ export default function Badge ({ text, children }) {
             {children ?? text}
         </span>
     )
+}
+
+Badge.propTypes = {
+    children: PropTypes.node,
+    text: PropTypes.node,
 }
