@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import './Title.scss';
 
 export default function Title ({ children, text }) {
@@ -13,3 +14,8 @@ export default function Title ({ children, text }) {
     </h1>
   );
 }
+
+Title.propTypes = {
+  children: PropTypes.node,
+  text: PropTypes.string,
+};

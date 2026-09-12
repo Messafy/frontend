@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import './RainDrop.scss'
 
 // Gravity acceleration on Earth, in meters per second squared.
@@ -39,6 +40,16 @@ const MAX_DURATION = 2.4
 
 function clamp (value, min, max) {
     return Math.min(Math.max(value, min), max)
+}
+
+RainDrop.propTypes = {
+    angle: PropTypes.number,
+    delay: PropTypes.number,
+    depth: PropTypes.number,
+    duration: PropTypes.number,
+    height: PropTypes.number,
+    seed: PropTypes.number,
+    width: PropTypes.number,
 }
 
 function normalize (value, min, max) {

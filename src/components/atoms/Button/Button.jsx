@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import PropTypes from 'prop-types'
 import './Button.scss'
 
 export default function Button ({ children, ...props }) {
@@ -14,4 +15,8 @@ export default function Button ({ children, ...props }) {
             {children}
         </motion.button>
     )
+}
+
+Button.propTypes = {
+    children: PropTypes.node,
 }

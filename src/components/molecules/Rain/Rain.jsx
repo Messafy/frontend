@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import RainDrop from '../../atoms/RainDrop/RainDrop.jsx'
 import './Rain.scss'
 
@@ -16,6 +17,10 @@ function createRainDrops (count) {
             top,
         }
     })
+}
+
+Rain.propTypes = {
+    count: PropTypes.number,
 }
 
 export default function Rain ({ count = 100 }) {
