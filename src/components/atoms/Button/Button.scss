@@ -1,12 +1,29 @@
 @use "../../../styles/tokens" as *;
 
 .button {
-  background-color: $color-primary;
-  border: 0;
-  border-radius: 10px;
-  color: $color-primary-foreground;
+  background: linear-gradient(180deg, $color-surface 0%, $color-button 100%);
+  border: 1.5px solid $color-button-border;
+  border-radius: 12px;
+  color: $color-button-foreground;
   cursor: pointer;
   font: inherit;
-  min-height: 40px;
-  padding: 0 14px;
+  font-weight: 500;
+  min-height: 44px;
+  padding: 0 16px;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.button:hover {
+  background-color: $color-button-hover;
+  border-color: $color-border-hover;
+  transform: translateY(-1px);
+}
+
+.button:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(250, 250, 250, 0.1);
+}
+
+.button:active {
+  transform: translateY(0);
 }

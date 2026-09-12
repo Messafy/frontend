@@ -2,7 +2,7 @@ import './Button.scss'
 
 export default function Button ({children, ...props}) {
     return (
-        <button className='button' {...props}>
+        <button className='button' type='button' {...props}>
             {children}
         </button>
     )
