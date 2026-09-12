@@ -2,10 +2,70 @@
 
 body {
   background-color: $color-background;
+  color: $color-text-primary;
+  font-family: $font-family-base;
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
   margin: 0;
   padding: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: $color-text-primary;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+}
+
+h1 {
+  font-size: $font-size-h1;
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  font-size: $font-size-h2;
+  letter-spacing: -0.03em;
+}
+
+h3 {
+  font-size: $font-size-h3;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: $color-text-secondary;
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+}
+
+small {
+  color: $color-text-muted;
+  font-size: $font-size-small;
+  line-height: $line-height-body;
+}
+
+a {
+  font-size: $font-size-link;
+  font-weight: $font-weight-medium;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: $line-height-control;
 }
