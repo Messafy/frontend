@@ -1,0 +1,10 @@
+.auth-page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .text--size-h1 {
+        font-size: 32px;
+        line-height: 1.05;
+    }
+}

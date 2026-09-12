@@ -1,115 +1,139 @@
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import Brand from '../../molecules/Brand/Brand.jsx'
+import AuthFooterNote from '../../molecules/AuthFooterNote/AuthFooterNote.jsx'
+import AuthPageHeader from '../../organisms/AuthPageHeader/AuthPageHeader.jsx'
+import AuthCard from '../../organisms/AuthCard/AuthCard.jsx'
+import LoginForm from '../../organisms/LoginForm/LoginForm.jsx'
+
+import { useAuth } from '../../../context/authContext.js'
+
+import './LoginPage.scss'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
+    const { login } = useAuth()
 
-    function handleSubmit(e) {
-        e.preventDefault()
+    async function handleSubmit(event) {
+        event.preventDefault()
 
-        const request = {
-            email,
-            rawPassword: password,
-        }
+        setLoading(true)
 
-        fetch('http://localhost:8080/v1/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(request),
-        })
-            .then(response =>
-                response.text().then(text => {
-                    const data = text ? JSON.parse(text) : null
-
-                    if (!response.ok) {
-                        throw data ?? new Error('Login failed')
-                    }
-
-                    return data
-                })
+        try {
+            const loginResponse = await fetch(
+                'http://localhost:8080/v1/auth/login',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        rawPassword: password,
+                    }),
+                }
             )
-            .then(data => {
-                localStorage.setItem('token', data.token)
 
-                navigate('/notes')
+            if (!loginResponse.ok) {
+                const errorData = await parseResponse(loginResponse)
+
+                throw new Error(
+                    errorData?.message ?? 'Login failed'
+                )
+            }
+
+            const loginData = await loginResponse.json()
+
+            const accountResponse = await fetch(
+                'http://localhost:8080/v1/accounts/me',
+                {
+                    headers: {
+                        Authorization: `Bearer ${loginData.token}`,
+                    },
+                }
+            )
+
+            if (!accountResponse.ok) {
+                const errorData = await parseResponse(accountResponse)
+
+                throw new Error(
+                    errorData?.message ?? 'Failed to fetch account'
+                )
+            }
+
+            const accountData = await accountResponse.json()
+
+            const session = {
+                token: loginData.token,
+
+                account: {
+                    id: accountData.id,
+                    email: accountData.email,
+                    role: accountData.role,
+                    status: accountData.status,
+                    verified: accountData.verified,
+                    createdAt: accountData.createdAt,
+                    lastLoginAt: accountData.lastLoginAt,
+                },
+            }
+
+            login(session)
+
+            navigate('/notes', {
+                replace: true,
             })
-            .catch(error => {
-                console.error('Error:', error)
-            })
+        } catch (error) {
+            console.error('Login error:', error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
         <main className='login-page'>
-            <section className='login-page__card'>
+            <AuthCard>
+                <Brand />
 
-                <div className='login-page__brand'>
-                    <div className='login-page__logo'>G</div>
+                <AuthPageHeader
+                    title='Welcome back'
+                    subtitle='Sign in to continue writing your notes.'
+                />
 
-                    <Text
-                        as='span'
-                        size='body'
-                        weight='semibold'
-                    >
-                        Ghost Notes
-                    </Text>
-                </div>
-
-                <div className='login-page__header'>
-                    <Text
-                        as='h1'
-                        size='h1'
-                        weight='bold'
-                    >
-                        Welcome back
-                    </Text>
-
-                    <Text
-                        as='p'
-                        size='body'
-                        color='secondary'
-                    >
-                        Sign in to continue writing your notes.
-                    </Text>
-                </div>
-
-                <form
-                    className='login-page__form'
+                <LoginForm
+                    email={email}
+                    password={password}
+                    onEmailChange={setEmail}
+                    onPasswordChange={setPassword}
                     onSubmit={handleSubmit}
-                >
-                    <Input
-                        type='email'
-                        placeholder='Email address'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    loading={loading}
+                />
 
-                    <Input
-                        type='password'
-                        placeholder='Password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-
-                    <Button type='submit'>
-                        Sign in
-                    </Button>
-                </form>
-
-                <Text
-                    as='p'
-                    size='small'
-                    color='secondary'
-                    align='center'
-                >
+                <AuthFooterNote>
                     No account yet? Create one later when auth is ready.
-                </Text>
-
-            </section>
+                </AuthFooterNote>
+            </AuthCard>
         </main>
     )
+}
+
+async function parseResponse(response) {
+    const text = await response.text()
+
+    if (!text) {
+        return null
+    }
+
+    try {
+        return JSON.parse(text)
+    } catch {
+        return {
+            message: text,
+        }
+    }
 }
