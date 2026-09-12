@@ -8,21 +8,24 @@ import HomePage from '../components/pages/HomePage/HomePage.jsx'
 import LoginPage from '../components/pages/LoginPage/LoginPage.jsx'
 import NotePage from '../components/pages/NotePage/NotePage.jsx'
 
-function requireAuth() {
-    const token = localStorage.getItem('token')
+import AuthProvider from '../context/AuthContext.jsx'
+import { getSession } from '../context/authSession.js'
 
-    if (!token) {
-        throw redirect('/login')
+function requireAuth() {
+    const session = getSession()
+
+    if (!session?.token) {
+        return redirect('/login')
     }
 
     return null
 }
 
 function requireGuest() {
-    const token = localStorage.getItem('token')
+    const session = getSession()
 
-    if (token) {
-        throw redirect('/notes')
+    if (session?.token) {
+        return redirect('/notes')
     }
 
     return null
@@ -46,5 +49,9 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
-    return <RouterProvider router={router} />
+    return (
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
+    )
 }
