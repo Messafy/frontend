@@ -1,0 +1,29 @@
+@use "../../../styles/tokens" as *;
+
+.textarea {
+  background: linear-gradient(180deg, $color-surface 0%, $color-textarea 100%);
+  border: 1.5px solid $color-textarea-border;
+  border-radius: 12px;
+  color: $color-textarea-foreground;
+  font: inherit;
+  line-height: 1.5;
+  min-height: 140px;
+  outline: 0;
+  padding: 12px 14px;
+  resize: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  width: 100%;
+}
+
+.textarea::placeholder {
+  color: $color-textarea-placeholder;
+}
+
+.textarea:hover {
+  border-color: $color-textarea-hover;
+}
+
+.textarea:focus-visible {
+  border-color: $color-textarea-focus;
+  box-shadow: 0 0 0 3px rgba(250, 250, 250, 0.08);
+}
