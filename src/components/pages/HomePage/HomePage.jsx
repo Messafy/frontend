@@ -8,6 +8,7 @@ import Card from "../../molecules/Card/Card.jsx";
 import Badge from "../../atoms/Badge/Badge.jsx";
 import Rain from "../../molecules/Rain/Rain.jsx";
 import Title from "../../atoms/Title/Title.jsx";
+import Text from '../../atoms/Text/Text.jsx'
 
 export default function HomePage () {
     return (
@@ -22,10 +23,10 @@ export default function HomePage () {
             <TextArea></TextArea>
             <Profile></Profile>
             <Badge>Welcome</Badge>
-            <h1>Hola que tal estas</h1>
-            <h2>Hola que tal estas</h2>
-            <h3>Hola que tal estas</h3>
-            <h4>Hola que tal estas</h4>
+            <Text as='h1' size='h1' weight='bold'>Hola que tal estas</Text>
+            <Text as='h2' size='h2' weight='semibold' muted>Hola que tal estas</Text>
+            <Text as='h3' size='h3' weight='semibold' muted>Hola que tal estas</Text>
+            <Text as='h4' size='body' weight='semibold' color='secondary' muted>Hola que tal estas</Text>
         </main>
     )
 }

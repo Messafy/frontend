@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import './Badge.scss'
+import Text from '../Text/Text.jsx'
 
 export default function Badge ({ text, children }) {
     return (
-        <span className='badge'>
+        <Text as='span' className='badge'>
             {children ?? text}
-        </span>
+        </Text>
     )
 }
 

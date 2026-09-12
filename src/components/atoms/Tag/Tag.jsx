@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import './Tag.scss';
+import Text from '../Text/Text.jsx';
 
 export default function Tag({ children }) {
     return (
-        <div className="tag">
+        <Text as='span' className='tag'>
             {children}
-        </div>
+        </Text>
     )
 }
 

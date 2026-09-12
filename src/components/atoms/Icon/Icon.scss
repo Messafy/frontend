@@ -1,0 +1,50 @@
+@use "../../../styles/tokens" as *;
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 26px;
+  width: 26px;
+
+  color: currentColor;
+  border-radius: 6px;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+
+  svg {
+    display: block;
+    height: 18px;
+    width: 18px;
+  }
+
+  &--static {
+    cursor: default;
+  }
+
+  &--animated {
+    cursor: pointer;
+  }
+
+  &--animated:hover {
+    color: $color-icon-hover;
+  }
+
+  &--bubble {
+    height: 28px;
+    width: 28px;
+    padding: 4px;
+    color: $color-text-secondary;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-text-primary;
+      background-color: $color-border-hover;
+      border-color: $color-border-hover;
+    }
+  }
+}

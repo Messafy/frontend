@@ -1,8 +1,9 @@
 import { motion } from 'motion/react'
 import PropTypes from 'prop-types'
 import './Button.scss'
+import Icon from '../Icon/Icon.jsx'
 
-export default function Button ({ children, ...props }) {
+export default function Button ({ children, icon = null, ...props }) {
     return (
         <motion.button
             className='button'
@@ -12,6 +13,7 @@ export default function Button ({ children, ...props }) {
             transition={{ duration: 0.15, ease: 'easeOut' }}
             {...props}
         >
+            {icon && <Icon icon={icon} />}
             {children}
         </motion.button>
     )
@@ -19,4 +21,5 @@ export default function Button ({ children, ...props }) {
 
 Button.propTypes = {
     children: PropTypes.node,
+    icon: PropTypes.elementType,
 }
