@@ -1,10 +1,10 @@
-import './input.scss'
+import './Input.scss'
 
 export default function Input ({children, ...props}) {
     return (
-        <label className='input-field'>
+        <label className='input'>
             {children}
-            <input className='input' {...props} />
+            <input className='input__control' {...props} />
         </label>
     )
 }
