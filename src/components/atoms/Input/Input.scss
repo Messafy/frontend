@@ -1,6 +1,6 @@
-@use "../../../common/tokens/tokens" as *;
+@use "../../../styles/tokens" as *;
 
-.input-field {
+.input {
   align-items: center;
   background: linear-gradient(180deg, $color-surface 0%, $color-input 100%);
   border: 1.5px solid $color-input-border;
@@ -14,16 +14,16 @@
   width: 100%;
 }
 
-.input-field:hover {
+.input:hover {
   border-color: $color-border-hover;
 }
 
-.input-field:focus-within {
+.input:focus-within {
   border-color: $color-text-secondary;
   box-shadow: 0 0 0 3px rgba(250, 250, 250, 0.08);
 }
 
-.input {
+.input__control {
   background: transparent;
   border: 0;
   color: $color-text-primary;
@@ -34,6 +34,6 @@
   padding: 0;
 }
 
-.input::placeholder {
+.input__control::placeholder {
   color: $color-text-muted;
 }

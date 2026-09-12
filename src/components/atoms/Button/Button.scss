@@ -1,0 +1,12 @@
+@use "../../../styles/tokens" as *;
+
+.button {
+  background-color: $color-primary;
+  border: 0;
+  border-radius: 10px;
+  color: $color-primary-foreground;
+  cursor: pointer;
+  font: inherit;
+  min-height: 40px;
+  padding: 0 14px;
+}
