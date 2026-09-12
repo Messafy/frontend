@@ -1,13 +1,10 @@
 @use "../../../styles/tokens" as *;
 
 .button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  @include inline-center;
   gap: 8px;
   background-color: $color-button;
-  border: 1px solid $color-button-border;
-  border-radius: 10px;
+  @include control-border($color-button-border);
   color: $color-button-foreground;
   cursor: pointer;
   font: inherit;
@@ -27,31 +24,5 @@
   &:focus-visible {
     outline: 0;
     box-shadow: 0 0 0 3px rgba(250, 250, 250, 0.25);
-  }
-
-  &--secondary {
-    background-color: $color-surface-secondary;
-    border-color: $color-border;
-    color: $color-text-primary;
-    box-shadow: none;
-
-    &:hover {
-      background-color: $zinc-700;
-      border-color: $color-border-hover;
-      box-shadow: none;
-    }
-  }
-
-  &--ghost {
-    background-color: transparent;
-    border-color: transparent;
-    color: $color-text-secondary;
-    box-shadow: none;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.05);
-      color: $color-text-primary;
-      box-shadow: none;
-    }
   }
 }

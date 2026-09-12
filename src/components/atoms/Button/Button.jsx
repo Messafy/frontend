@@ -1,19 +1,25 @@
 import { motion } from 'motion/react'
+import PropTypes from 'prop-types'
 import './Button.scss'
+import Icon from '../Icon/Icon.jsx'
 
-export default function Button ({children, className = '', variant = 'primary', ...props}) {
-    const buttonClass = `button ${variant !== 'primary' ? `button--${variant}` : ''} ${className}`.trim()
-
+export default function Button ({ children, icon = null, ...props }) {
     return (
         <motion.button
-            className={buttonClass}
+            className='button'
             type='button'
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
             {...props}
         >
+            {icon && <Icon icon={icon} />}
             {children}
         </motion.button>
     )
+}
+
+Button.propTypes = {
+    children: PropTypes.node,
+    icon: PropTypes.elementType,
 }

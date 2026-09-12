@@ -1,19 +1,14 @@
+import PropTypes from 'prop-types'
 import './Card.scss'
 
-export default function Card({
-  children,
-  variant = 'default',
-  interactive = false,
-  className = '',
-  ...props
-}) {
-  const variantClass = variant !== 'default' ? `card--${variant}` : ''
-  const interactiveClass = interactive ? 'card--interactive' : ''
-  const classes = ['card', variantClass, interactiveClass, className].filter(Boolean).join(' ')
-
+export default function Card ({ children }) {
   return (
-    <div className={classes} {...props}>
+    <div className='card'>
       {children}
     </div>
   )
+}
+
+Card.propTypes = {
+  children: PropTypes.node,
 }
