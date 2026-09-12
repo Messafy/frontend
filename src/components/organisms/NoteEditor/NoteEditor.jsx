@@ -8,7 +8,7 @@ import './NoteEditor.scss'
 
 export default function NoteEditor({note}) {
     return (
-        <section className='note-editor'>
+        <section className='note-editor' aria-label='Note editor'>
             <header className='note-editor__header'>
                 <div className='note-editor__title-group'>
                     <Text as='span' size='small' color='secondary'>Editing note</Text>
@@ -25,7 +25,10 @@ export default function NoteEditor({note}) {
                 </div>
             </header>
 
-            <TextArea defaultValue={note.content} />
+            <TextArea
+                defaultValue={note.content}
+                aria-label='Note content'
+            />
 
             <NoteEditorToolbar content={note.content} />
         </section>

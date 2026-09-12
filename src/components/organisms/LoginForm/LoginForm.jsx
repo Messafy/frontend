@@ -9,6 +9,8 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
             <Input
                 type='email'
                 placeholder='Email address'
+                aria-label='Email address'
+                autoComplete='email'
                 value={email}
                 onChange={(e) => onEmailChange(e.target.value)}
                 disabled={loading}
@@ -16,6 +18,8 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
             <Input
                 type='password'
                 placeholder='Password'
+                aria-label='Password'
+                autoComplete='current-password'
                 value={password}
                 onChange={(e) => onPasswordChange(e.target.value)}
                 disabled={loading}

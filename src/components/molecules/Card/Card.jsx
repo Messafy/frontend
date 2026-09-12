@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types'
 import './Card.scss'
 
-export default function Card ({ children }) {
+export default function Card ({ as = 'div', children, ...props }) {
+  const Element = as
+
   return (
-    <div className='card'>
+    <Element className='card' {...props}>
       {children}
-    </div>
+    </Element>
   )
 }
 
 Card.propTypes = {
+  as: PropTypes.elementType,
   children: PropTypes.node,
 }

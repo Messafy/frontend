@@ -6,24 +6,18 @@ import Tag from '../../atoms/Tag/Tag.jsx'
 import CollectionTags from "../../molecules/CollectionTags/CollectionTags.jsx";
 
 export default function Note ({ date, title, content = '', tags = [] }) {
-    let formattedText = content.slice(0, 100) + '...'
-    if (content.length > 100) {
-        formattedText = content.slice(0, 100) + '...'
-    }
-    content = (
-        <Text as='p' size='body' weight='regular'>
-            {formattedText}
-        </Text>
-    )
+    const formattedText = content.length > 100 ? content.slice(0, 100) + '…' : content
 
     return (
-        <Card>
+        <Card as='article' aria-label={title}>
             <Date date={date} />
-            <Text as='h2' size='h2' weight='semibold'>{title}</Text>
-            { content }
+            <Text as='h3' size='h2' weight='semibold'>{title}</Text>
+            <Text as='p' size='body' weight='regular'>
+                {formattedText}
+            </Text>
             <CollectionTags maxLength={3}>
-                {tags.map((tag, index) => (
-                    <Tag key={index}>{tag}</Tag>
+                {tags.map((tag) => (
+                    <Tag key={tag}>{tag}</Tag>
                 ))}
             </CollectionTags>
         </Card>

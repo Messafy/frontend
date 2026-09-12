@@ -19,6 +19,12 @@
         margin: 0 auto;
     }
 
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
     &__bottom {
         display: flex;
         flex-direction: column;
