@@ -1,35 +1,15 @@
 import './Title.scss';
 
-export default function Title({
-  children,
-  text,
-  as: Component = 'h1',
-  variant = 'default',
-  size = 'hero',
-  className = '',
-  id,
-  ...props
-}) {
+export default function Title ({ children, text }) {
   const content = text ?? children ?? 'Not every message needs a name.';
   const contentString = typeof content === 'string' ? content : undefined;
 
-  const classes = [
-    'title',
-    size && size !== 'hero' ? `title--${size}` : '',
-    variant && variant !== 'default' ? `title--${variant}` : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
-    <Component
-      className={classes}
+    <h1
+      className='title'
       data-text={contentString}
-      id={id}
-      {...props}
     >
       {content}
-    </Component>
+    </h1>
   );
 }

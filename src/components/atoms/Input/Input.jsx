@@ -1,8 +1,8 @@
 import './Input.scss'
 
-export default function Input ({children, className = '', ...props}) {
+export default function Input ({ children, ...props }) {
     return (
-        <label className={`input ${className}`.trim()}>
+        <label className='input'>
             {children}
             <input
                 className='input__control'
