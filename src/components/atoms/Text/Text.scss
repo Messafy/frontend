@@ -1,0 +1,87 @@
+@use '../../../styles/tokens/index' as *;
+
+.text {
+  margin: 0;
+  font-family: $font-family-base;
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
+  color: inherit;
+}
+
+
+.text--color-primary   { color: $color-text-primary; }
+.text--color-secondary { color: $color-text-secondary; }
+.text--color-muted     { color: $color-text-muted; }
+.text--color-rain      { color: $rain-blue; }
+.text--color-rain-soft { color: $rain-blue-soft; }
+.text--color-rain-deep { color: $rain-blue-deep; }
+.text--color-danger    { color: $color-danger; }
+.text--color-warning   { color: $color-warning; }
+.text--color-success   { color: $color-success; }
+.text--color-inherit   { color: inherit; }
+
+.text--size-small { font-size: $font-size-small; }
+.text--size-body  { font-size: $font-size-body; }
+.text--size-link  { font-size: $font-size-link; }
+.text--size-badge { font-size: $font-size-badge; }
+.text--size-h3    { font-size: $font-size-h3; line-height: $line-height-heading; }
+.text--size-h2    { font-size: $font-size-h2; line-height: $line-height-heading; }
+.text--size-h1    { font-size: $font-size-h1; line-height: $line-height-heading; }
+
+.text--weight-regular   { font-weight: $font-weight-regular; }
+.text--weight-medium    { font-weight: $font-weight-medium; }
+.text--weight-semibold  { font-weight: $font-weight-semibold; }
+.text--weight-bold      { font-weight: $font-weight-bold; }
+
+.text--align-start    { text-align: start; }
+.text--align-center   { text-align: center; }
+.text--align-end      { text-align: end; }
+.text--align-justify  { text-align: justify; }
+
+.text--transform-uppercase   { text-transform: uppercase; letter-spacing: 0.04em; }
+.text--transform-lowercase   { text-transform: lowercase; }
+.text--transform-capitalize  { text-transform: capitalize; }
+
+.text--italic        { font-style: italic; }
+.text--underline     { text-decoration: underline; text-underline-offset: 0.18em; }
+.text--strikethrough { text-decoration: line-through; }
+.text--muted         { opacity: 0.72; }
+
+.text--block {
+  display: block;
+}
+
+.text--truncate-single {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.text--truncate-multi {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-inline {
+  font: inherit;
+}
+
+.text strong,
+.text-inline--strong {
+  font-weight: $font-weight-semibold;
+}
+
+.text-inline--primary {
+  color: $color-text-primary;
+}
+
+.text-inline--rain {
+  color: $rain-blue-soft;
+}
+
+.text-inline--muted {
+  color: $color-text-muted;
+}
