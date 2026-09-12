@@ -3,7 +3,7 @@ import './AuthCard.scss'
 
 export default function AuthCard({children}) {
     return (
-        <section className='auth-card'>
+        <section className='auth-card' aria-label='Authentication'>
             {children}
         </section>
     )

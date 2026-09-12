@@ -23,7 +23,7 @@ export default function HomePage () {
             <TextArea></TextArea>
             <Profile></Profile>
             <Badge>Welcome</Badge>
-            <Text as='h1' size='h1' weight='bold'>Hola que tal estas</Text>
+            <Text as='p' size='h1' weight='bold'>Hola que tal estas</Text>
             <Text as='h2' size='h2' weight='semibold' muted>Hola que tal estas</Text>
             <Text as='h3' size='h3' weight='semibold' muted>Hola que tal estas</Text>
             <Text as='h4' size='body' weight='semibold' color='secondary' muted>Hola que tal estas</Text>

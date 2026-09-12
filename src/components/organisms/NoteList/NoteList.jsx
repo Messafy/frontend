@@ -45,13 +45,14 @@ export default function NoteList({ title }) {
     }, [session.account.id, session.token])
 
     return (
-        <section className='note-list'>
+        <section className='note-list' aria-labelledby='note-list-title'>
             <header className='note-list__header'>
                 <div className='note-list__title'>
                     <Text
                         as='h2'
                         size='h2'
                         weight='semibold'
+                        id='note-list-title'
                     >
                         {title}
                     </Text>

@@ -20,26 +20,29 @@ export default function Sidebar() {
     return (
         <aside className='sidebar'>
             <div className='sidebar__content'>
-                <Input placeholder='Search notes...'>
+                <Input placeholder='Search notes...' aria-label='Search notes' type='search'>
                     <Icon icon={IoSearch} />
                 </Input>
 
-                <CollectionLabels maxLength={3}>
-                    <Label className='label--active' icon={IoDocumentTextOutline} text='All Notes' />
-                    <Label icon={IoPinOutline} text='Pinned Notes' />
-                    <Label icon={IoTrashOutline} text='Trash' />
-                </CollectionLabels>
-
-                <SidebarSection
-                    title='Folders'
-                    actionIcon={IoAdd}
-                >
+                <nav className='sidebar__nav' aria-label='Notes navigation'>
                     <CollectionLabels maxLength={3}>
-                        <Label icon={IoBriefcaseOutline} text='Work' />
-                        <Label icon={LuUserRound} text='Personal' />
-                        <Label icon={LuLightbulb} text='Ideas' />
+                        <Label className='label--active' icon={IoDocumentTextOutline} text='All Notes' />
+                        <Label icon={IoPinOutline} text='Pinned Notes' />
+                        <Label icon={IoTrashOutline} text='Trash' />
                     </CollectionLabels>
-                </SidebarSection>
+
+                    <SidebarSection
+                        title='Folders'
+                        actionIcon={IoAdd}
+                        actionLabel='Create folder'
+                    >
+                        <CollectionLabels maxLength={3}>
+                            <Label icon={IoBriefcaseOutline} text='Work' />
+                            <Label icon={LuUserRound} text='Personal' />
+                            <Label icon={LuLightbulb} text='Ideas' />
+                        </CollectionLabels>
+                    </SidebarSection>
+                </nav>
 
                 <div className='sidebar__bottom'>
                     <div className='sidebar__profile'>
