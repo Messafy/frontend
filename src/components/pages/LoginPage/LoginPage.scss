@@ -1,0 +1,62 @@
+@use '../../../styles/tokens' as *;
+
+.login-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+
+  background:
+    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12), transparent 34%),
+    $color-background;
+}
+
+.login-page__card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(100%, 390px);
+  padding: 32px;
+
+  background-color: $color-card;
+  border: 1px solid $color-border;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+}
+
+.login-page__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-page__logo {
+  display: grid;
+  height: 32px;
+  width: 32px;
+  place-items: center;
+
+  color: $color-text-primary;
+  background-color: $color-menu-aside-active;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.login-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .text--size-h1 {
+    font-size: 32px;
+    line-height: 1.05;
+  }
+}
+
+.login-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
