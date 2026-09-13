@@ -5,11 +5,17 @@ import Text from '../../atoms/Text/Text.jsx'
 import Tag from '../../atoms/Tag/Tag.jsx'
 import CollectionTags from "../../molecules/CollectionTags/CollectionTags.jsx";
 
-export default function Note ({ date, title, content = '', tags = [] }) {
+export default function Note ({ date, title, content = '', tags = [], selected, onSelect }) {
     const formattedText = content.length > 100 ? content.slice(0, 100) + '…' : content
 
     return (
-        <Card as='article' aria-label={title}>
+        <Card
+            as='article'
+            aria-label={title}
+            aria-current={selected ? 'true' : undefined}
+            onClick={onSelect}
+            style={{ cursor: 'pointer' }}
+        >
             <Date date={date} />
             <Text as='h3' size='h2' weight='semibold'>{title}</Text>
             <Text as='p' size='body' weight='regular'>
@@ -29,4 +35,6 @@ Note.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
     tags: PropTypes.array,
+    selected: PropTypes.bool,
+    onSelect: PropTypes.func.isRequired,
 }

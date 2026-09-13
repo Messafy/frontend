@@ -22,6 +22,21 @@
     @include control-focus;
   }
 
+  &--transparent {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    min-height: auto;
+    padding: 0;
+
+    &:hover,
+    &:focus-within {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+
   &__control {
     background: transparent;
     border: 0;

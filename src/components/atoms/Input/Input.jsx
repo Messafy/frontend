@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types'
 import './Input.scss'
 
-export default function Input ({ children, ...props }) {
+export default function Input ({ children, variant, ...props }) {
+    const classes = [
+        'input',
+        variant && `input--${variant}`,
+    ].filter(Boolean).join(' ')
+
     return (
-        <label className='input'>
+        <label className={classes}>
             {children}
             <input
                 className='input__control'
@@ -19,5 +24,6 @@ export default function Input ({ children, ...props }) {
 
 Input.propTypes = {
     children: PropTypes.node,
+    variant: PropTypes.string,
     placeholder: PropTypes.string,
 }

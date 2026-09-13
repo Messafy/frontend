@@ -3,10 +3,10 @@ import Text from '../../atoms/Text/Text.jsx'
 import Button from '../../atoms/Button/Button.jsx'
 import VerticalSeparator from '../../atoms/VerticalSeparator/VerticalSeparator.jsx'
 import Icon from '../../atoms/Icon/Icon.jsx'
-import {LuChevronDown, LuPaperclip, LuTag} from 'react-icons/lu'
+import {LuChevronDown, LuTag, LuTrash2} from 'react-icons/lu'
 import './NoteEditorToolbar.scss'
 
-export default function NoteEditorToolbar({content}) {
+export default function NoteEditorToolbar({content, onSave, onDelete}) {
     const trimmed = content.trim()
     const words = trimmed ? trimmed.split(/\s+/) : []
     const wordCount = words.filter(Boolean).length
@@ -22,10 +22,10 @@ export default function NoteEditorToolbar({content}) {
                 <Button variant='ghost' aria-label='Add tag'>
                     <Icon icon={LuTag} />
                 </Button>
-                <Button variant='ghost' aria-label='Attach file'>
-                    <Icon icon={LuPaperclip} />
+                <Button type='button' variant='ghost' aria-label='Delete note' onClick={onDelete}>
+                    <Icon icon={LuTrash2} />
                 </Button>
-                <Button variant='save'>
+                <Button type='button' variant='save' onClick={onSave}>
                     <span>Save Note</span>
                     <VerticalSeparator className='note-editor-toolbar__divider' />
                     <Icon icon={LuChevronDown} />
@@ -37,4 +37,6 @@ export default function NoteEditorToolbar({content}) {
 
 NoteEditorToolbar.propTypes = {
     content: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }
