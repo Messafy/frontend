@@ -6,10 +6,9 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    gap: 14px;
-    padding: 16px;
     background-color: $color-menu-notes;
     border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
 
     &__header {
         display: flex;
@@ -17,8 +16,7 @@
         justify-content: space-between;
         gap: 16px;
         width: 100%;
-        max-width: 360px;
-        margin: 0 auto;
+        padding: 16px 20px 12px;
         flex-shrink: 0;
 
         .text--size-h2 {
@@ -36,22 +34,40 @@
     &__items {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
-        max-width: 360px;
-        margin: 0 auto;
+        padding: 0 16px 24px;
         min-height: 0;
         overflow-y: auto;
-        scrollbar-width: none;
+        scrollbar-width: thin;
+        scrollbar-color: $zinc-800 transparent;
 
         &::-webkit-scrollbar {
-            display: none;
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $zinc-800;
+            border-radius: 999px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: $zinc-700;
         }
 
         .card {
             gap: 12px;
-            padding: 18px;
+            padding: 16px 18px;
+
+            &[aria-current='true'] {
+                background-color: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.18);
+                box-shadow: inset 3px 0 0 $color-accent;
+            }
 
             .text--size-h2 {
                 font-size: 20px;

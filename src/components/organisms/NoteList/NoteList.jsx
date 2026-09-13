@@ -1,48 +1,18 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
-
 import Text from '../../atoms/Text/Text.jsx'
 import Button from '../../atoms/Button/Button.jsx'
 import Note from '../Note/Note.jsx'
-
-import { useAuth } from '../../../context/authContext.js'
+import NoteModel from '../../../models/Note.js'
 
 import './NoteList.scss'
 
-export default function NoteList({ title }) {
-    const { session } = useAuth()
+export default function NoteList({ title, notes, selectedNote, onSelectNote }) {
 
-    const [notes, setNotes] = useState([])
-
-    useEffect(() => {
-        async function fetchNotes() {
-            try {
-                const response = await fetch(
-                    `http://localhost:8080/v1/notes?ownerId=${session.account.id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${session.token}`,
-                        },
-                    }
-                )
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch notes')
-                }
-
-                const data = await response.json()
-
-                setNotes(data)
-
-                console.log(data)
-            } catch (error) {
-                console.error('Error fetching notes:', error)
-            }
-        }
-
-        fetchNotes()
-    }, [session.account.id, session.token])
+    function handleNewNoteClick(event) {
+        event.preventDefault();
+        onSelectNote(NoteModel.draft());
+    }
 
     return (
         <section className='note-list' aria-labelledby='note-list-title'>
@@ -66,15 +36,22 @@ export default function NoteList({ title }) {
                     </Text>
                 </div>
 
-                <Button icon={IoAdd}>
+                <Button icon={IoAdd} onClick = {handleNewNoteClick}>
                     New Note
                 </Button>
             </header>
 
             <div className='note-list__items'>
+                {notes.length === 0 && (
+                    <Text as='p' size='body' color='secondary'>
+                        No notes yet.
+                    </Text>
+                )}
                 {notes.map((note) => (
                     <Note
                         key={note.id}
+                        selected={note.id === selectedNote?.id}
+                        onSelect={() => onSelectNote(note)}
                         {...note}
                     />
                 ))}
@@ -85,4 +62,7 @@ export default function NoteList({ title }) {
 
 NoteList.propTypes = {
     title: PropTypes.string.isRequired,
+    notes: PropTypes.arrayOf(PropTypes.instanceOf(NoteModel)).isRequired,
+    selectedNote: PropTypes.instanceOf(NoteModel),
+    onSelectNote: PropTypes.func.isRequired,
 }
