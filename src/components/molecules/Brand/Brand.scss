@@ -1,21 +1,10 @@
 @use '../../../styles/tokens' as *;
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    &__logo {
-        display: grid;
-        height: 32px;
-        width: 32px;
-        place-items: center;
-
-        color: $color-text-primary;
-        background-color: $color-menu-aside-active;
-        border: 1px solid $color-border;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 700;
-    }
+    height: 70px;
+    width: auto;
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
 }

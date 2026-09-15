@@ -4,7 +4,7 @@ import Label from '../../atoms/Label/Label.jsx'
 import Profile from '../../atoms/Profile/Profile.jsx'
 import Text from '../../atoms/Text/Text.jsx'
 import CollectionLabels from '../../molecules/CollectionLabels/CollectionLabels.jsx'
-import SidebarSection from '../SidebarSection/SidebarSection.jsx'
+import SidebarSection from '../../molecules/SidebarSection/SidebarSection.jsx'
 import {
     IoAdd,
     IoBriefcaseOutline,
@@ -46,10 +46,10 @@ export default function Sidebar() {
 
                 <div className='sidebar__bottom'>
                     <div className='sidebar__profile'>
-                        <Profile name='Luis' />
+                        <Profile />
                         <div className='sidebar__profile-text'>
                             <Text as='span' size='small' weight='semibold'>Luis</Text>
-                            <Text as='span' size='small' color='secondary'>luis@ghostnotes.app</Text>
+                            <Text as='span' size='small' color='secondary'>luis@messafy.app</Text>
                         </div>
                     </div>
                 </div>
@@ -57,5 +57,3 @@ export default function Sidebar() {
         </aside>
     )
 }
-
-

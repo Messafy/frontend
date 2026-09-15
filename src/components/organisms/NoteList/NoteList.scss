@@ -7,6 +7,12 @@
     min-height: 0;
     overflow: hidden;
     background-color: $color-menu-notes;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(0, 0, 0, 0.16) 100%
+    );
     border-left: 1px solid $color-border;
     border-right: 1px solid $color-border;
 
@@ -16,7 +22,7 @@
         justify-content: space-between;
         gap: 16px;
         width: 100%;
-        padding: 16px 20px 12px;
+        padding: 16px 20px 8px;
         flex-shrink: 0;
 
         .text--size-h2 {
@@ -36,7 +42,7 @@
         flex-direction: column;
         gap: 10px;
         width: 100%;
-        padding: 0 16px 24px;
+        padding: 4px 16px 24px;
         min-height: 0;
         overflow-y: auto;
         scrollbar-width: thin;
@@ -62,30 +68,40 @@
         .card {
             gap: 12px;
             padding: 16px 18px;
+            height: 200px;
+
+            transition:
+                    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                    background-color 180ms ease,
+                    border-color 180ms ease,
+                    opacity 180ms ease,
+                    box-shadow 180ms ease;
+
+            &:hover {
+                transform: translateY(-1px) scale(1.008);
+            }
+
+            &:active {
+                transform: translateY(0) scale(0.985);
+                transition-duration: 80ms;
+            }
 
             &[aria-current='true'] {
-                background-color: rgba(255, 255, 255, 0.08);
-                border-color: rgba(255, 255, 255, 0.18);
-                box-shadow: inset 3px 0 0 $color-accent;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-color: rgba(255, 255, 255, 0.24);
+                transform: scale(1.008);
             }
 
-            .text--size-h2 {
-                font-size: 20px;
-                line-height: 1.15;
+            &[aria-current='true']:hover {
+                transform: translateY(-1px) scale(1.012);
             }
+        }
 
-            .text--size-body {
-                font-size: 14px;
-                line-height: 1.45;
-            }
+        &:has(.card[aria-current='true']) .card:not([aria-current='true']) {
+            opacity: 0.8;
 
-            .collection-tags {
-                gap: 8px;
-            }
-
-            .tag {
-                padding: 5px 7px;
-                font-size: 11px;
+            &:hover {
+                opacity: 1;
             }
         }
     }

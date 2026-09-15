@@ -1,0 +1,88 @@
+@use '../../../styles/tokens' as *;
+
+.home-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    width: 100%;
+    height: 80px;
+    padding: 18px 30px;
+
+    background-color: rgba($color-background, 0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid transparent;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    transition:
+        height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 360ms ease,
+        backdrop-filter 360ms ease,
+        border-color 360ms ease,
+        box-shadow 360ms ease;
+
+    > .brand {
+        transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform-origin: left center;
+    }
+
+    &--scrolled {
+        height: 64px;
+        padding-block: 10px;
+        background-color: rgba($color-background, 0.98);
+        backdrop-filter: blur(24px) saturate(1.15);
+        border-bottom-color: rgba($color-text-primary, 0.09);
+        box-shadow:
+            0 14px 35px rgba(0, 0, 0, 0.24),
+            0 1px 0 rgba($color-text-primary, 0.025) inset;
+
+        > .brand {
+            transform: scale(0.86);
+        }
+    }
+
+    .collection-links {
+        gap: 32px;
+    }
+
+    &__cta {
+        text-decoration: none;
+
+        .button {
+            min-height: 38px;
+        }
+    }
+
+    @media (max-width: 720px) {
+        padding: 11px 16px;
+        gap: 12px;
+
+        > .brand {
+            height: 56px;
+        }
+
+        &__cta {
+            flex-shrink: 0;
+        }
+
+        .collection-links {
+            display: none;
+        }
+
+        &.home-header--scrolled {
+            height: 60px;
+            padding-block: 8px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+
+        > .brand {
+            transition: none;
+        }
+    }
+}

@@ -1,4 +1,3 @@
-import { motion } from 'motion/react'
 import PropTypes from 'prop-types'
 import './Link.scss'
 import Text from '../Text/Text.jsx'
@@ -7,21 +6,17 @@ export default function Link({ children, href, rel, target, ...props}) {
     const safeRel = target === '_blank' ? rel ?? 'noreferrer' : rel
 
     return (
-        <motion.a
+        <a
             className='link'
             href={href}
             rel={safeRel}
             target={target}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            style={{ transformOrigin: 'center', display: 'inline-block' }}
             {...props}
         >
             <Text as='span' size='link' weight='medium' color='inherit'>
                 {children}
             </Text>
-        </motion.a>
+        </a>
     )
 }
 

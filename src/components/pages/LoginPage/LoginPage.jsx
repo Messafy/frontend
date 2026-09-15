@@ -7,6 +7,7 @@ import AuthFooterNote from '../../molecules/AuthFooterNote/AuthFooterNote.jsx'
 import AuthPageHeader from '../../organisms/AuthPageHeader/AuthPageHeader.jsx'
 import AuthCard from '../../organisms/AuthCard/AuthCard.jsx'
 import LoginForm from '../../organisms/LoginForm/LoginForm.jsx'
+import Link from '../../atoms/Link/Link.jsx'
 
 import { useAuth } from '../../../context/authContext.js'
 
@@ -98,8 +99,6 @@ export default function LoginPage() {
     return (
         <main className='login-page'>
             <AuthCard>
-                <Brand />
-
                 <AuthPageHeader
                     title='Welcome back'
                     subtitle='Sign in to continue writing your notes.'
@@ -115,7 +114,7 @@ export default function LoginPage() {
                 />
 
                 <AuthFooterNote>
-                    No account yet? Create one later when auth is ready.
+                    New here? <Link href='/register'>Create an account</Link>
                 </AuthFooterNote>
             </AuthCard>
         </main>

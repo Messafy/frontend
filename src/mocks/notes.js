@@ -52,7 +52,7 @@ export const notes = [
         id: 8,
         title: 'Project Kickoff Notes',
         date: '2026-04-13',
-        content: 'Ghost Notes will start as a focused note-taking interface with reusable components, realistic mock data, and a clean path toward backend integration.',
+        content: 'Messafy will start as a focused note-taking interface with reusable components, realistic mock data, and a clean path toward backend integration.',
         tags: ['Project', 'Kickoff'],
     },
     {

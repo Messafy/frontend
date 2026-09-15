@@ -4,6 +4,11 @@
   display: block;
   width: var(--rain-drop-width);
   height: var(--rain-drop-height);
+  min-width: var(--rain-drop-width);
+  min-height: var(--rain-drop-height);
+  max-width: var(--rain-drop-width);
+  max-height: var(--rain-drop-height);
+  flex-shrink: 0;
   border-radius: 999px;
   pointer-events: none;
   opacity: calc(0.08 + (var(--rain-drop-depth) * 0.068));

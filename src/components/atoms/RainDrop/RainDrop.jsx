@@ -27,10 +27,8 @@ const PIXELS_PER_METER = 140
 const SCREEN_TRAVEL_PIXELS = 900
 
 // Visual constraints.
-const MIN_HEIGHT = 20
-const MAX_HEIGHT = 72
-const MIN_WIDTH = 1
-const MAX_WIDTH = 3
+const FIXED_HEIGHT = 72
+const FIXED_WIDTH = 3
 const MIN_DEPTH = 1
 const MAX_DEPTH = 5
 const MIN_ANGLE = 6
@@ -133,8 +131,8 @@ function createRaindropPhysicsModel (seed) {
     )
 
     const depth = Math.round(clamp(MIN_DEPTH + massRatio * 4, MIN_DEPTH, MAX_DEPTH))
-    const height = MIN_HEIGHT + massRatio * (MAX_HEIGHT - MIN_HEIGHT)
-    const width = massRatio > 0.72 ? MAX_WIDTH : MIN_WIDTH + Math.round(massRatio)
+    const height = FIXED_HEIGHT
+    const width = FIXED_WIDTH
     const duration = getAnimationDurationSeconds(terminalVelocity)
     const angle = clamp(angleDegrees, MIN_ANGLE, MAX_ANGLE)
     const drift = Math.tan((angle * Math.PI) / 180) * SCREEN_TRAVEL_PIXELS
@@ -171,8 +169,8 @@ export default function RainDrop ({
     const safeDelay = Math.max(delay, 0)
     const safeDepth = clamp(depth ?? physics.depth, MIN_DEPTH, MAX_DEPTH)
     const safeDuration = clamp(duration ?? physics.duration, MIN_DURATION, MAX_DURATION)
-    const safeHeight = clamp(height ?? physics.height, MIN_HEIGHT, MAX_HEIGHT)
-    const safeWidth = clamp(width ?? physics.width, MIN_WIDTH, MAX_WIDTH)
+    const safeHeight = clamp(height ?? physics.height, FIXED_HEIGHT, FIXED_HEIGHT)
+    const safeWidth = clamp(width ?? physics.width, FIXED_WIDTH, FIXED_WIDTH)
 
     return (
         <span
