@@ -6,7 +6,7 @@ import Icon from '../../atoms/Icon/Icon.jsx'
 import Text from '../../atoms/Text/Text.jsx'
 import './LoginForm.scss'
 
-export default function LoginForm({email, password, onEmailChange, onPasswordChange, onSubmit, loading = false}) {
+export default function LoginForm({email, password, onEmailChange, onPasswordChange, onSubmit, loading = false, errors}) {
     return (
         <form className='login-form' onSubmit={onSubmit}>
             <div className='login-form__field'>
@@ -14,6 +14,7 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
                     Email address
                 </Text>
                 <Input
+                    required
                     type='email'
                     placeholder='you@example.com'
                     aria-label='Email address'
@@ -21,9 +22,16 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
                     value={email}
                     onChange={(e) => onEmailChange(e.target.value)}
                     disabled={loading}
+                    error={errors.email}
+                    aria-describedby={errors.email ? 'login-email-error' : undefined}
                 >
                     <Icon icon={IoMailOutline} />
                 </Input>
+                {errors.email && (
+                    <Text id='login-email-error' as='p' size='small' color='danger' role='alert'>
+                        {errors.email.message}
+                    </Text>
+                )}
             </div>
 
             <div className='login-form__field'>
@@ -31,6 +39,7 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
                     Password
                 </Text>
                 <Input
+                    required
                     type='password'
                     placeholder='••••••••'
                     aria-label='Password'
@@ -38,10 +47,23 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
                     value={password}
                     onChange={(e) => onPasswordChange(e.target.value)}
                     disabled={loading}
+                    error={errors.password}
+                    aria-describedby={errors.password ? 'login-password-error' : undefined}
                 >
                     <Icon icon={IoLockClosedOutline} />
                 </Input>
+                {errors.password && (
+                    <Text id='login-password-error' as='p' size='small' color='danger' role='alert'>
+                        {errors.password.message}
+                    </Text>
+                )}
             </div>
+
+            {errors.form && (
+                <Text as='p' size='small' color='danger' role='alert'>
+                    {errors.form.message}
+                </Text>
+            )}
 
             <Button type='submit' disabled={loading}>
                 {loading ? 'Signing in...' : (
@@ -62,4 +84,9 @@ LoginForm.propTypes = {
     onPasswordChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     loading: PropTypes.bool,
+    errors: PropTypes.shape({
+        email: PropTypes.instanceOf(Error),
+        password: PropTypes.instanceOf(Error),
+        form: PropTypes.instanceOf(Error),
+    }).isRequired,
 }

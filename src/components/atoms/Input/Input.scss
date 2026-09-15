@@ -22,6 +22,13 @@
     @include control-focus;
   }
 
+  &--error,
+  &--error:hover,
+  &--error:focus-within {
+    border-color: $color-danger;
+    box-shadow: 0 0 0 3px rgba($color-danger, 0.2);
+  }
+
   &--transparent {
     background-color: transparent;
     border-color: transparent;
