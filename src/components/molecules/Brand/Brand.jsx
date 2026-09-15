@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types'
-import Text from '../../atoms/Text/Text.jsx'
+import logo from '../../../assets/messafy_logo.png'
 import './Brand.scss'
 
-export default function Brand({name = 'Ghost Notes', logo = 'G'}) {
+export default function Brand({name = 'Messafy', logo: logoSrc = logo}) {
     return (
-        <div className='brand'>
-            <div className='brand__logo'>{logo}</div>
-            <Text as='span' size='body' weight='semibold'>{name}</Text>
-        </div>
+        <img src={logoSrc} alt={name} className='brand' />
     )
 }
 

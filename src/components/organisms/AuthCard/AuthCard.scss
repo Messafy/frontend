@@ -3,12 +3,6 @@
 .auth-card {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    width: min(100%, 390px);
-    padding: 32px;
-
-    background-color: $color-card;
-    border: 1px solid $color-border;
-    border-radius: 18px;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+    gap: 28px;
+    width: min(100%, 420px);
 }

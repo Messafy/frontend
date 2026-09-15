@@ -1,0 +1,26 @@
+@use '../../../styles/tokens' as *;
+
+.placeholder-note-item {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+  width: 100%;
+  height: fit-content;
+  background-color: transparent;
+  padding: 10px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+
+  &:hover {
+    background-color: $zinc-800;
+  }
+}
+.placeholder-note-item__content {
+  min-width: 0;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

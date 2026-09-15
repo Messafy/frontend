@@ -8,4 +8,56 @@
   font-size: 12px;
   font-weight: 500;
   line-height: 1;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 35%;
+    height: 200%;
+
+    background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.08) 25%,
+            rgba(255, 255, 255, 0.35) 50%,
+            rgba(255, 255, 255, 0.08) 75%,
+            transparent 100%
+    );
+
+    filter: blur(2px);
+    transform: rotate(25deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover::before {
+    animation: tag-shine 550ms ease-out;
+  }
+}
+
+@keyframes tag-shine {
+  0% {
+    left: -50%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
 }
