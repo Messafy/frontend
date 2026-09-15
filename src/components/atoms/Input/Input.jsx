@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 import './Input.scss'
 
-export default function Input ({ children, variant, ...props }) {
+export default function Input ({ children, error = null, variant, ...props }) {
     const classes = [
         'input',
+        error && 'input--error',
         variant && `input--${variant}`,
     ].filter(Boolean).join(' ')
 
@@ -16,6 +17,7 @@ export default function Input ({ children, variant, ...props }) {
                 autoCapitalize='sentences'
                 autoComplete='off'
                 spellCheck={false}
+                aria-invalid={Boolean(error)}
                 {...props}
             />
         </label>
@@ -24,6 +26,7 @@ export default function Input ({ children, variant, ...props }) {
 
 Input.propTypes = {
     children: PropTypes.node,
+    error: PropTypes.instanceOf(Error),
     variant: PropTypes.string,
     placeholder: PropTypes.string,
 }

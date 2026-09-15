@@ -7,6 +7,10 @@
   isolation: isolate;
   overflow-x: clip;
   background-color: $color-background;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 
   &::before {
     position: absolute;
