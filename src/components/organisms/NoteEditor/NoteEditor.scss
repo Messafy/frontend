@@ -1,12 +1,14 @@
 @use '../../../styles/tokens' as *;
 
+$editor-gutter-x: 36px;
+
 .note-editor {
     display: flex;
     flex-direction: column;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
-    background-color: #0f0f11;
+    background-color: $color-editor;
 
     &--empty {
         display: grid;
@@ -26,16 +28,16 @@
         align-items: flex-start;
         justify-content: space-between;
         gap: 24px;
-        padding: 18px 36px;
+        padding: 18px $editor-gutter-x;
 
-        background-color: rgba(24, 24, 27, 0.72);
+        background-color: $color-editor-header;
         border-bottom: 1px solid $color-border;
 
         .text--size-h2 {
-            font-size: 25px;
-            font-weight: 650;
-            line-height: 1.08;
-            letter-spacing: -0.035em;
+            font-size: $font-size-display;
+            font-weight: $font-weight-display;
+            line-height: $line-height-display;
+            letter-spacing: $letter-spacing-display;
         }
     }
 
@@ -47,10 +49,66 @@
 
         .input__control {
             color: $color-text-primary;
-            font-size: 25px;
-            font-weight: 650;
-            line-height: 1.08;
-            letter-spacing: -0.035em;
+            font-size: $font-size-display;
+            font-weight: $font-weight-display;
+            line-height: $line-height-display;
+            letter-spacing: $letter-spacing-display;
+        }
+    }
+
+    &__meta-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    &__meta-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        > .text:first-child {
+            width: 88px;
+            flex-shrink: 0;
+        }
+
+        &--wrap {
+            flex-wrap: wrap;
+            row-gap: 8px;
+        }
+    }
+
+    &__owner {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__tag-add {
+        position: relative;
+    }
+
+    &__tag-add-button.button {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        height: 28px;
+        min-height: 0;
+        padding: 0 10px;
+        border-radius: 6px;
+        font-size: $font-size-xs;
+        color: $color-text-secondary;
+
+        .icon {
+            width: 13px;
+            height: 13px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            color: $color-text-primary;
+            background-color: $color-ghost-hover;
         }
     }
 
@@ -66,7 +124,7 @@
         flex: 1;
         min-height: 0;
         width: 100%;
-        padding: 28px 36px 40px;
+        padding: 24px $editor-gutter-x 40px;
         font-family: $font-family-base;
         font-size: 16px;
         line-height: 1.7;

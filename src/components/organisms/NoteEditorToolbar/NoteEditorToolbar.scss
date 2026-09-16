@@ -4,22 +4,57 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    padding: 14px 36px;
+    gap: 16px;
+    padding: 8px 24px;
+    border-bottom: 1px solid $color-border;
+    flex-wrap: nowrap;
+    min-width: 0;
 
-    background-color: rgba(24, 24, 27, 0.72);
-    border-top: 1px solid $color-border;
-    border-left: 1px solid $color-border;
+    &__group {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        flex: 0 1 auto;
+        min-width: 0;
+        overflow-x: auto;
+        @include scrollbar-none;
+
+        .button--ghost {
+            @include icon-button(30px, 7px, 16px);
+            color: $color-text-secondary;
+        }
+    }
 
     &__actions {
         display: flex;
         align-items: center;
-        gap: 12px;
+        flex: 0 1 auto;
+        gap: 10px;
+        margin-left: auto;
+        min-width: 0;
+
+        .text {
+            @include ellipsis;
+            flex: 0 1 auto;
+        }
+
+        .button--ghost {
+            @include icon-button(32px, 8px, 16px);
+        }
+
+        .button--save {
+            flex-shrink: 0;
+            white-space: nowrap;
+
+            span {
+                white-space: nowrap;
+            }
+        }
     }
 
     &__divider {
         align-self: stretch;
-        margin: 7px 0;
-        background-color: rgba(255, 255, 255, 0.14);
+        margin: 6px 0;
+        background-color: $color-divider;
     }
 }

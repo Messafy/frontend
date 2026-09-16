@@ -17,8 +17,8 @@
 
     .input {
         min-height: 44px;
-        background-color: rgba(255, 255, 255, 0.04);
-        border-color: rgba(255, 255, 255, 0.08);
+        background-color: $color-input-fill;
+        border-color: $color-input-border;
         border-radius: 8px;
 
         .icon {
@@ -39,8 +39,8 @@
         min-height: 42px;
         transition:
             background-color 180ms ease,
-            box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
-            transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow 220ms $ease-out-spring,
+            transform 220ms $ease-out-spring;
 
         &::after {
             content: '';
@@ -51,12 +51,12 @@
             width: 40%;
             background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
             transform: translateX(-160%) skewX(-18deg);
-            transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 650ms $ease-out-spring;
             pointer-events: none;
         }
 
         &:hover {
-            background-image: linear-gradient(180deg, #f6f6f3, #e8e8e5);
+            background-color: $color-primary-solid-hover;
             transform: scale(1.015);
             box-shadow:
                 0 6px 20px rgba(0, 0, 0, 0.35),
@@ -86,7 +86,7 @@
 
         .icon,
         .login-form__arrow {
-            transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 220ms $ease-out-spring;
         }
 
         &:hover .login-form__arrow {

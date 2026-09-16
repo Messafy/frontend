@@ -1,9 +1,7 @@
 @use "../../../styles/tokens" as *;
 
 .icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  @include inline-center;
 
   height: 26px;
   width: 26px;
@@ -32,19 +30,5 @@
 
   &--animated:hover {
     color: $color-icon-hover;
-  }
-
-  &--bubble {
-    height: 28px;
-    width: 28px;
-    padding: 4px;
-    color: $color-text-secondary;
-    cursor: pointer;
-
-    &:hover {
-      color: $color-text-primary;
-      background-color: $color-border-hover;
-      border-color: $color-border-hover;
-    }
   }
 }

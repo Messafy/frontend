@@ -17,3 +17,14 @@ $font-weight-bold: 700;
 $line-height-heading: 1.15;
 $line-height-body: 1.6;
 $line-height-control: 1.2;
+
+$font-size-xs: 12px;
+$font-size-display: 25px;
+$font-weight-display: 650;
+$line-height-display: 1.08;
+$letter-spacing-display: -0.035em;
+
+$ease-out-spring: cubic-bezier(0.22, 1, 0.36, 1);
+$duration-fast: 80ms;
+$duration-base: 180ms;
+$duration-slow: 220ms;

@@ -17,15 +17,15 @@
     border-bottom: 1px solid transparent;
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     transition:
-        height 360ms cubic-bezier(0.22, 1, 0.36, 1),
-        padding 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        height 360ms $ease-out-spring,
+        padding 360ms $ease-out-spring,
         background-color 360ms ease,
         backdrop-filter 360ms ease,
         border-color 360ms ease,
         box-shadow 360ms ease;
 
     > .brand {
-        transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition: transform 360ms $ease-out-spring;
         transform-origin: left center;
     }
 

@@ -42,7 +42,7 @@
         border-radius: 8px;
         cursor: pointer;
         border: 1px solid transparent;
-        transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        @include control-transition;
 
         &:hover {
             background-color: $color-menu-aside-hover;
@@ -67,9 +67,7 @@
         min-width: 0;
 
         .text {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            @include ellipsis;
         }
     }
 
@@ -77,13 +75,13 @@
         min-height: 30px;
         padding: 0 8px;
         color: $color-menu-aside-muted;
-        background-color: rgba(255, 255, 255, 0.04);
+        background-color: $color-input-fill;
         border-color: $color-menu-aside-border;
         box-shadow: none;
     }
 
     .input__control {
-        font-size: 12px;
+        font-size: $font-size-xs;
         color: $color-menu-aside-foreground;
     }
 

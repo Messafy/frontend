@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import Text from '../Text/Text.jsx'
-import './Date.scss'
 
 const MONTHS = [
     'Jan',

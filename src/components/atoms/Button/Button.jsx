@@ -16,7 +16,7 @@ export default function Button({children, icon = null, variant = 'primary', type
 Button.propTypes = {
     children: PropTypes.node,
     icon: PropTypes.elementType,
-    variant: PropTypes.oneOf(['primary', 'ghost', 'icon']),
+    variant: PropTypes.oneOf(['primary', 'ghost', 'save']),
     type: PropTypes.string,
     className: PropTypes.string,
 }

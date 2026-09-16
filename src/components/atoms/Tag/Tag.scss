@@ -1,7 +1,9 @@
 @use "../../../styles/tokens" as *;
 
 .tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   background-color: $color-muted;
   @include soft-border($color-border, 4px);
   padding: 7px 8px;
@@ -9,10 +11,18 @@
   font-weight: 500;
   line-height: 1;
   cursor: pointer;
-  overflow: hidden;
+  @include ellipsis;
   position: relative;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__remove {
+    @include icon-button(14px, 3px, 12px);
+    color: $color-text-muted;
+  }
 
   &::before {
     content: '';
@@ -25,9 +35,9 @@
     background: linear-gradient(
             90deg,
             transparent 0%,
-            rgba(255, 255, 255, 0.08) 25%,
-            rgba(255, 255, 255, 0.35) 50%,
-            rgba(255, 255, 255, 0.08) 75%,
+            rgba($color-text-primary, 0.08) 25%,
+            rgba($color-text-primary, 0.35) 50%,
+            rgba($color-text-primary, 0.08) 75%,
             transparent 100%
     );
 

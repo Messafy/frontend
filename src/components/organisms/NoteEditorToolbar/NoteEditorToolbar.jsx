@@ -3,25 +3,57 @@ import Text from '../../atoms/Text/Text.jsx'
 import Button from '../../atoms/Button/Button.jsx'
 import VerticalSeparator from '../../atoms/VerticalSeparator/VerticalSeparator.jsx'
 import Icon from '../../atoms/Icon/Icon.jsx'
-import {LuChevronDown, LuTag, LuTrash2} from 'react-icons/lu'
+import {
+    LuBold,
+    LuChevronDown,
+    LuItalic,
+    LuUnderline,
+    LuLink,
+    LuList,
+    LuListOrdered,
+    LuTrash2,
+} from 'react-icons/lu'
 import './NoteEditorToolbar.scss'
 
-export default function NoteEditorToolbar({content, onSave, onDelete}) {
+const FORMAT_ACTIONS = [
+    { id: 'bold', icon: LuBold, label: 'Bold' },
+    { id: 'italic', icon: LuItalic, label: 'Italic' },
+    { id: 'underline', icon: LuUnderline, label: 'Underline' },
+    { id: 'link', icon: LuLink, label: 'Link' },
+    { id: 'bullet', icon: LuList, label: 'Bulleted list' },
+    { id: 'ordered', icon: LuListOrdered, label: 'Numbered list' },
+]
+
+export default function NoteEditorToolbar({content, onFormat, onSave, onDelete}) {
     const trimmed = content.trim()
     const words = trimmed ? trimmed.split(/\s+/) : []
     const wordCount = words.filter(Boolean).length
     const characterCount = content.length
 
     return (
-        <footer className='note-editor-toolbar'>
-            <Text as='span' size='small' color='secondary'>
-                {wordCount} words&nbsp;&nbsp;{characterCount} characters
-            </Text>
+        <div
+            className='note-editor-toolbar'
+            role='toolbar'
+            aria-label='Note formatting'
+        >
+            <div className='note-editor-toolbar__group'>
+                {FORMAT_ACTIONS.map(action => (
+                    <Button
+                        key={action.id}
+                        variant='ghost'
+                        aria-label={action.label}
+                        title={action.label}
+                        onClick={() => onFormat(action.id)}
+                    >
+                        <Icon icon={action.icon} />
+                    </Button>
+                ))}
+            </div>
 
             <div className='note-editor-toolbar__actions'>
-                <Button variant='ghost' aria-label='Add tag'>
-                    <Icon icon={LuTag} />
-                </Button>
+                <Text as='span' size='small' color='secondary'>
+                    {wordCount} words · {characterCount} characters
+                </Text>
                 <Button type='button' variant='ghost' aria-label='Delete note' onClick={onDelete}>
                     <Icon icon={LuTrash2} />
                 </Button>
@@ -31,12 +63,13 @@ export default function NoteEditorToolbar({content, onSave, onDelete}) {
                     <Icon icon={LuChevronDown} />
                 </Button>
             </div>
-        </footer>
+        </div>
     )
 }
 
 NoteEditorToolbar.propTypes = {
     content: PropTypes.string.isRequired,
+    onFormat: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
 }
