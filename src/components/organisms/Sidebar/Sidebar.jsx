@@ -15,8 +15,15 @@ import {
 } from 'react-icons/io5'
 import {LuLightbulb, LuUserRound} from 'react-icons/lu'
 import './Sidebar.scss'
+import PropTypes from 'prop-types'
 
-export default function Sidebar() {
+const NOTE_FILTERS = [
+    { id: 'all', icon: IoDocumentTextOutline, text: 'All Notes' },
+    { id: 'pinned', icon: IoPinOutline, text: 'Pinned Notes' },
+    { id: 'trash', icon: IoTrashOutline, text: 'Trash' },
+]
+
+export default function Sidebar({ activeFilter, onSelectFilter }) {
     return (
         <aside className='sidebar'>
             <div className='sidebar__content'>
@@ -26,9 +33,16 @@ export default function Sidebar() {
 
                 <nav className='sidebar__nav' aria-label='Notes navigation'>
                     <CollectionLabels maxLength={3}>
-                        <Label className='label--active' icon={IoDocumentTextOutline} text='All Notes' />
-                        <Label icon={IoPinOutline} text='Pinned Notes' />
-                        <Label icon={IoTrashOutline} text='Trash' />
+                        {NOTE_FILTERS.map(filter => (
+                            <Label
+                                key={filter.id}
+                                className={activeFilter === filter.id ? 'label--active' : ''}
+                                icon={filter.icon}
+                                text={filter.text}
+                                aria-pressed={activeFilter === filter.id}
+                                onClick={() => onSelectFilter(filter.id)}
+                            />
+                        ))}
                     </CollectionLabels>
 
                     <SidebarSection
@@ -56,4 +70,9 @@ export default function Sidebar() {
             </div>
         </aside>
     )
+}
+
+Sidebar.propTypes = {
+    activeFilter: PropTypes.oneOf(['all', 'pinned', 'trash']).isRequired,
+    onSelectFilter: PropTypes.func.isRequired,
 }

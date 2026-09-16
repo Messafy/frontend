@@ -1,17 +1,19 @@
 @use '../../../styles/tokens' as *;
 
 .login-page {
+    position: relative;
     display: grid;
-    min-height: 100vh;
+    min-height: 100svh;
     place-items: center;
     padding: 24px;
 
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        $color-background;
-    background-size:
-        40px 40px,
-        40px 40px,
-        auto;
+    background-color: $color-background;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        @include grid-overlay;
+    }
 }

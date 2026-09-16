@@ -26,7 +26,14 @@ function handleNoteReducer(notes, action) {
                 : [...notes, action.note];
 
         case 'DELETE_NOTE':
-            return notes.filter(note => note.id !== action.id);
+            // Soft delete: the note stays in state with status DELETED so the Trash filter can show it.
+            return notes.map(note => note.id === action.id ? note.withStatus('DELETED') : note);
+
+        case 'PIN_NOTE':
+            // Pin changes only arrive from the server response, so unsaved editor edits are never merged here.
+            return notes.map(
+                note => note.id === action.id ? note.withPinned(action.pinned) : note
+            );
 
         default:
             return notes;
@@ -41,6 +48,7 @@ export default function NotePage() {
         initialNotes
     );
     const [selectedNote, setSelectedNote] = React.useState(null);
+    const [activeFilter, setActiveFilter] = React.useState('all');
 
     useEffect(() => {
         if (!session?.account?.id || !session?.token) {
@@ -49,24 +57,33 @@ export default function NotePage() {
 
         async function fetchNotes() {
             try {
-                const response = await fetch(
-                    `http://localhost:8080/v1/notes?ownerId=${session.account.id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${session.token}`,
-                        },
-                    }
-                );
+                const requestOptions = {
+                    headers: {
+                        Authorization: `Bearer ${session.token}`,
+                    },
+                };
+                // Load active notes (owner query) and deleted notes (trash) in one go.
+                const [activeResponse, trashResponse] = await Promise.all([
+                    fetch(
+                        `http://localhost:8080/v1/notes?ownerId=${session.account.id}`,
+                        requestOptions
+                    ),
+                    fetch('http://localhost:8080/v1/notes/trash', requestOptions),
+                ]);
 
-                if (!response.ok) {
+                if (!activeResponse.ok || !trashResponse.ok) {
                     throw new Error('Failed to fetch notes');
                 }
 
-                const data = await response.json();
+                const [activeNotes, deletedNotes] = await Promise.all([
+                    activeResponse.json(),
+                    trashResponse.json(),
+                ]);
 
                 dispatch({
                     type: 'LOAD_NOTES',
-                    notes: (data ?? []).map(note => Note.from(note)),
+                    notes: [...(activeNotes ?? []), ...(deletedNotes ?? [])]
+                        .map(note => Note.from(note)),
                 });
             } catch (error) {
                 console.error('Error fetching notes:', error);
@@ -77,20 +94,24 @@ export default function NotePage() {
     }, [session?.account?.id, session?.token]);
 
     async function saveNote(note) {
+        if (!session?.token || !session?.account?.id) {
+            return;
+        }
+
         try {
-            const ownerId = session.account.id;
             const isPersisted = Boolean(note.id);
             const noteToSave = isPersisted
                 ? {
                     title: note.title,
                     content: note.content,
+                    tags: note.tags,
                 }
                 : {
                     type: 'PRIVATE',
                     title: note.title,
                     content: note.content,
-                    ownerId,
-                    sharedWith: ownerId,
+                    sharedWith: session.account.id,
+                    tags: note.tags,
                 };
 
             const response = await fetch(
@@ -155,20 +176,88 @@ export default function NotePage() {
         }
     }
 
+    async function togglePinned(note) {
+        // Drafts (no id) and deleted notes cannot be pinned.
+        if (!note.id || note.status === 'DELETED') {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/v1/notes/${note.id}/pin`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${session.token}`,
+                },
+                body: JSON.stringify({ pinned: !note.pinned }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update note pin');
+            }
+
+            const result = await response.json();
+            const updatedNote = note.withPinned(result.pinned);
+            dispatch({ type: 'PIN_NOTE', id: note.id, pinned: result.pinned });
+            // Unpinning inside Pinned Notes removes the note from that list, so drop the selection too.
+            setSelectedNote(
+                activeFilter === 'pinned' && !result.pinned ? null : updatedNote
+            );
+        } catch (error) {
+            console.error('Error updating note pin:', error);
+        }
+    }
+
+    function selectFilter(filter) {
+        setActiveFilter(filter);
+        setSelectedNote(null);
+    }
+
+    // New notes are drafts: creating one always switches back to All Notes so the draft is visible.
+    function createNote() {
+        setActiveFilter('all');
+        setSelectedNote(Note.draft());
+    }
+
+    const filteredNotes = notes.filter(note => {
+        if (activeFilter === 'trash') {
+            return note.status === 'DELETED';
+        }
+        if (activeFilter === 'pinned') {
+            return note.status !== 'DELETED' && note.pinned;
+        }
+        return note.status !== 'DELETED';
+    });
+
+    // Pinned notes float to the top in every list except Trash.
+    const visibleNotes = activeFilter === 'trash'
+        ? filteredNotes
+        : filteredNotes.sort((a, b) => Number(b.pinned) - Number(a.pinned));
+
+    const listTitles = {
+        all: 'All Notes',
+        pinned: 'Pinned Notes',
+        trash: 'Trash',
+    };
+
     return (
         <main className="note-page">
-            <Sidebar />
+            <Sidebar activeFilter={activeFilter} onSelectFilter={selectFilter} />
             <NoteList
                 selectedNote={selectedNote}
                 onSelectNote={setSelectedNote}
-                title="All Notes"
-                notes={notes}
+                title={listTitles[activeFilter]}
+                notes={visibleNotes}
+                onCreateNote={createNote}
+                onTogglePin={togglePinned}
             />
             <NoteEditor
                 selectedNote={selectedNote}
                 onSelectedNoteChange={setSelectedNote}
                 saveNote={saveNote}
                 deleteNote={deleteNote}
+                accountEmail={session?.account?.email}
+                readOnly={activeFilter === 'trash'}
             />
         </main>
     );

@@ -1,0 +1,137 @@
+@use '../../../styles/tokens' as *;
+
+.tag-editor__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 29;
+    background: rgba($zinc-950, 0.55);
+    cursor: default;
+    animation: tag-editor-backdrop-in 140ms ease-out;
+}
+
+.tag-editor {
+    position: absolute;
+    left: 0;
+    z-index: 30;
+    width: 272px;
+    padding: 14px;
+    color: $color-text-primary;
+    background: $color-popover;
+    border: 1px solid $color-border-hover;
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    animation: tag-editor-in 140ms ease-out;
+
+    &--below {
+        top: calc(100% + 10px);
+    }
+
+    &--above {
+        bottom: calc(100% + 10px);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid $color-border;
+    }
+
+    &__close.button {
+        @include icon-button(22px, 6px, 13px);
+        color: $color-text-muted;
+    }
+
+    &__form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+
+        .input--tag {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            min-height: 30px;
+            padding: 0 10px;
+            background-color: $color-input;
+            border: 1px solid $color-input-border;
+            border-radius: 8px;
+            box-shadow: none;
+            transition: border-color 160ms ease;
+
+            &:hover {
+                border-color: $color-border-hover;
+            }
+
+            &:focus-within {
+                border-color: $color-textarea-focus;
+                box-shadow: none;
+            }
+        }
+
+        .input--tag .input__control {
+            min-height: 0;
+            height: auto;
+            padding: 0;
+            font-size: 12.5px;
+            font-weight: 400;
+            letter-spacing: normal;
+            line-height: 1.2;
+        }
+
+        .button {
+            min-height: 30px;
+            height: 30px;
+            padding: 0 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            background-color: $zinc-50;
+            color: $zinc-950;
+            white-space: nowrap;
+
+            &:hover:not(:disabled) {
+                background-color: $zinc-200;
+            }
+
+            &:disabled {
+                background-color: $zinc-800;
+                color: $color-text-muted;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        max-height: 132px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid $color-border;
+        @include scrollbar-thin;
+    }
+}
+
+@keyframes tag-editor-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes tag-editor-backdrop-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

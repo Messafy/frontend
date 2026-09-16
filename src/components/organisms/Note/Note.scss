@@ -1,0 +1,20 @@
+@use '../../../styles/tokens' as *;
+
+.note {
+    position: relative;
+
+    &__pin {
+        @include icon-button(30px, 7px, 16px);
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 1;
+        color: $color-text-muted;
+
+        &--active,
+        &--active:hover {
+            color: $color-accent;
+            background-color: $color-accent-muted;
+        }
+    }
+}

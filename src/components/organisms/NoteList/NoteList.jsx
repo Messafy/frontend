@@ -3,16 +3,12 @@ import { IoAdd } from 'react-icons/io5'
 import Text from '../../atoms/Text/Text.jsx'
 import Button from '../../atoms/Button/Button.jsx'
 import Note from '../Note/Note.jsx'
-import NoteModel from '../../../models/Note.js'
 
 import './NoteList.scss'
 
-export default function NoteList({ title, notes, selectedNote, onSelectNote }) {
+import NoteModel from '../../../models/Note.js'
 
-    function handleNewNoteClick(event) {
-        event.preventDefault();
-        onSelectNote(NoteModel.draft());
-    }
+export default function NoteList({ title, notes, selectedNote, onSelectNote, onCreateNote, onTogglePin }) {
 
     return (
         <section className='note-list' aria-labelledby='note-list-title'>
@@ -36,7 +32,7 @@ export default function NoteList({ title, notes, selectedNote, onSelectNote }) {
                     </Text>
                 </div>
 
-                <Button icon={IoAdd} onClick = {handleNewNoteClick}>
+                <Button icon={IoAdd} onClick={onCreateNote}>
                     New Note
                 </Button>
             </header>
@@ -52,6 +48,7 @@ export default function NoteList({ title, notes, selectedNote, onSelectNote }) {
                         key={note.id}
                         selected={note.id === selectedNote?.id}
                         onSelect={() => onSelectNote(note)}
+                        onTogglePin={onTogglePin ? () => onTogglePin(note) : undefined}
                         {...note}
                     />
                 ))}
@@ -65,4 +62,6 @@ NoteList.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.instanceOf(NoteModel)).isRequired,
     selectedNote: PropTypes.instanceOf(NoteModel),
     onSelectNote: PropTypes.func.isRequired,
+    onCreateNote: PropTypes.func.isRequired,
+    onTogglePin: PropTypes.func,
 }

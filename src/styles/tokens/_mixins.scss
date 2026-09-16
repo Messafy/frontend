@@ -1,3 +1,6 @@
+@use 'colors' as *;
+@use 'typography' as *;
+
 @mixin inline-center {
   display: inline-flex;
   align-items: center;
@@ -29,4 +32,90 @@
 
 @mixin control-transition {
   transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin icon-button($size: 30px, $radius: 8px, $icon-size: 16px) {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: $size;
+  height: $size;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: $radius;
+  background: transparent;
+  color: $color-text-secondary;
+  cursor: pointer;
+
+  .icon {
+    width: $icon-size;
+    height: $icon-size;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $color-text-primary;
+    background-color: $color-ghost-hover;
+    outline: none;
+  }
+}
+
+@mixin scrollbar-thin($thumb: $zinc-800, $thumb-hover: $zinc-700, $width: 6px) {
+  scrollbar-width: thin;
+  scrollbar-color: $thumb transparent;
+
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumb;
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $thumb-hover;
+  }
+}
+
+@mixin scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@mixin grid-overlay($line: rgba(255, 255, 255, 0.02), $size: 40px) {
+  background-image:
+    linear-gradient($line 1px, transparent 1px),
+    linear-gradient(90deg, $line 1px, transparent 1px);
+  background-size: $size $size;
+}
+
+@mixin focus-ring($color: rgba($color-text-primary, 0.18), $spread: 3px) {
+  outline: 0;
+  box-shadow: 0 0 0 $spread $color;
+}
+
+@mixin solid-button($bg, $fg, $bg-hover) {
+  background-color: $bg;
+  color: $fg;
+  font-weight: $font-weight-semibold;
+  border-radius: 8px;
+
+  &:hover:not(:disabled) {
+    background-color: $bg-hover;
+  }
 }

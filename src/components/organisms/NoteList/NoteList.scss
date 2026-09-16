@@ -45,37 +45,34 @@
         padding: 4px 16px 24px;
         min-height: 0;
         overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: $zinc-800 transparent;
-
-        &::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: $zinc-800;
-            border-radius: 999px;
-        }
-
-        &::-webkit-scrollbar-thumb:hover {
-            background-color: $zinc-700;
-        }
+        @include scrollbar-thin;
 
         .card {
             gap: 12px;
             padding: 16px 18px;
             height: 200px;
 
+            > .text--size-body {
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            > .collection-tags {
+                flex-wrap: nowrap;
+                flex-shrink: 0;
+                max-width: 100%;
+                margin-top: auto;
+                overflow: hidden;
+            }
+
             transition:
-                    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-                    background-color 180ms ease,
-                    border-color 180ms ease,
-                    opacity 180ms ease,
-                    box-shadow 180ms ease;
+                    transform $duration-slow $ease-out-spring,
+                    background-color $duration-base ease,
+                    border-color $duration-base ease,
+                    opacity $duration-base ease,
+                    box-shadow $duration-base ease;
 
             &:hover {
                 transform: translateY(-1px) scale(1.008);
@@ -83,12 +80,12 @@
 
             &:active {
                 transform: translateY(0) scale(0.985);
-                transition-duration: 80ms;
+                transition-duration: $duration-fast;
             }
 
             &[aria-current='true'] {
-                background-color: rgba(255, 255, 255, 0.1);
-                border-color: rgba(255, 255, 255, 0.24);
+                background-color: $color-selected;
+                border-color: $color-selected-border;
                 transform: scale(1.008);
             }
 

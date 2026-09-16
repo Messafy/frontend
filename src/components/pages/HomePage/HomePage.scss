@@ -18,10 +18,7 @@
     z-index: 0;
     pointer-events: none;
     content: '';
-    background-image:
-            linear-gradient(rgba($color-text-primary, 0.075) 1px, transparent 1px),
-            linear-gradient(90deg, rgba($color-text-primary, 0.075) 1px, transparent 1px);
-    background-size: 3rem 3rem;
+    @include grid-overlay(rgba($color-text-primary, 0.075), 3rem);
     mask-image: radial-gradient(ellipse 76% 58% at 50% 34%, black 0%, transparent 72%);
   }
 

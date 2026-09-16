@@ -65,23 +65,6 @@
   overflow: hidden;
 }
 
-.text-inline {
-  font: inherit;
-}
-
-.text strong,
-.text-inline--strong {
+.text strong {
   font-weight: $font-weight-semibold;
-}
-
-.text-inline--primary {
-  color: $color-text-primary;
-}
-
-.text-inline--rain {
-  color: $rain-blue-soft;
-}
-
-.text-inline--muted {
-  color: $color-text-muted;
 }
