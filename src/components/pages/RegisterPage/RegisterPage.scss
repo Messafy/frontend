@@ -1,0 +1,19 @@
+@use '../../../styles/tokens' as *;
+
+.register-page {
+    position: relative;
+    display: grid;
+    min-height: 100svh;
+    place-items: center;
+    padding: 24px;
+
+    background-color: $color-background;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        @include grid-overlay;
+    }
+}
