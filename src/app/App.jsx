@@ -7,6 +7,7 @@ import {
 import HomePage from '../components/pages/HomePage/HomePage.jsx'
 import LoginPage from '../components/pages/LoginPage/LoginPage.jsx'
 import NotePage from '../components/pages/NotePage/NotePage.jsx'
+import RegisterPage from '../components/pages/RegisterPage/RegisterPage.jsx'
 
 import AuthProvider from '../context/AuthContext.jsx'
 import { getSession } from '../context/authSession.js'
@@ -40,6 +41,11 @@ const router = createBrowserRouter([
         path: '/login',
         loader: requireGuest,
         element: <LoginPage />,
+    },
+    {
+        path: '/register',
+        loader: requireGuest,
+        element: <RegisterPage />,
     },
     {
         path: '/notes',

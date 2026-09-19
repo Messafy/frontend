@@ -1,0 +1,103 @@
+@use '../../../styles/tokens' as *;
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__label {
+        font-size: 13px;
+    }
+
+    .input {
+        min-height: 44px;
+        background-color: $color-input-fill;
+        border-color: $color-input-border;
+        border-radius: 8px;
+
+        .icon {
+            color: $color-text-muted;
+
+            svg {
+                height: 16px;
+                width: 16px;
+            }
+        }
+    }
+
+    .button {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin-top: 8px;
+        min-height: 42px;
+        transition:
+            background-color 180ms ease,
+            box-shadow 220ms $ease-out-spring,
+            transform 220ms $ease-out-spring;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 40%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+            transform: translateX(-160%) skewX(-18deg);
+            transition: transform 650ms $ease-out-spring;
+            pointer-events: none;
+        }
+
+        &:hover {
+            background-color: $color-primary-solid-hover;
+            transform: scale(1.015);
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+
+            &::after {
+                transform: translateX(320%) skewX(-18deg);
+            }
+        }
+
+        &:active {
+            transform: translateY(0) scale(0.98);
+            transition-duration: 80ms;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+
+            &::after {
+                display: none;
+            }
+        }
+
+        .icon,
+        .register-form__arrow {
+            transition: transform 220ms $ease-out-spring;
+        }
+
+        &:hover .register-form__arrow {
+            transform: translateX(4px);
+        }
+    }
+
+    &__arrow {
+        svg {
+            height: 16px;
+            width: 16px;
+        }
+    }
+}
