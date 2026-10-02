@@ -57,11 +57,10 @@
 
         &:hover {
             background-color: $color-primary-solid-hover;
-            transform: scale(1.015);
+            transform: translateY(-1px);
             box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.35),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+                0 6px 16px rgba(0, 0, 0, 0.28),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
 
             &::after {
                 transform: translateX(320%) skewX(-18deg);
@@ -69,7 +68,7 @@
         }
 
         &:active {
-            transform: translateY(0) scale(0.98);
+            transform: translateY(1px);
             transition-duration: 80ms;
         }
 

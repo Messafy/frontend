@@ -5,9 +5,12 @@ export default class Note {
         title = 'Undefined Note',
         content = '',
         type = 'PRIVATE',
+        originalType,
         status = null,
         ownerId = null,
         sharedWith = null,
+        recipientPublicCode = '',
+        recipientLockerPassword = '',
         createdAt = null,
         readAt = null,
         date = null,
@@ -18,9 +21,12 @@ export default class Note {
         this.title = title
         this.content = content
         this.type = type
+        this.originalType = originalType ?? type
         this.status = status
         this.ownerId = ownerId
         this.sharedWith = sharedWith
+        this.recipientPublicCode = recipientPublicCode
+        this.recipientLockerPassword = recipientLockerPassword
         this.createdAt = createdAt
         this.readAt = readAt
         this.date = date ?? createdAt
@@ -39,6 +45,23 @@ export default class Note {
         return new Note()
     }
 
+    relationshipTo(accountId) {
+        if (this.type === 'PRIVATE') return 'PRIVATE'
+        if (this.ownerId === accountId) return 'SENT'
+        if (this.sharedWith === accountId) return 'RECEIVED'
+        return 'SHARED'
+    }
+
+    canChooseVisibility(accountId) {
+        if (this.id == null) return true
+        return this.originalType === 'PRIVATE'
+            && (this.ownerId == null || this.ownerId === accountId)
+    }
+
+    canEdit(accountId) {
+        return this.ownerId == null || this.ownerId === accountId
+    }
+
     // Immutable updates: never mutate a Note directly, always return a new one.
     withTitle(title) {
         return new Note({ ...this, title })
@@ -46,6 +69,18 @@ export default class Note {
 
     withContent(content) {
         return new Note({ ...this, content })
+    }
+
+    withType(type) {
+        return new Note({ ...this, type })
+    }
+
+    withRecipientPublicCode(publicCode) {
+        return new Note({ ...this, recipientPublicCode: publicCode })
+    }
+
+    withRecipientLockerPassword(lockerPassword) {
+        return new Note({ ...this, recipientLockerPassword: lockerPassword })
     }
 
     withTags(tags) {

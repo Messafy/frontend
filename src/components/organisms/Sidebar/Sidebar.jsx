@@ -1,39 +1,36 @@
-import Input from '../../atoms/Input/Input.jsx'
-import Icon from '../../atoms/Icon/Icon.jsx'
 import Label from '../../atoms/Label/Label.jsx'
 import Profile from '../../atoms/Profile/Profile.jsx'
 import Text from '../../atoms/Text/Text.jsx'
 import CollectionLabels from '../../molecules/CollectionLabels/CollectionLabels.jsx'
 import SidebarSection from '../../molecules/SidebarSection/SidebarSection.jsx'
 import {
-    IoAdd,
-    IoBriefcaseOutline,
     IoDocumentTextOutline,
+    IoMailOutline,
+    IoPaperPlaneOutline,
     IoPinOutline,
-    IoSearch,
     IoTrashOutline,
 } from 'react-icons/io5'
-import {LuLightbulb, LuUserRound} from 'react-icons/lu'
 import './Sidebar.scss'
 import PropTypes from 'prop-types'
 
-const NOTE_FILTERS = [
+const MY_NOTES_FILTERS = [
     { id: 'all', icon: IoDocumentTextOutline, text: 'All Notes' },
     { id: 'pinned', icon: IoPinOutline, text: 'Pinned Notes' },
     { id: 'trash', icon: IoTrashOutline, text: 'Trash' },
 ]
 
-export default function Sidebar({ activeFilter, onSelectFilter }) {
+const SHARED_FILTERS = [
+    { id: 'sent', icon: IoPaperPlaneOutline, text: 'Sent' },
+    { id: 'inbox', icon: IoMailOutline, text: 'Inbox' },
+]
+
+export default function Sidebar({ activeFilter, onSelectFilter, account }) {
     return (
         <aside className='sidebar'>
             <div className='sidebar__content'>
-                <Input placeholder='Search notes...' aria-label='Search notes' type='search'>
-                    <Icon icon={IoSearch} />
-                </Input>
-
                 <nav className='sidebar__nav' aria-label='Notes navigation'>
                     <CollectionLabels maxLength={3}>
-                        {NOTE_FILTERS.map(filter => (
+                        {MY_NOTES_FILTERS.map(filter => (
                             <Label
                                 key={filter.id}
                                 className={activeFilter === filter.id ? 'label--active' : ''}
@@ -45,15 +42,18 @@ export default function Sidebar({ activeFilter, onSelectFilter }) {
                         ))}
                     </CollectionLabels>
 
-                    <SidebarSection
-                        title='Folders'
-                        actionIcon={IoAdd}
-                        actionLabel='Create folder'
-                    >
+                    <SidebarSection title='Shared'>
                         <CollectionLabels maxLength={3}>
-                            <Label icon={IoBriefcaseOutline} text='Work' />
-                            <Label icon={LuUserRound} text='Personal' />
-                            <Label icon={LuLightbulb} text='Ideas' />
+                            {SHARED_FILTERS.map(filter => (
+                                <Label
+                                    key={filter.id}
+                                    className={activeFilter === filter.id ? 'label--active' : ''}
+                                    icon={filter.icon}
+                                    text={filter.text}
+                                    aria-pressed={activeFilter === filter.id}
+                                    onClick={() => onSelectFilter(filter.id)}
+                                />
+                            ))}
                         </CollectionLabels>
                     </SidebarSection>
                 </nav>
@@ -62,8 +62,10 @@ export default function Sidebar({ activeFilter, onSelectFilter }) {
                     <div className='sidebar__profile'>
                         <Profile />
                         <div className='sidebar__profile-text'>
-                            <Text as='span' size='small' weight='semibold'>Luis</Text>
-                            <Text as='span' size='small' color='secondary'>luis@messafy.app</Text>
+                            <Text as='span' size='small' weight='semibold'>{account?.email ?? 'Account'}</Text>
+                            <Text as='span' size='small' color='secondary'>
+                                {account?.publicCode ? `Code: ${account.publicCode}` : 'Private account'}
+                            </Text>
                         </div>
                     </div>
                 </div>
@@ -73,6 +75,10 @@ export default function Sidebar({ activeFilter, onSelectFilter }) {
 }
 
 Sidebar.propTypes = {
-    activeFilter: PropTypes.oneOf(['all', 'pinned', 'trash']).isRequired,
+    activeFilter: PropTypes.oneOf(['all', 'pinned', 'sent', 'inbox', 'trash']).isRequired,
     onSelectFilter: PropTypes.func.isRequired,
+    account: PropTypes.shape({
+        email: PropTypes.string,
+        publicCode: PropTypes.string,
+    }),
 }

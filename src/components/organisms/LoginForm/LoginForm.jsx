@@ -8,7 +8,7 @@ import './LoginForm.scss'
 
 export default function LoginForm({email, password, onEmailChange, onPasswordChange, onSubmit, loading = false, errors}) {
     return (
-        <form className='login-form' onSubmit={onSubmit}>
+        <form className='login-form' autoComplete='off' onSubmit={onSubmit}>
             <div className='login-form__field'>
                 <Text as='span' size='small' color='secondary' className='login-form__label'>
                     Email address

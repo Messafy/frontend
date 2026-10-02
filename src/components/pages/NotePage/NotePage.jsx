@@ -3,11 +3,21 @@ import NoteList from '../../organisms/NoteList/NoteList.jsx';
 import NoteEditor from '../../organisms/NoteEditor/NoteEditor.jsx';
 import './NotePage.scss';
 
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import { Client } from '@stomp/stompjs';
 import { useAuth } from '../../../context/authContext.js';
 import Note from '../../../models/Note.js';
 
 const initialNotes = [];
+const WEBSOCKET_URL = 'ws://localhost:8080/ws';
+
+const FILTER_TITLES = {
+    all: 'All Notes',
+    pinned: 'Pinned',
+    sent: 'Sent',
+    inbox: 'Inbox',
+    trash: 'Trash',
+};
 
 function handleNoteReducer(notes, action) {
     switch (action.type) {
@@ -26,11 +36,9 @@ function handleNoteReducer(notes, action) {
                 : [...notes, action.note];
 
         case 'DELETE_NOTE':
-            // Soft delete: the note stays in state with status DELETED so the Trash filter can show it.
             return notes.map(note => note.id === action.id ? note.withStatus('DELETED') : note);
 
         case 'PIN_NOTE':
-            // Pin changes only arrive from the server response, so unsaved editor edits are never merged here.
             return notes.map(
                 note => note.id === action.id ? note.withPinned(action.pinned) : note
             );
@@ -40,109 +48,256 @@ function handleNoteReducer(notes, action) {
     }
 }
 
+function authHeaders(token) {
+    return { Authorization: `Bearer ${token}` };
+}
+
+function jsonHeaders(token) {
+    return {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+    };
+}
+
+async function fetchServerNotes(token, accountId) {
+    const responses = await Promise.all([
+        fetch(`http://localhost:8080/v1/notes?ownerId=${encodeURIComponent(accountId)}`, {
+            headers: authHeaders(token),
+        }),
+        fetch(`http://localhost:8080/v1/notes?sharedWith=${encodeURIComponent(accountId)}`, {
+            headers: authHeaders(token),
+        }),
+        fetch('http://localhost:8080/v1/notes/trash', {
+            headers: authHeaders(token),
+        }),
+    ]);
+
+    if (responses.some(response => !response.ok)) {
+        throw new Error('Failed to fetch notes');
+    }
+
+    const payloads = await Promise.all(responses.map(response => response.json()));
+    const notesById = new Map();
+    payloads.flatMap(notes => notes ?? []).forEach(note => notesById.set(note.id, note));
+    return [...notesById.values()];
+}
+
+function buildSaveRequest(note) {
+    const baseBody = {
+        title: note.title,
+        content: note.content,
+        tags: note.tags,
+    };
+
+    if (note.id) {
+        if (note.type === 'SHARED' && note.originalType === 'PRIVATE') {
+            return {
+                endpoint: `http://localhost:8080/v1/notes/${note.id}/share`,
+                method: 'PATCH',
+                body: {
+                    recipientPublicCode: note.recipientPublicCode,
+                    recipientLockerPassword: note.recipientLockerPassword,
+                },
+            };
+        }
+        return {
+            endpoint: `http://localhost:8080/v1/notes/${note.id}`,
+            method: 'PATCH',
+            body: baseBody,
+        };
+    }
+
+    if (note.type === 'SHARED') {
+        return {
+            endpoint: 'http://localhost:8080/v1/notes/shared',
+            method: 'POST',
+            body: {
+                ...baseBody,
+                recipientPublicCode: note.recipientPublicCode,
+                recipientLockerPassword: note.recipientLockerPassword,
+            },
+        };
+    }
+
+    return {
+        endpoint: 'http://localhost:8080/v1/notes',
+        method: 'POST',
+        body: baseBody,
+    };
+}
+
+async function sendSaveRequest(token, request) {
+    const response = await fetch(request.endpoint, {
+        method: request.method,
+        headers: jsonHeaders(token),
+        body: JSON.stringify(request.body),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to save note');
+    }
+    return response.json();
+}
+
+async function sendDeleteRequest(token, id) {
+    const response = await fetch('http://localhost:8080/v1/notes', {
+        method: 'DELETE',
+        headers: jsonHeaders(token),
+        body: JSON.stringify({ id }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to delete note');
+    }
+}
+
+async function sendPinRequest(token, id, pinned) {
+    const response = await fetch(`http://localhost:8080/v1/notes/${id}/pin`, {
+        method: 'PATCH',
+        headers: jsonHeaders(token),
+        body: JSON.stringify({ pinned }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to update note pin');
+    }
+    return response.json();
+}
+
+function filterNotes(notes, activeFilter, accountId) {
+    if (activeFilter === 'trash') {
+        return notes.filter(note => note.status === 'DELETED');
+    }
+    return notes.filter(note => {
+        if (note.status === 'DELETED') {
+            return false;
+        }
+        return noteMatchesFilter(note, activeFilter, accountId);
+    });
+}
+
+function noteMatchesFilter(note, activeFilter, accountId) {
+    const relationship = note.relationshipTo(accountId);
+    switch (activeFilter) {
+        case 'all':
+            return relationship === 'PRIVATE';
+        case 'pinned':
+            return relationship === 'PRIVATE' && note.pinned;
+        case 'sent':
+            return relationship === 'SENT';
+        case 'inbox':
+            return relationship === 'RECEIVED';
+        default:
+            return true;
+    }
+}
+
+function countUnreadInbox(notes, accountId) {
+    return notes.filter(note =>
+        note.status !== 'DELETED'
+        && note.relationshipTo(accountId) === 'RECEIVED'
+        && !note.readAt
+    ).length;
+}
+
+function sortPinnedFirst(notes) {
+    return [...notes].sort((a, b) => Number(b.pinned) - Number(a.pinned));
+}
+
+function getReadOnlyReason(activeFilter, selectedNote, accountId) {
+    if (activeFilter === 'trash') {
+        return 'deleted';
+    }
+    if (!selectedNote) {
+        return undefined;
+    }
+    const relationship = selectedNote.relationshipTo(accountId);
+    if (relationship === 'RECEIVED') {
+        return 'received';
+    }
+    if (
+        relationship === 'SENT'
+        && selectedNote.id != null
+        && selectedNote.originalType === 'SHARED'
+    ) {
+        return 'sent';
+    }
+    return undefined;
+}
+
 export default function NotePage() {
     const { session } = useAuth();
 
-    const [notes, dispatch] = useReducer(
-        handleNoteReducer,
-        initialNotes
-    );
-    const [selectedNote, setSelectedNote] = React.useState(null);
-    const [activeFilter, setActiveFilter] = React.useState('all');
+    const [notes, dispatch] = useReducer(handleNoteReducer, initialNotes);
+    const [selectedNote, setSelectedNote] = useState(null);
+    const [activeFilter, setActiveFilter] = useState('all');
+
+    const accountId = session?.account?.id;
+    const token = session?.token;
 
     useEffect(() => {
-        if (!session?.account?.id || !session?.token) {
+        if (!accountId || !token) {
             return;
         }
 
-        async function fetchNotes() {
+        async function loadNotes() {
             try {
-                const requestOptions = {
-                    headers: {
-                        Authorization: `Bearer ${session.token}`,
-                    },
-                };
-                // Load active notes (owner query) and deleted notes (trash) in one go.
-                const [activeResponse, trashResponse] = await Promise.all([
-                    fetch(
-                        `http://localhost:8080/v1/notes?ownerId=${session.account.id}`,
-                        requestOptions
-                    ),
-                    fetch('http://localhost:8080/v1/notes/trash', requestOptions),
-                ]);
-
-                if (!activeResponse.ok || !trashResponse.ok) {
-                    throw new Error('Failed to fetch notes');
-                }
-
-                const [activeNotes, deletedNotes] = await Promise.all([
-                    activeResponse.json(),
-                    trashResponse.json(),
-                ]);
-
+                const serverNotes = await fetchServerNotes(token, accountId);
                 dispatch({
                     type: 'LOAD_NOTES',
-                    notes: [...(activeNotes ?? []), ...(deletedNotes ?? [])]
-                        .map(note => Note.from(note)),
+                    notes: serverNotes.map(note => Note.from(note)),
                 });
             } catch (error) {
                 console.error('Error fetching notes:', error);
             }
         }
 
-        fetchNotes();
-    }, [session?.account?.id, session?.token]);
+        loadNotes();
+    }, [accountId, token]);
+
+    useEffect(() => {
+        if (!accountId || !token) {
+            return;
+        }
+
+        const client = new Client({
+            brokerURL: WEBSOCKET_URL,
+            connectHeaders: { Authorization: `Bearer ${token}` },
+            reconnectDelay: 5000,
+            onConnect: () => {
+                client.subscribe('/user/queue/notes', message => {
+                    try {
+                        dispatch({ type: 'SAVE_NOTE', note: Note.from(JSON.parse(message.body)) });
+                    } catch (error) {
+                        console.error('Error processing real-time note:', error);
+                    }
+                });
+            },
+            onStompError: frame => {
+                console.error('Real-time notes connection failed:', frame.headers.message);
+            },
+        });
+
+        client.activate();
+        return () => {
+            client.deactivate();
+        };
+    }, [accountId, token]);
 
     async function saveNote(note) {
-        if (!session?.token || !session?.account?.id) {
+        if (!token || !accountId) {
             return;
         }
 
         try {
-            const isPersisted = Boolean(note.id);
-            const noteToSave = isPersisted
-                ? {
-                    title: note.title,
-                    content: note.content,
-                    tags: note.tags,
-                }
-                : {
-                    type: 'PRIVATE',
-                    title: note.title,
-                    content: note.content,
-                    sharedWith: session.account.id,
-                    tags: note.tags,
-                };
-
-            const response = await fetch(
-                isPersisted
-                    ? `http://localhost:8080/v1/notes/${note.id}`
-                    : 'http://localhost:8080/v1/notes',
-                {
-                    method: isPersisted ? 'PATCH' : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${session.token}`,
-                    },
-                    body: JSON.stringify(noteToSave),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error('Failed to save note');
-            }
-
-            const createdNote = await response.json();
+            const request = buildSaveRequest(note);
+            const createdNote = await sendSaveRequest(token, request);
             const savedNote = Note.from({
                 ...note,
-                ...noteToSave,
+                ...request.body,
                 ...createdNote,
+                ownerId: createdNote.ownerId ?? note.ownerId ?? accountId,
+                originalType: createdNote.type ?? note.originalType,
+                type: note.type === 'SHARED' ? 'SHARED' : 'PRIVATE',
             });
-
-            dispatch({
-                type: 'SAVE_NOTE',
-                note: savedNote,
-            });
+            dispatch({ type: 'SAVE_NOTE', note: savedNote });
             setSelectedNote(savedNote);
         } catch (error) {
             console.error('Error saving note:', error);
@@ -156,19 +311,7 @@ export default function NotePage() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/v1/notes', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${session.token}`,
-                },
-                body: JSON.stringify({ id: note.id }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete note');
-            }
-
+            await sendDeleteRequest(token, note.id);
             dispatch({ type: 'DELETE_NOTE', id: note.id });
             setSelectedNote(null);
         } catch (error) {
@@ -177,32 +320,16 @@ export default function NotePage() {
     }
 
     async function togglePinned(note) {
-        // Drafts (no id) and deleted notes cannot be pinned.
         if (!note.id || note.status === 'DELETED') {
             return;
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/v1/notes/${note.id}/pin`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${session.token}`,
-                },
-                body: JSON.stringify({ pinned: !note.pinned }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update note pin');
-            }
-
-            const result = await response.json();
-            const updatedNote = note.withPinned(result.pinned);
+            const result = await sendPinRequest(token, note.id, !note.pinned);
             dispatch({ type: 'PIN_NOTE', id: note.id, pinned: result.pinned });
-            // Unpinning inside Pinned Notes removes the note from that list, so drop the selection too.
-            setSelectedNote(
-                activeFilter === 'pinned' && !result.pinned ? null : updatedNote
-            );
+            const updatedNote = note.withPinned(result.pinned);
+            const shouldClearSelection = activeFilter === 'pinned' && !result.pinned;
+            setSelectedNote(shouldClearSelection ? null : updatedNote);
         } catch (error) {
             console.error('Error updating note pin:', error);
         }
@@ -213,41 +340,32 @@ export default function NotePage() {
         setSelectedNote(null);
     }
 
-    // New notes are drafts: creating one always switches back to All Notes so the draft is visible.
     function createNote() {
         setActiveFilter('all');
         setSelectedNote(Note.draft());
     }
 
-    const filteredNotes = notes.filter(note => {
-        if (activeFilter === 'trash') {
-            return note.status === 'DELETED';
-        }
-        if (activeFilter === 'pinned') {
-            return note.status !== 'DELETED' && note.pinned;
-        }
-        return note.status !== 'DELETED';
-    });
-
-    // Pinned notes float to the top in every list except Trash.
+    const filteredNotes = filterNotes(notes, activeFilter, accountId);
     const visibleNotes = activeFilter === 'trash'
         ? filteredNotes
-        : filteredNotes.sort((a, b) => Number(b.pinned) - Number(a.pinned));
-
-    const listTitles = {
-        all: 'All Notes',
-        pinned: 'Pinned Notes',
-        trash: 'Trash',
-    };
+        : sortPinnedFirst(filteredNotes);
+    const readOnlyReason = getReadOnlyReason(activeFilter, selectedNote, accountId);
+    const unreadInboxCount = countUnreadInbox(notes, accountId);
 
     return (
         <main className="note-page">
-            <Sidebar activeFilter={activeFilter} onSelectFilter={selectFilter} />
+            <Sidebar
+                activeFilter={activeFilter}
+                onSelectFilter={selectFilter}
+                unreadInboxCount={unreadInboxCount}
+                account={session?.account}
+            />
             <NoteList
-                selectedNote={selectedNote}
-                onSelectNote={setSelectedNote}
-                title={listTitles[activeFilter]}
+                title={FILTER_TITLES[activeFilter]}
                 notes={visibleNotes}
+                selectedNote={selectedNote}
+                accountId={accountId}
+                onSelectNote={setSelectedNote}
                 onCreateNote={createNote}
                 onTogglePin={togglePinned}
             />
@@ -256,8 +374,9 @@ export default function NotePage() {
                 onSelectedNoteChange={setSelectedNote}
                 saveNote={saveNote}
                 deleteNote={deleteNote}
+                accountId={accountId}
                 accountEmail={session?.account?.email}
-                readOnly={activeFilter === 'trash'}
+                readOnlyReason={readOnlyReason}
             />
         </main>
     );

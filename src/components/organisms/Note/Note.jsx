@@ -5,28 +5,35 @@ import Icon from '../../atoms/Icon/Icon.jsx'
 import Text from '../../atoms/Text/Text.jsx'
 import Tag from '../../atoms/Tag/Tag.jsx'
 import CollectionTags from "../../molecules/CollectionTags/CollectionTags.jsx";
+import NoteTypeLabel from '../../atoms/NoteTypeLabel/NoteTypeLabel.jsx'
 import { MdOutlinePushPin, MdPushPin } from 'react-icons/md'
 import './Note.scss'
 
-export default function Note ({ date, title, content = '', tags = [], pinned = false, status, selected, onSelect, onTogglePin }) {
+export default function Note ({ date, title, content = '', tags = [], pinned = false, status, type, ownerId, sharedWith, accountId, selected, onSelect, onTogglePin }) {
     const formattedText = content.length > 100 ? content.slice(0, 100) + '…' : content
+    const relationship = type === 'PRIVATE'
+        ? 'private'
+        : ownerId === accountId ? 'sent' : sharedWith === accountId ? 'inbox' : 'shared'
     // Deleted notes cannot be pinned and unrendered cards never get the pin button.
     const canPin = status !== 'DELETED' && Boolean(onTogglePin)
 
     return (
         <Card
             as='article'
+            className='card note'
             aria-label={title}
             aria-current={selected ? 'true' : undefined}
             onClick={onSelect}
             style={{ cursor: 'pointer' }}
         >
+            <NoteTypeLabel type={relationship} />
             {canPin && (
                 /* stopPropagation: pinning must not also select the note card */
                 <button
                     type='button'
                     className={pinned ? 'note__pin note__pin--active' : 'note__pin'}
                     aria-label={pinned ? 'Unpin note' : 'Pin note'}
+                    title={pinned ? 'Unpin note' : 'Pin note'}
                     aria-pressed={pinned}
                     onClick={event => {
                         event.stopPropagation()
@@ -56,6 +63,10 @@ Note.propTypes = {
     content: PropTypes.string,
     tags: PropTypes.array,
     pinned: PropTypes.bool,
+    type: PropTypes.string,
+    ownerId: PropTypes.string,
+    sharedWith: PropTypes.string,
+    accountId: PropTypes.string,
     status: PropTypes.string,
     selected: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,

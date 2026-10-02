@@ -6,9 +6,9 @@ import Icon from '../../atoms/Icon/Icon.jsx'
 import Text from '../../atoms/Text/Text.jsx'
 import './RegisterForm.scss'
 
-export default function RegisterForm({email, password, confirmPassword, onEmailChange, onPasswordChange, onConfirmPasswordChange, onSubmit, loading = false, errors}) {
+export default function RegisterForm({email, password, confirmPassword, lockerPassword, onEmailChange, onPasswordChange, onConfirmPasswordChange, onLockerPasswordChange, onSubmit, loading = false, errors}) {
     return (
-        <form className='register-form' onSubmit={onSubmit}>
+        <form className='register-form' autoComplete='off' onSubmit={onSubmit}>
             <div className='register-form__field'>
                 <Text as='span' size='small' color='secondary' className='register-form__label'>
                     Email address
@@ -30,6 +30,34 @@ export default function RegisterForm({email, password, confirmPassword, onEmailC
                 {errors.email && (
                     <Text id='register-email-error' as='p' size='small' color='danger' role='alert'>
                         {errors.email.message}
+                    </Text>
+                )}
+            </div>
+
+            <div className='register-form__field'>
+                <Text as='span' size='small' color='secondary' className='register-form__label'>
+                    Locker password
+                </Text>
+                <Text as='p' size='small' color='muted' className='register-form__notice'>
+                    Keep your locker password safe. You’ll need it to receive shared notes from other people.
+                </Text>
+                <Input
+                    required
+                    type='password'
+                    placeholder='Choose a password to keep safe'
+                    aria-label='Locker password'
+                    autoComplete='new-password'
+                    value={lockerPassword}
+                    onChange={(e) => onLockerPasswordChange(e.target.value)}
+                    disabled={loading}
+                    error={errors.lockerPassword}
+                    aria-describedby={errors.lockerPassword ? 'register-locker-password-error' : undefined}
+                >
+                    <Icon icon={IoKeyOutline} />
+                </Input>
+                {errors.lockerPassword && (
+                    <Text id='register-locker-password-error' as='p' size='small' color='danger' role='alert'>
+                        {errors.lockerPassword.message}
                     </Text>
                 )}
             </div>
@@ -106,15 +134,18 @@ RegisterForm.propTypes = {
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     confirmPassword: PropTypes.string.isRequired,
+    lockerPassword: PropTypes.string.isRequired,
     onEmailChange: PropTypes.func.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
     onConfirmPasswordChange: PropTypes.func.isRequired,
+    onLockerPasswordChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     errors: PropTypes.shape({
         email: PropTypes.instanceOf(Error),
         password: PropTypes.instanceOf(Error),
         confirmPassword: PropTypes.instanceOf(Error),
+        lockerPassword: PropTypes.instanceOf(Error),
         form: PropTypes.instanceOf(Error),
     }).isRequired,
 }

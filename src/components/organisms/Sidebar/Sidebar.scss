@@ -8,6 +8,7 @@
 
     color: $color-menu-aside-foreground;
     background-color: $color-menu-aside;
+    border-right: 1px solid $color-border;
 
     &__content {
         display: flex;
@@ -23,6 +24,7 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
+        padding-top: 0;
     }
 
     &__bottom {
@@ -94,6 +96,7 @@
 
         &--active {
             background-color: $color-menu-aside-active;
+            color: $color-text-primary;
         }
     }
 

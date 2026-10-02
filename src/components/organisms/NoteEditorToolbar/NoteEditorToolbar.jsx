@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types'
 import Text from '../../atoms/Text/Text.jsx'
 import Button from '../../atoms/Button/Button.jsx'
-import VerticalSeparator from '../../atoms/VerticalSeparator/VerticalSeparator.jsx'
 import Icon from '../../atoms/Icon/Icon.jsx'
 import {
     LuBold,
-    LuChevronDown,
     LuItalic,
     LuUnderline,
     LuLink,
@@ -59,8 +57,6 @@ export default function NoteEditorToolbar({content, onFormat, onSave, onDelete})
                 </Button>
                 <Button type='button' variant='save' onClick={onSave}>
                     <span>Save Note</span>
-                    <VerticalSeparator className='note-editor-toolbar__divider' />
-                    <Icon icon={LuChevronDown} />
                 </Button>
             </div>
         </div>

@@ -16,11 +16,13 @@ export default function RegisterPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [lockerPassword, setLockerPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState({
         email: null,
         password: null,
         confirmPassword: null,
+        lockerPassword: null,
         form: null,
     })
 
@@ -66,10 +68,25 @@ export default function RegisterPage() {
         setConfirmPassword(value)
     }
 
+    function handleLockerPasswordChange(value) {
+        const valid = value.length >= 8
+            && value.length <= 64
+            && /^[\x21-\x7E]+$/.test(value)
+
+        setError((currentError) => ({
+            ...currentError,
+            lockerPassword: valid
+                ? null
+                : new Error('Locker password must be 8–64 printable characters with no spaces'),
+            form: null,
+        }))
+        setLockerPassword(value)
+    }
+
     async function handleSubmit(event) {
         event.preventDefault()
 
-        if (error.email || error.password || error.confirmPassword) {
+        if (error.email || error.password || error.confirmPassword || error.lockerPassword) {
             return
         }
 
@@ -86,6 +103,7 @@ export default function RegisterPage() {
                     body: JSON.stringify({
                         email,
                         rawPassword: password,
+                        rawLockerPassword: lockerPassword,
                     }),
                 }
             )
@@ -147,6 +165,7 @@ export default function RegisterPage() {
                 account: {
                     id: accountData.id,
                     email: accountData.email,
+                    publicCode: accountData.publicCode,
                     role: accountData.role,
                     status: accountData.status,
                     verified: accountData.verified,
@@ -183,9 +202,11 @@ export default function RegisterPage() {
                     email={email}
                     password={password}
                     confirmPassword={confirmPassword}
+                    lockerPassword={lockerPassword}
                     onEmailChange={handleEmailChange}
                     onPasswordChange={handlePasswordChange}
                     onConfirmPasswordChange={handleConfirmPasswordChange}
+                    onLockerPasswordChange={handleLockerPasswordChange}
                     onSubmit={handleSubmit}
                     loading={loading}
                     errors={error}

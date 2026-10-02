@@ -113,6 +113,7 @@ export default function LoginPage() {
                 account: {
                     id: accountData.id,
                     email: accountData.email,
+                    publicCode: accountData.publicCode,
                     role: accountData.role,
                     status: accountData.status,
                     verified: accountData.verified,

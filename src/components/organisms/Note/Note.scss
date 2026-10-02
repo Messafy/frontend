@@ -3,18 +3,33 @@
 .note {
     position: relative;
 
+    .note-type-label {
+        position: absolute;
+        top: 15px;
+        right: 50px;
+    }
+
     &__pin {
-        @include icon-button(30px, 7px, 16px);
+        @include icon-button(28px, 6px, 15px);
         position: absolute;
         top: 12px;
         right: 12px;
         z-index: 1;
         color: $color-text-muted;
+        opacity: 0.8;
+        transition: color 150ms ease, background-color 150ms ease;
+
+        &:hover,
+        &:focus-visible {
+            color: $color-text-primary;
+            opacity: 1;
+            outline: none;
+        }
 
         &--active,
         &--active:hover {
             color: $color-accent;
-            background-color: $color-accent-muted;
+            opacity: 1;
         }
     }
 }

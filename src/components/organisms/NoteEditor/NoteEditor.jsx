@@ -5,10 +5,16 @@ import TextArea from '../../atoms/TextArea/TextArea.jsx';
 import Tag from '../../atoms/Tag/Tag.jsx';
 import Button from '../../atoms/Button/Button.jsx';
 import Icon from '../../atoms/Icon/Icon.jsx';
+import {
+    IoChevronDownOutline,
+    IoCheckmarkOutline,
+    IoInformationCircleOutline,
+    IoLockClosedOutline,
+    IoPeopleOutline,
+} from 'react-icons/io5';
 import { LuPlus } from 'react-icons/lu';
 import NoteEditorToolbar from '../NoteEditorToolbar/NoteEditorToolbar.jsx';
 import TagEditor from '../../molecules/TagEditor/TagEditor.jsx';
-import Profile from '../../atoms/Profile/Profile.jsx';
 import './NoteEditor.scss';
 import Input from "../../atoms/Input/Input.jsx";
 import Note from '../../../models/Note.js';
@@ -18,7 +24,6 @@ const MONTHS = [
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
 ];
 
-// Markdown snippets inserted around the current textarea selection.
 const FORMAT_REPLACEMENTS = {
     bold: selected => `**${selected || 'bold text'}**`,
     italic: selected => `*${selected || 'italic text'}*`,
@@ -47,8 +52,16 @@ function formatDateTime(date) {
     return `${parsed.getDate()} ${MONTHS[parsed.getMonth()]} ${parsed.getFullYear()}, ${hours}:${minutes}`;
 }
 
-export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSelectedNoteChange, saveNote, deleteNote }) {
+function getEditorHeaderLabel(readOnlyReason) {
+    if (readOnlyReason === 'deleted') return 'Deleted note';
+    if (readOnlyReason === 'received') return 'Received note';
+    if (readOnlyReason === 'sent') return 'Sent note';
+    return 'Editing note';
+}
+
+export default function NoteEditor({ selectedNote, readOnlyReason, accountId, accountEmail, onSelectedNoteChange, saveNote, deleteNote }) {
     const [isTagEditorOpen, setIsTagEditorOpen] = useState(false);
+    const [isVisibilityOpen, setIsVisibilityOpen] = useState(false);
     const textareaRef = useRef(null);
 
     if (!selectedNote) {
@@ -65,6 +78,16 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
             </section>
         );
     }
+
+    const readOnly = Boolean(readOnlyReason);
+    const isShared = selectedNote.type === 'SHARED';
+    const canChooseVisibility = selectedNote.canChooseVisibility(accountId);
+    const headerLabel = getEditorHeaderLabel(readOnlyReason);
+    const relationship = selectedNote.relationshipTo(accountId);
+    const contactId = relationship === 'RECEIVED'
+        ? selectedNote.ownerId
+        : selectedNote.sharedWith;
+    const contactLabel = relationship === 'RECEIVED' ? 'Sent by' : 'Sent to';
 
     function handleTitleChange(event) {
         onSelectedNoteChange(selectedNote.withTitle(event.target.value));
@@ -90,7 +113,6 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
             return;
         }
 
-        // Read the selection before React re-renders and resets the textarea.
         const value = selectedNote.content;
         const start = element.selectionStart ?? value.length;
         const end = element.selectionEnd ?? value.length;
@@ -115,12 +137,28 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
         deleteNote(selectedNote);
     }
 
+    function handleSelectVisibility(type) {
+        setIsVisibilityOpen(false);
+        if (selectedNote.type === type) {
+            return;
+        }
+        onSelectedNoteChange(selectedNote.withType(type));
+    }
+
+    function handlePublicCodeChange(event) {
+        onSelectedNoteChange(selectedNote.withRecipientPublicCode(event.target.value));
+    }
+
+    function handleLockerPasswordChange(event) {
+        onSelectedNoteChange(selectedNote.withRecipientLockerPassword(event.target.value));
+    }
+
     return (
         <section className="note-editor" aria-label="Note editor">
             <header className="note-editor__header">
                 <div className="note-editor__title-group">
                     <Text as="span" size="small" color="secondary">
-                        {readOnly ? 'Deleted note' : 'Editing note'}
+                        {headerLabel}
                     </Text>
                     <Input
                         variant="transparent"
@@ -131,12 +169,20 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
                     />
 
                     <div className="note-editor__meta-rows">
-                        {accountEmail && (
+                        {accountEmail && relationship === 'PRIVATE' && (
                             <div className="note-editor__meta-row">
                                 <Text as="span" size="small" color="secondary">Created by</Text>
                                 <span className="note-editor__owner">
-                                    <Profile size="sm" initial={accountEmail.charAt(0).toUpperCase()} />
                                     <Text as="span" size="small">{accountEmail}</Text>
+                                </span>
+                            </div>
+                        )}
+
+                        {isShared && relationship !== 'PRIVATE' && contactId && (
+                            <div className="note-editor__meta-row">
+                                <Text as="span" size="small" color="secondary">{contactLabel}</Text>
+                                <span className="note-editor__owner">
+                                    <Text as="span" size="small">{contactId}</Text>
                                 </span>
                             </div>
                         )}
@@ -150,7 +196,101 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
                             </div>
                         )}
 
-                        {/* Deleted notes are read-only: no tag editing, no toolbar. */}
+                        {!readOnly && (
+                            <div className="note-editor__meta-row">
+                                <Text as="span" size="small" color="secondary">Visibility</Text>
+                                {canChooseVisibility ? (
+                                    <div className="note-editor__visibility">
+                                        <button
+                                            type="button"
+                                            className="note-editor__visibility-button"
+                                            aria-haspopup="listbox"
+                                            aria-expanded={isVisibilityOpen}
+                                            onClick={() => setIsVisibilityOpen(open => !open)}
+                                        >
+                                            <Icon icon={isShared ? IoPeopleOutline : IoLockClosedOutline} />
+                                            <span>{isShared ? 'Shared' : 'Private'}</span>
+                                            <Icon icon={IoChevronDownOutline} />
+                                        </button>
+                                        {isVisibilityOpen && (
+                                            <ul className="note-editor__visibility-menu" role="listbox">
+                                                <li>
+                                                    <button
+                                                        type="button"
+                                                        role="option"
+                                                        aria-selected={!isShared}
+                                                        className={`note-editor__visibility-option${isShared ? '' : ' note-editor__visibility-option--active'}`}
+                                                        onClick={() => handleSelectVisibility('PRIVATE')}
+                                                    >
+                                                        <Icon icon={IoLockClosedOutline} />
+                                                        <span>Private</span>
+                                                        {!isShared && <Icon icon={IoCheckmarkOutline} />}
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        type="button"
+                                                        role="option"
+                                                        aria-selected={isShared}
+                                                        className={`note-editor__visibility-option${isShared ? ' note-editor__visibility-option--active' : ''}`}
+                                                        onClick={() => handleSelectVisibility('SHARED')}
+                                                    >
+                                                        <Icon icon={IoPeopleOutline} />
+                                                        <span>Shared</span>
+                                                        {isShared && <Icon icon={IoCheckmarkOutline} />}
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <span className="note-editor__visibility-readonly">
+                                        <Icon icon={isShared ? IoPeopleOutline : IoLockClosedOutline} />
+                                        <span>{isShared ? 'Shared' : 'Private'}</span>
+                                    </span>
+                                )}
+                            </div>
+                        )}
+
+                        {!readOnly && isShared && canChooseVisibility && (
+                            <>
+                                <div className="note-editor__share-notice" role="status">
+                                    <Icon icon={IoInformationCircleOutline} />
+                                    <span>Once sent, this note cannot be edited.</span>
+                                </div>
+                                <div className="note-editor__meta-row">
+                                    <Text as="span" size="small" color="secondary">Public code</Text>
+                                    <Input
+                                        className="note-editor__recipient-input"
+                                        value={selectedNote.recipientPublicCode}
+                                        onChange={handlePublicCodeChange}
+                                        placeholder="12-character code"
+                                        aria-label="Recipient public code"
+                                        autoComplete="off"
+                                        maxLength={12}
+                                        pattern="[A-Za-z0-9_-]{12}"
+                                    />
+                                </div>
+                                <div className="note-editor__meta-row">
+                                    <Text as="span" size="small" color="secondary">Locker</Text>
+                                    <Input
+                                        className="note-editor__recipient-input"
+                                        value={selectedNote.recipientLockerPassword}
+                                        onChange={handleLockerPasswordChange}
+                                        placeholder="Locker password"
+                                        aria-label="Recipient locker password"
+                                        autoComplete="off"
+                                        type="password"
+                                        minLength={8}
+                                        maxLength={64}
+                                        required
+                                        data-form-type="other"
+                                        data-lpignore="true"
+                                    />
+                                </div>
+                            </>
+                        )}
+
                         <div className="note-editor__meta-row note-editor__meta-row--wrap">
                             <Text as="span" size="small" color="secondary">Tags</Text>
                             {(selectedNote.tags ?? []).map(tag => (
@@ -184,7 +324,6 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
                 </div>
             </header>
 
-            {/* Toolbar above the content: formatting on the left, save/delete on the right. */}
             {!readOnly && (
                 <NoteEditorToolbar
                     content={selectedNote.content}
@@ -207,7 +346,8 @@ export default function NoteEditor({ selectedNote, readOnly, accountEmail, onSel
 
 NoteEditor.propTypes = {
     selectedNote: PropTypes.instanceOf(Note),
-    readOnly: PropTypes.bool.isRequired,
+    readOnlyReason: PropTypes.oneOf(['deleted', 'received', 'sent']),
+    accountId: PropTypes.string,
     accountEmail: PropTypes.string,
     onSelectedNoteChange: PropTypes.func.isRequired,
     saveNote: PropTypes.func.isRequired,
