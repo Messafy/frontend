@@ -2,14 +2,15 @@
 
 .badge {
   @include inline-center;
-  gap: 6px;
+  gap: $spacing-8;
   font-family: $font-family-base;
   font-size: $font-size-badge;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-regular;
   line-height: 1;
-  padding: 8px 10px;
+  padding: $spacing-4 $spacing-8;
   background-color: $color-badge;
-  @include circle-border($color-badge-border);
+  border: 1px solid $color-badge-border;
+  border-radius: $radius-md;
   color: $color-badge-foreground;
   width: fit-content;
   white-space: nowrap;

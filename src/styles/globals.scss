@@ -9,6 +9,8 @@ body {
   line-height: $line-height-body;
   margin: 0;
   padding: 0;
+  letter-spacing: -0.01em;
+  font-feature-settings: 'cv01' 1, 'ss03' 1, 'zero' 1;
 }
 
 * {
@@ -39,22 +41,20 @@ h4 {
 
 h1 {
   font-size: clamp(2.25rem, 5vw, 4rem);
-  font-weight: $font-weight-bold;
-  letter-spacing: -0.04em;
+  font-weight: $font-weight-semibold;
+  letter-spacing: -0.022em;
 }
 
 h2 {
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: $font-weight-semibold;
-  letter-spacing: -0.03em;
-  opacity: 0.88;
+  letter-spacing: -0.012em;
 }
 
 h3 {
   font-size: clamp(1.25rem, 2vw, 1.65rem);
   font-weight: $font-weight-semibold;
-  letter-spacing: -0.02em;
-  opacity: 0.76;
+  letter-spacing: -0.012em;
 }
 
 h4 {
@@ -62,7 +62,6 @@ h4 {
   font-size: 1rem;
   font-weight: $font-weight-semibold;
   letter-spacing: -0.01em;
-  opacity: 0.82;
 }
 
 p {

@@ -2,7 +2,7 @@
 
 .button {
     @include inline-center;
-    gap: 8px;
+    gap: $spacing-8;
     cursor: pointer;
     font: inherit;
     border: 0;
@@ -14,21 +14,21 @@
 }
 
 .button--primary {
-    @include solid-button($color-primary-solid, $zinc-900, $color-primary-solid-hover);
+    @include solid-button($color-primary-solid, $zinc-950, $color-primary-solid-hover);
     @include control-border($color-button-border);
     font-size: 14px;
-    min-height: 40px;
-    padding: 0 18px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    min-height: $spacing-40;
+    padding: 0 $spacing-16;
+    letter-spacing: -0.011em;
 
     &:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        box-shadow: none;
     }
 }
 
 .button--ghost {
-    gap: 10px;
-    min-height: 28px;
+    gap: $spacing-8;
+    min-height: $spacing-28;
     padding: 0;
     color: $color-text-secondary;
     background: transparent;
@@ -39,16 +39,16 @@
 }
 
 .button--save {
-    gap: 10px;
-    min-height: 36px;
-    padding: 0 10px 0 16px;
+    gap: $spacing-8;
+    min-height: $spacing-36;
+    padding: 0 $spacing-12 0 $spacing-16;
 
-    @include solid-button($zinc-50, $zinc-950, $zinc-200);
+    @include solid-button($color-accent, $zinc-950, $color-primary-solid-hover);
     font-size: 13px;
 
     .icon {
-        height: 16px;
-        width: 16px;
+        height: $spacing-16;
+        width: $spacing-16;
 
         svg {
             height: 14px;

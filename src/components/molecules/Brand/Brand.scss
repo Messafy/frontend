@@ -1,10 +1,9 @@
 @use '../../../styles/tokens' as *;
 
 .brand {
-    height: 70px;
+    height: $spacing-64;
     width: auto;
     display: block;
     flex-shrink: 0;
     object-fit: contain;
-    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
 }

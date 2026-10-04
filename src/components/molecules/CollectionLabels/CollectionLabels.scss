@@ -1,6 +1,8 @@
+@use '../../../styles/tokens' as *;
+
 .collection-labels {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: $spacing-4;
   width: 100%;
 }

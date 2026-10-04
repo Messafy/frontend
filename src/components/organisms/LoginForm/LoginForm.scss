@@ -3,12 +3,12 @@
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: $spacing-20;
 
     &__field {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: $spacing-8;
     }
 
     &__label {
@@ -16,10 +16,10 @@
     }
 
     .input {
-        min-height: 44px;
+        min-height: $spacing-40;
         background-color: $color-input-fill;
         border-color: $color-input-border;
-        border-radius: 8px;
+        border-radius: $radius-md;
 
         .icon {
             color: $color-text-muted;
@@ -35,12 +35,8 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        margin-top: 8px;
-        min-height: 42px;
-        transition:
-            background-color 180ms ease,
-            box-shadow 220ms $ease-out-spring,
-            transform 220ms $ease-out-spring;
+        margin-top: $spacing-8;
+        min-height: $spacing-40;
 
         &::after {
             content: '';
@@ -56,47 +52,18 @@
         }
 
         &:hover {
-            background-color: $color-primary-solid-hover;
-            transform: translateY(-1px);
-            box-shadow:
-                0 6px 16px rgba(0, 0, 0, 0.28),
-                inset 0 1px 0 rgba(255, 255, 255, 0.55);
-
             &::after {
                 transform: translateX(320%) skewX(-18deg);
             }
         }
 
-        &:active {
-            transform: translateY(1px);
-            transition-duration: 80ms;
-        }
-
         &:disabled {
             opacity: 0.6;
-            transform: none;
-            box-shadow: none;
             cursor: not-allowed;
 
             &::after {
                 display: none;
             }
-        }
-
-        .icon,
-        .login-form__arrow {
-            transition: transform 220ms $ease-out-spring;
-        }
-
-        &:hover .login-form__arrow {
-            transform: translateX(4px);
-        }
-    }
-
-    &__arrow {
-        svg {
-            height: 16px;
-            width: 16px;
         }
     }
 }

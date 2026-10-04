@@ -1,6 +1,6 @@
 @use '../../../styles/tokens' as *;
 
-$editor-gutter-x: 42px;
+$editor-gutter-x: $spacing-40;
 
 .note-editor {
     display: flex;
@@ -9,7 +9,6 @@ $editor-gutter-x: 42px;
     min-height: 0;
     overflow: hidden;
     background-color: $color-editor;
-    border-left: 1px solid rgba(255, 255, 255, 0.04);
 
     &--empty {
         display: grid;
@@ -28,12 +27,12 @@ $editor-gutter-x: 42px;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        gap: 24px;
-        padding: 18px $editor-gutter-x;
+        gap: $spacing-24;
+        padding: $spacing-16 $editor-gutter-x;
 
         background-color: $color-editor-header;
         border-bottom: 1px solid $color-border;
-        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.02);
+        box-shadow: none;
 
         .text--size-h2 {
             font-size: $font-size-display;
@@ -46,7 +45,7 @@ $editor-gutter-x: 42px;
     &__title-group {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: $spacing-8;
         min-width: 0;
 
         .input__control {
@@ -61,23 +60,33 @@ $editor-gutter-x: 42px;
     &__meta-rows {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-top: 10px;
+        gap: $spacing-8;
+        margin-top: $spacing-8;
     }
 
     &__meta-row {
         display: flex;
         align-items: center;
-        gap: 12px;
-
-        > .text:first-child {
-            width: 88px;
-            flex-shrink: 0;
-        }
+        gap: $spacing-12;
 
         &--wrap {
             flex-wrap: wrap;
-            row-gap: 8px;
+            row-gap: $spacing-8;
+        }
+    }
+
+    &__meta-label {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-8;
+        width: 132px;
+        flex-shrink: 0;
+
+        .icon {
+            width: $spacing-12;
+            height: $spacing-12;
+            flex-shrink: 0;
+            color: $color-text-secondary;
         }
     }
 
@@ -98,6 +107,20 @@ $editor-gutter-x: 42px;
         width: 260px;
         min-width: 0;
         max-width: 100%;
+        min-height: $spacing-40;
+        background-color: $color-input-fill;
+        border-color: $color-input-border;
+        box-shadow: none;
+
+        &:hover {
+            border-color: $color-border-hover;
+        }
+
+        &:focus-within {
+            border-color: $zinc-500;
+            box-shadow: none;
+            outline: 0;
+        }
 
         .input__control {
             font-size: $font-size-small;
@@ -105,20 +128,27 @@ $editor-gutter-x: 42px;
             line-height: normal;
             letter-spacing: normal;
         }
+
+        > .icon {
+            width: $spacing-12;
+            height: $spacing-12;
+            flex-shrink: 0;
+            color: $color-text-muted;
+        }
     }
 
     &__share-notice {
         display: flex;
         align-items: center;
-        gap: 7px;
-        margin-left: 100px;
-        color: $color-warning;
+        gap: $spacing-8;
+        margin-left: 144px;
+        color: $color-accent;
         font-size: $font-size-xs;
 
         .icon {
             flex-shrink: 0;
-            width: 14px;
-            height: 14px;
+            width: $spacing-12;
+            height: $spacing-12;
         }
     }
 
@@ -129,10 +159,10 @@ $editor-gutter-x: 42px;
 
     &__visibility-button {
         @include inline-center;
-        gap: 6px;
-        height: 28px;
-        padding: 0 10px;
-        border-radius: 6px;
+        gap: $spacing-8;
+        height: $spacing-28;
+        padding: 0 $spacing-8;
+        border-radius: $radius-md;
         background-color: transparent;
         border: 1px solid transparent;
         color: $color-text-primary;
@@ -141,8 +171,8 @@ $editor-gutter-x: 42px;
         @include control-transition;
 
         .icon {
-            width: 13px;
-            height: 13px;
+            width: $spacing-12;
+            height: $spacing-12;
         }
 
         &:hover,
@@ -159,51 +189,49 @@ $editor-gutter-x: 42px;
 
     &__visibility-readonly {
         @include inline-center;
-        gap: 6px;
-        height: 28px;
-        padding: 0 10px;
-        border-radius: 6px;
+        gap: $spacing-8;
+        height: $spacing-28;
+        padding: 0 $spacing-8;
+        border-radius: $radius-md;
         background-color: $color-input-fill;
         border: 1px solid $color-input-border;
         color: $color-text-secondary;
         font-size: $font-size-xs;
 
         .icon {
-            width: 13px;
-            height: 13px;
+            width: $spacing-12;
+            height: $spacing-12;
         }
     }
 
     &__visibility-menu {
         position: absolute;
-        top: calc(100% + 8px);
+        top: calc(100% + $spacing-8);
         left: 0;
         z-index: 10;
         margin: 0;
-        padding: 6px;
+        padding: $spacing-8;
         list-style: none;
         min-width: 166px;
-        border-radius: 12px;
+        border-radius: $radius-xl;
         background-color: $color-popover;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        box-shadow:
-            0 12px 30px rgba(0, 0, 0, 0.42),
-            0 2px 6px rgba(0, 0, 0, 0.2);
+        border: 1px solid $color-border;
+        box-shadow: $shadow-xl;
 
         li + li {
-            margin-top: 4px;
+            margin-top: $spacing-4;
         }
 
         &::before {
             position: absolute;
             top: -5px;
-            left: 18px;
+            left: $spacing-16;
             width: 9px;
             height: 9px;
             content: '';
             background-color: $color-popover;
-            border-top: 1px solid rgba(255, 255, 255, 0.14);
-            border-left: 1px solid rgba(255, 255, 255, 0.14);
+            border-top: 1px solid $color-border;
+            border-left: 1px solid $color-border;
             transform: rotate(45deg);
         }
     }
@@ -211,11 +239,11 @@ $editor-gutter-x: 42px;
     &__visibility-option {
         @include inline-center;
         justify-content: flex-start;
-        gap: 8px;
+        gap: $spacing-8;
         width: 100%;
-        height: 34px;
-        padding: 0 10px;
-        border-radius: 7px;
+        height: $spacing-32;
+        padding: 0 $spacing-8;
+        border-radius: $radius-md;
         background: transparent;
         border: 0;
         color: $color-text-primary;
@@ -225,12 +253,12 @@ $editor-gutter-x: 42px;
         @include control-transition;
 
         .icon {
-            width: 13px;
-            height: 13px;
+            width: $spacing-12;
+            height: $spacing-12;
         }
 
         &:hover {
-            background-color: rgba(255, 255, 255, 0.08);
+            background-color: $color-ghost-hover;
         }
 
         &--active {
@@ -243,8 +271,8 @@ $editor-gutter-x: 42px;
         }
 
         .icon:last-child {
-            width: 14px;
-            height: 14px;
+            width: $spacing-12;
+            height: $spacing-12;
             margin-left: auto;
             color: $color-accent;
         }
@@ -257,17 +285,17 @@ $editor-gutter-x: 42px;
     &__tag-add-button.button {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        height: 28px;
+        gap: $spacing-4;
+        height: $spacing-28;
         min-height: 0;
-        padding: 0 10px;
-        border-radius: 6px;
+        padding: 0 $spacing-8;
+        border-radius: $radius-md;
         font-size: $font-size-xs;
         color: $color-text-secondary;
 
         .icon {
-            width: 13px;
-            height: 13px;
+            width: $spacing-12;
+            height: $spacing-12;
         }
 
         &:hover,
@@ -281,7 +309,7 @@ $editor-gutter-x: 42px;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 8px;
+        gap: $spacing-8;
         flex-shrink: 0;
     }
 
@@ -289,7 +317,7 @@ $editor-gutter-x: 42px;
         flex: 1;
         min-height: 0;
         width: 100%;
-        padding: 28px $editor-gutter-x 40px;
+        padding: $spacing-28 $editor-gutter-x $spacing-40;
         font-family: $font-family-base;
         font-size: 16px;
         line-height: 1.7;

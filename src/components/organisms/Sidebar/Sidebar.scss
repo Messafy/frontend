@@ -4,7 +4,7 @@
     display: flex;
     min-width: 0;
     overflow: hidden;
-    padding: 28px 16px;
+    padding: $spacing-28 $spacing-16;
 
     color: $color-menu-aside-foreground;
     background-color: $color-menu-aside;
@@ -13,7 +13,7 @@
     &__content {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: $spacing-16;
         width: 100%;
         min-height: 100%;
         max-width: 220px;
@@ -23,36 +23,36 @@
     &__nav {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: $spacing-16;
         padding-top: 0;
     }
 
     &__bottom {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: $spacing-8;
         margin-top: auto;
-        padding-top: 16px;
+        padding-top: $spacing-16;
         border-top: 1px solid $color-menu-aside-border;
     }
 
     &__profile {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 7px 8px;
-        border-radius: 8px;
+        gap: $spacing-8;
+        padding: $spacing-8;
+        border-radius: $radius-md;
         cursor: pointer;
         border: 1px solid transparent;
         @include control-transition;
 
         &:hover {
-            background-color: $color-menu-aside-hover;
+            background-color: $color-ghost-hover;
             border-color: $color-menu-aside-border;
         }
 
         &:active {
-            background-color: $color-menu-aside-active;
+            background-color: $color-selected;
         }
 
         &:focus-visible {
@@ -65,7 +65,7 @@
     &__profile-text {
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        gap: $spacing-4;
         min-width: 0;
 
         .text {
@@ -74,8 +74,8 @@
     }
 
     .input {
-        min-height: 30px;
-        padding: 0 8px;
+        min-height: $spacing-32;
+        padding: 0 $spacing-8;
         color: $color-menu-aside-muted;
         background-color: $color-input-fill;
         border-color: $color-menu-aside-border;
@@ -91,23 +91,24 @@
         color: $color-menu-aside-foreground;
 
         &:hover {
-            background-color: $color-menu-aside-hover;
+            background-color: $color-ghost-hover;
         }
 
         &--active {
-            background-color: $color-menu-aside-active;
+            background-color: $color-selected;
             color: $color-text-primary;
+            box-shadow: inset 2px 0 0 $color-accent;
         }
     }
 
     .icon {
-        height: 18px;
-        width: 18px;
+        height: $spacing-16;
+        width: $spacing-16;
         color: currentColor;
 
         svg {
-            height: 12px;
-            width: 12px;
+            height: $spacing-12;
+            width: $spacing-12;
         }
     }
 }

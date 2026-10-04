@@ -3,6 +3,6 @@
 .auth-card {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: $spacing-28;
     width: min(100%, 420px);
 }

@@ -3,12 +3,13 @@
 .tag {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background-color: $color-muted;
-  @include soft-border($color-border, 4px);
-  padding: 7px 8px;
+  gap: $spacing-4;
+  background-color: $color-badge;
+  border: 0;
+  border-radius: $radius-full-2;
+  padding: $spacing-4 $spacing-12;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: $font-weight-regular;
   line-height: 1;
   cursor: pointer;
   @include ellipsis;
@@ -20,54 +21,8 @@
   }
 
   &__remove {
-    @include icon-button(14px, 3px, 12px);
+    @include icon-button($spacing-16, $radius-sm, $spacing-12);
     color: $color-text-muted;
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 35%;
-    height: 200%;
-
-    background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba($color-text-primary, 0.08) 25%,
-            rgba($color-text-primary, 0.35) 50%,
-            rgba($color-text-primary, 0.08) 75%,
-            transparent 100%
-    );
-
-    filter: blur(2px);
-    transform: rotate(25deg);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  &:hover::before {
-    animation: tag-shine 550ms ease-out;
-  }
-}
-
-@keyframes tag-shine {
-  0% {
-    left: -50%;
-    opacity: 0;
-  }
-
-  15% {
-    opacity: 1;
-  }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    left: 130%;
-    opacity: 0;
-  }
 }

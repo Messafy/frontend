@@ -4,8 +4,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 8px 24px;
+    gap: $spacing-16;
+    padding: $spacing-8 $spacing-24;
+    background-color: $color-editor-header;
     border-bottom: 1px solid $color-border;
     flex-wrap: nowrap;
     min-width: 0;
@@ -13,14 +14,14 @@
     &__group {
         display: flex;
         align-items: center;
-        gap: 2px;
+        gap: $spacing-4;
         flex: 0 1 auto;
         min-width: 0;
         overflow-x: auto;
         @include scrollbar-none;
 
         .button--ghost {
-            @include icon-button(30px, 7px, 16px);
+            @include icon-button($spacing-32, $radius-md, $spacing-16);
             color: $color-text-secondary;
         }
     }
@@ -29,7 +30,7 @@
         display: flex;
         align-items: center;
         flex: 0 1 auto;
-        gap: 10px;
+        gap: $spacing-8;
         margin-left: auto;
         min-width: 0;
 
@@ -39,7 +40,7 @@
         }
 
         .button--ghost {
-            @include icon-button(32px, 8px, 16px);
+            @include icon-button($spacing-32, $radius-md, $spacing-16);
         }
 
         .button--save {
@@ -54,7 +55,7 @@
 
     &__divider {
         align-self: stretch;
-        margin: 6px 0;
+        margin: $spacing-8 0;
         background-color: $color-divider;
     }
 }

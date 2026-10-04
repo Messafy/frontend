@@ -4,8 +4,8 @@
     position: relative;
     z-index: 2;
     display: grid;
-    min-height: calc(100svh - 80px);
-    padding: 72px 30px 96px;
+    min-height: calc(100svh - $spacing-80);
+    padding: $spacing-64 $spacing-32 $spacing-96;
     place-items: center;
 
     &__content {
@@ -16,20 +16,20 @@
         gap: 0;
 
         > .badge {
-            margin-bottom: 18px;
+            margin-bottom: $spacing-16;
         }
     }
 
     .title {
         max-inline-size: 13ch;
-        margin: 0 0 26px;
+        margin: 0 0 $spacing-24;
         padding: 0;
         text-align: left;
     }
 
     &__description {
         max-width: 620px;
-        margin-bottom: 32px;
+        margin-bottom: $spacing-32;
         font-size: 17px;
         line-height: 1.75;
         text-wrap: balance;
@@ -39,19 +39,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: $spacing-8;
     }
 
     &__action {
         display: inline-flex;
         min-width: 148px;
-        min-height: 46px;
+        min-height: $spacing-48;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        padding: 0 22px;
+        gap: $spacing-8;
+        padding: 0 $spacing-24;
         border: 1px solid transparent;
-        border-radius: 10px;
+        border-radius: $radius-md;
         font-size: 14px;
         font-weight: $font-weight-semibold;
         text-decoration: none;
@@ -67,49 +67,48 @@
         }
 
         &:focus-visible {
-            outline: 0;
-            box-shadow: 0 0 0 3px rgba($color-text-primary, 0.18);
+            @include focus-ring;
         }
 
         &--primary {
             color: $zinc-950;
-            background-color: $zinc-50;
-            box-shadow: 0 8px 24px rgba($zinc-950, 0.3);
+            background-color: $color-accent;
+            box-shadow: none;
 
             &:hover {
                 color: $zinc-950;
-                background-color: $zinc-200;
+                background-color: $color-primary-solid-hover;
             }
         }
 
         &--secondary {
             color: $color-text-secondary;
-            background-color: rgba($color-text-primary, 0.025);
+            background-color: $color-input-fill;
             border-color: $color-border;
 
             &:hover {
                 color: $color-text-primary;
-                background-color: rgba($color-text-primary, 0.06);
-                border-color: rgba($color-text-primary, 0.16);
+                background-color: $color-ghost-hover;
+                border-color: $color-border-hover;
             }
         }
     }
 
     @media (max-width: 560px) {
-        padding: 56px 20px 72px;
+        padding: $spacing-56 $spacing-20 $spacing-64;
 
         &__content {
             > .badge {
-                margin-bottom: 14px;
+                margin-bottom: $spacing-16;
             }
         }
 
         .title {
-            margin-bottom: 20px;
+            margin-bottom: $spacing-20;
         }
 
         &__description {
-            margin-bottom: 26px;
+            margin-bottom: $spacing-24;
             font-size: 15px;
             line-height: 1.65;
         }

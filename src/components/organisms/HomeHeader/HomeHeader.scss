@@ -7,10 +7,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 32px;
-    width: 100%;
-    height: 80px;
-    padding: 18px 30px;
+    gap: $spacing-32;
+    width: min(100%, 1200px);
+    margin-inline: auto;
+    height: $spacing-64;
+    padding: $spacing-12 $spacing-16;
 
     background-color: rgba($color-background, 0.95);
     backdrop-filter: blur(16px);
@@ -30,14 +31,12 @@
     }
 
     &--scrolled {
-        height: 64px;
-        padding-block: 10px;
+        height: $spacing-56;
+        padding-block: $spacing-8;
         background-color: rgba($color-background, 0.98);
         backdrop-filter: blur(24px) saturate(1.15);
-        border-bottom-color: rgba($color-text-primary, 0.09);
-        box-shadow:
-            0 14px 35px rgba(0, 0, 0, 0.24),
-            0 1px 0 rgba($color-text-primary, 0.025) inset;
+        border-bottom-color: $color-input-border;
+        box-shadow: none;
 
         > .brand {
             transform: scale(0.86);
@@ -45,23 +44,71 @@
     }
 
     .collection-links {
-        gap: 32px;
+        gap: $spacing-8;
+
+        .link {
+            padding: $spacing-8 $spacing-12;
+            border-radius: $radius-full-2;
+            color: $color-text-secondary;
+            transition: background-color $duration-base ease, color $duration-base ease;
+
+            .text {
+                font-weight: $font-weight-regular;
+            }
+
+            &:hover {
+                background-color: $color-ghost-hover;
+                color: $color-text-primary;
+                text-decoration: none;
+            }
+
+            &:active {
+                background-color: $color-selected;
+                color: $color-text-primary;
+            }
+
+            &:focus-visible {
+                background-color: $color-ghost-hover;
+                color: $color-text-primary;
+                @include focus-ring;
+            }
+        }
     }
 
     &__cta {
         text-decoration: none;
 
         .button {
-            min-height: 38px;
+            min-height: $spacing-32;
+            padding-inline: $spacing-16;
+            border: 1px solid $color-border;
+            border-radius: $radius-md;
+            color: $color-text-secondary;
+            background: $color-input;
+            box-shadow: none;
+
+            &:hover,
+            &:focus-visible {
+                border-color: $color-text-primary;
+                color: $color-background;
+                background: $color-text-primary;
+                box-shadow: none;
+            }
+
+            &:active {
+                border-color: $zinc-200;
+                color: $color-background;
+                background: $zinc-200;
+            }
         }
     }
 
     @media (max-width: 720px) {
-        padding: 11px 16px;
-        gap: 12px;
+        padding: $spacing-12 $spacing-16;
+        gap: $spacing-12;
 
         > .brand {
-            height: 56px;
+            height: $spacing-56;
         }
 
         &__cta {
@@ -73,8 +120,8 @@
         }
 
         &.home-header--scrolled {
-            height: 60px;
-            padding-block: 8px;
+            height: $spacing-56;
+            padding-block: $spacing-8;
         }
     }
 

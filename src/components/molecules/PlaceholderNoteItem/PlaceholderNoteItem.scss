@@ -2,13 +2,13 @@
 
 .placeholder-note-item {
   display: flex;
-  gap: 8px;
+  gap: $spacing-8;
   flex-direction: row;
   width: 100%;
   height: fit-content;
   background-color: transparent;
-  padding: 10px 6px;
-  border-radius: 8px;
+  padding: $spacing-12 $spacing-8;
+  border-radius: $radius-md;
   cursor: pointer;
   transition: background-color 180ms ease;
 
@@ -22,5 +22,5 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $spacing-12;
 }

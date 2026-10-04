@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {IoArrowForward, IoKeyOutline, IoLockClosedOutline, IoMailOutline} from 'react-icons/io5'
+import {IoKeyOutline, IoLockClosedOutline, IoMailOutline} from 'react-icons/io5'
 import Input from '../../atoms/Input/Input.jsx'
 import Button from '../../atoms/Button/Button.jsx'
 import Icon from '../../atoms/Icon/Icon.jsx'
@@ -119,12 +119,7 @@ export default function RegisterForm({email, password, confirmPassword, lockerPa
             )}
 
             <Button type='submit' disabled={loading}>
-                {loading ? 'Creating account...' : (
-                    <>
-                        Create account
-                        <Icon className='register-form__arrow' icon={IoArrowForward} />
-                    </>
-                )}
+                {loading ? 'Creating account...' : 'Create account'}
             </Button>
         </form>
     )

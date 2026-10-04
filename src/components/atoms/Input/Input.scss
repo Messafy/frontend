@@ -6,10 +6,9 @@
   @include control-border($color-input-border);
   color: $color-text-secondary;
   display: flex;
-  gap: 10px;
-  min-height: 42px;
-  padding: 0 14px;
-  @include control-shadow;
+  gap: $spacing-8;
+  min-height: $spacing-40;
+  padding: 0 $spacing-16;
   @include control-transition;
   width: 100%;
 
@@ -19,7 +18,7 @@
 
   &:focus-within {
     border-color: $zinc-500;
-    @include control-focus;
+    box-shadow: none;
   }
 
   &--error,

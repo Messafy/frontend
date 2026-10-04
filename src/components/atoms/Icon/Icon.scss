@@ -3,11 +3,11 @@
 .icon {
   @include inline-center;
 
-  height: 26px;
-  width: 26px;
+  height: $spacing-24;
+  width: $spacing-24;
 
   color: currentColor;
-  border-radius: 6px;
+  border-radius: $radius-md;
 
   transition:
     background-color 160ms ease,
@@ -16,8 +16,8 @@
 
   svg {
     display: block;
-    height: 18px;
-    width: 18px;
+    height: $spacing-16;
+    width: $spacing-16;
   }
 
   &--static {

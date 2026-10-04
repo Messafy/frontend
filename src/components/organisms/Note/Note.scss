@@ -5,15 +5,15 @@
 
     .note-type-label {
         position: absolute;
-        top: 15px;
+        top: $spacing-16;
         right: 50px;
     }
 
     &__pin {
-        @include icon-button(28px, 6px, 15px);
+        @include icon-button($spacing-28, $radius-md, $spacing-16);
         position: absolute;
-        top: 12px;
-        right: 12px;
+        top: $spacing-12;
+        right: $spacing-12;
         z-index: 1;
         color: $color-text-muted;
         opacity: 0.8;

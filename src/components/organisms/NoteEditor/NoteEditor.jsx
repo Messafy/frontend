@@ -9,6 +9,7 @@ import {
     IoChevronDownOutline,
     IoCheckmarkOutline,
     IoInformationCircleOutline,
+    IoLinkOutline,
     IoLockClosedOutline,
     IoPeopleOutline,
 } from 'react-icons/io5';
@@ -171,7 +172,9 @@ export default function NoteEditor({ selectedNote, readOnlyReason, accountId, ac
                     <div className="note-editor__meta-rows">
                         {accountEmail && relationship === 'PRIVATE' && (
                             <div className="note-editor__meta-row">
-                                <Text as="span" size="small" color="secondary">Created by</Text>
+                                <span className="note-editor__meta-label">
+                                    <Text as="span" size="small" color="secondary">Created by</Text>
+                                </span>
                                 <span className="note-editor__owner">
                                     <Text as="span" size="small">{accountEmail}</Text>
                                 </span>
@@ -180,7 +183,9 @@ export default function NoteEditor({ selectedNote, readOnlyReason, accountId, ac
 
                         {isShared && relationship !== 'PRIVATE' && contactId && (
                             <div className="note-editor__meta-row">
-                                <Text as="span" size="small" color="secondary">{contactLabel}</Text>
+                                <span className="note-editor__meta-label">
+                                    <Text as="span" size="small" color="secondary">{contactLabel}</Text>
+                                </span>
                                 <span className="note-editor__owner">
                                     <Text as="span" size="small">{contactId}</Text>
                                 </span>
@@ -189,7 +194,9 @@ export default function NoteEditor({ selectedNote, readOnlyReason, accountId, ac
 
                         {formatDateTime(selectedNote.createdAt) && (
                             <div className="note-editor__meta-row">
-                                <Text as="span" size="small" color="secondary">Created</Text>
+                                <span className="note-editor__meta-label">
+                                    <Text as="span" size="small" color="secondary">Created</Text>
+                                </span>
                                 <Text as="span" size="small">
                                     {formatDateTime(selectedNote.createdAt)}
                                 </Text>
@@ -198,7 +205,9 @@ export default function NoteEditor({ selectedNote, readOnlyReason, accountId, ac
 
                         {!readOnly && (
                             <div className="note-editor__meta-row">
-                                <Text as="span" size="small" color="secondary">Visibility</Text>
+                                <span className="note-editor__meta-label">
+                                    <Text as="span" size="small" color="secondary">Visibility</Text>
+                                </span>
                                 {canChooseVisibility ? (
                                     <div className="note-editor__visibility">
                                         <button
@@ -259,63 +268,39 @@ export default function NoteEditor({ selectedNote, readOnlyReason, accountId, ac
                                     <span>Once sent, this note cannot be edited.</span>
                                 </div>
                                 <div className="note-editor__meta-row">
-                                    <Text as="span" size="small" color="secondary">Public code</Text>
-                                    <Input
-                                        className="note-editor__recipient-input"
-                                        value={selectedNote.recipientPublicCode}
-                                        onChange={handlePublicCodeChange}
-                                        placeholder="12-character code"
-                                        aria-label="Recipient public code"
-                                        autoComplete="off"
-                                        maxLength={12}
-                                        pattern="[A-Za-z0-9_-]{12}"
-                                    />
+                                    <span className="note-editor__meta-label">
+                                        <Icon icon={IoLinkOutline} />
+                                        <Text as="span" size="small" color="secondary">Public code</Text>
+                                    </span>
+                                    <Input className="note-editor__recipient-input" value={selectedNote.recipientPublicCode} onChange={handlePublicCodeChange} placeholder="Add code" aria-label="Recipient public code" maxLength={12} pattern="[A-Za-z0-9_-]{12}">
+                                        <Icon icon={LuPlus} />
+                                    </Input>
                                 </div>
                                 <div className="note-editor__meta-row">
-                                    <Text as="span" size="small" color="secondary">Locker</Text>
-                                    <Input
-                                        className="note-editor__recipient-input"
-                                        value={selectedNote.recipientLockerPassword}
-                                        onChange={handleLockerPasswordChange}
-                                        placeholder="Locker password"
-                                        aria-label="Recipient locker password"
-                                        autoComplete="off"
-                                        type="password"
-                                        minLength={8}
-                                        maxLength={64}
-                                        required
-                                        data-form-type="other"
-                                        data-lpignore="true"
-                                    />
+                                    <span className="note-editor__meta-label">
+                                        <Icon icon={IoLockClosedOutline} />
+                                        <Text as="span" size="small" color="secondary">Locker</Text>
+                                    </span>
+                                    <Input className="note-editor__recipient-input" value={selectedNote.recipientLockerPassword} onChange={handleLockerPasswordChange} placeholder="Add password" aria-label="Recipient locker password" type="password" minLength={8} maxLength={64} required data-form-type="other" data-lpignore="true">
+                                        <Icon icon={LuPlus} />
+                                    </Input>
                                 </div>
                             </>
                         )}
 
                         <div className="note-editor__meta-row note-editor__meta-row--wrap">
-                            <Text as="span" size="small" color="secondary">Tags</Text>
-                            {(selectedNote.tags ?? []).map(tag => (
-                                <Tag key={tag}>{tag}</Tag>
-                            ))}
+                            <span className="note-editor__meta-label">
+                                <Text as="span" size="small" color="secondary">Tags</Text>
+                            </span>
+                            {(selectedNote.tags ?? []).map(tag => <Tag key={tag}>{tag}</Tag>)}
                             {!readOnly && (
                                 <div className="note-editor__tag-add">
-                                    <Button
-                                        variant="ghost"
-                                        className="note-editor__tag-add-button"
-                                        aria-label="Add new tag"
-                                        aria-expanded={isTagEditorOpen}
-                                        onClick={() => setIsTagEditorOpen(open => !open)}
-                                    >
+                                    <Button variant="ghost" className="note-editor__tag-add-button" aria-label="Add new tag" aria-expanded={isTagEditorOpen} onClick={() => setIsTagEditorOpen(open => !open)}>
                                         <Icon icon={LuPlus} />
                                         <span>Add new tag</span>
                                     </Button>
                                     {isTagEditorOpen && (
-                                        <TagEditor
-                                            placement="below"
-                                            tags={selectedNote.tags}
-                                            onAdd={handleAddTag}
-                                            onRemove={handleRemoveTag}
-                                            onClose={() => setIsTagEditorOpen(false)}
-                                        />
+                                        <TagEditor placement="below" tags={selectedNote.tags} onAdd={handleAddTag} onRemove={handleRemoveTag} onClose={() => setIsTagEditorOpen(false)} />
                                     )}
                                 </div>
                             )}

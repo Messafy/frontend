@@ -11,8 +11,11 @@ export default function HeroSection() {
                 <Badge text='Write without friction' />
                 <Title text='Your thoughts, without the noise.' />
                 <Text className='hero-section__description' color='secondary' align='start'>
-                    Messafy is a private space for notes that stays out of your way.
-                    Capture ideas, organize what matters, and pick up exactly where you left off.
+                    Messafy is a private space for notes that stays out of your way.{' '}
+                    <Text as='strong' color='primary' weight='semibold'>
+                        Capture an idea in seconds
+                    </Text>
+                    , organize what matters, and pick up exactly where you left off.
                 </Text>
 
                 <div className='hero-section__actions'>

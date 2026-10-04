@@ -7,15 +7,15 @@ import {
     IoDocumentTextOutline,
     IoMailOutline,
     IoPaperPlaneOutline,
-    IoPinOutline,
     IoTrashOutline,
 } from 'react-icons/io5'
+import { MdOutlinePushPin } from 'react-icons/md'
 import './Sidebar.scss'
 import PropTypes from 'prop-types'
 
 const MY_NOTES_FILTERS = [
     { id: 'all', icon: IoDocumentTextOutline, text: 'All Notes' },
-    { id: 'pinned', icon: IoPinOutline, text: 'Pinned Notes' },
+    { id: 'pinned', icon: MdOutlinePushPin, text: 'Pinned Notes' },
     { id: 'trash', icon: IoTrashOutline, text: 'Trash' },
 ]
 

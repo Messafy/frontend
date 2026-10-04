@@ -1,5 +1,8 @@
 @use 'colors' as *;
 @use 'typography' as *;
+@use 'spacing' as *;
+@use 'radius' as *;
+@use 'shadows' as *;
 
 @mixin inline-center {
   display: inline-flex;
@@ -9,21 +12,21 @@
 
 @mixin control-border($color) {
   border: 1px solid $color;
-  border-radius: 10px;
+  border-radius: $radius-md;
 }
 
-@mixin soft-border($color, $radius: 10px, $width: 1px) {
+@mixin soft-border($color, $radius: $radius-md, $width: 1px) {
   border: $width solid $color;
   border-radius: $radius;
 }
 
 @mixin circle-border($color) {
   border: 1px solid $color;
-  border-radius: 999px;
+  border-radius: $radius-full-2;
 }
 
 @mixin control-shadow {
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: $shadow-sm;
 }
 
 @mixin control-focus {
@@ -40,7 +43,7 @@
   text-overflow: ellipsis;
 }
 
-@mixin icon-button($size: 30px, $radius: 8px, $icon-size: 16px) {
+@mixin icon-button($size: $spacing-32, $radius: $radius-md, $icon-size: $spacing-16) {
   display: inline-grid;
   place-items: center;
   flex-shrink: 0;
@@ -81,7 +84,7 @@
 
   &::-webkit-scrollbar-thumb {
     background-color: $thumb;
-    border-radius: 999px;
+    border-radius: $radius-full-2;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -113,7 +116,7 @@
   background-color: $bg;
   color: $fg;
   font-weight: $font-weight-semibold;
-  border-radius: 8px;
+  border-radius: $radius-md;
 
   &:hover:not(:disabled) {
     background-color: $bg-hover;

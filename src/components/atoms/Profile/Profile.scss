@@ -2,21 +2,21 @@
 
 .profile {
   @include inline-center;
-  height: 35px;
-  width: 35px;
+  height: $spacing-36;
+  width: $spacing-36;
   flex-shrink: 0;
   border-radius: 50%;
   background-color: $color-profile-muted;
 
   &--sm {
-    height: 22px;
-    width: 22px;
+    height: $spacing-24;
+    width: $spacing-24;
   }
 
   &__initial {
     color: $color-profile-foreground;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     line-height: 1;
   }
 }

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import {IoArrowForward, IoLockClosedOutline, IoMailOutline} from 'react-icons/io5'
+import {IoLockClosedOutline, IoMailOutline} from 'react-icons/io5'
 import Input from '../../atoms/Input/Input.jsx'
 import Button from '../../atoms/Button/Button.jsx'
 import Icon from '../../atoms/Icon/Icon.jsx'
@@ -66,12 +66,7 @@ export default function LoginForm({email, password, onEmailChange, onPasswordCha
             )}
 
             <Button type='submit' disabled={loading}>
-                {loading ? 'Signing in...' : (
-                    <>
-                        Sign in
-                        <Icon className='login-form__arrow' icon={IoArrowForward} />
-                    </>
-                )}
+                {loading ? 'Signing in...' : 'Sign in'}
             </Button>
         </form>
     )
