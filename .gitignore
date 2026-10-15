@@ -42,6 +42,3 @@ design-references/
 *.njsproj
 *.sln
 *.sw?
-
-# Engram AI agent memory
-.engram/
