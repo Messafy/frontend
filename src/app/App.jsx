@@ -1,3 +1,5 @@
+import { lazy, Suspense } from 'react'
+
 import {
     createBrowserRouter,
     redirect,
@@ -5,9 +7,19 @@ import {
 } from 'react-router-dom'
 
 import HomePage from '../components/pages/HomePage/HomePage.jsx'
-import LoginPage from '../components/pages/LoginPage/LoginPage.jsx'
-import NotePage from '../components/pages/NotePage/NotePage.jsx'
-import RegisterPage from '../components/pages/RegisterPage/RegisterPage.jsx'
+import LoadingPage from '../components/pages/LoadingPage/LoadingPage.jsx'
+
+const LoginPage = lazy(
+    () => import('../components/pages/LoginPage/LoginPage.jsx')
+)
+
+const RegisterPage = lazy(
+    () => import('../components/pages/RegisterPage/RegisterPage.jsx')
+)
+
+const NotePage = lazy(
+    () => import('../components/pages/NotePage/NotePage.jsx')
+)
 
 import AuthProvider from '../context/AuthContext.jsx'
 import { getSession } from '../context/authSession.js'
@@ -40,17 +52,29 @@ const router = createBrowserRouter([
     {
         path: '/login',
         loader: requireGuest,
-        element: <LoginPage />,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <LoginPage />
+            </Suspense>
+        ),
     },
     {
         path: '/register',
         loader: requireGuest,
-        element: <RegisterPage />,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <RegisterPage />
+            </Suspense>
+        ),
     },
     {
         path: '/notes',
         loader: requireAuth,
-        element: <NotePage />,
+        element: (
+            <Suspense fallback={<LoadingPage />}>
+                <NotePage />
+            </Suspense>
+        ),
     },
 ])
 

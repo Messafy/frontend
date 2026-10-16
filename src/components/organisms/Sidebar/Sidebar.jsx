@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Label from '../../atoms/Label/Label.jsx'
 import Profile from '../../atoms/Profile/Profile.jsx'
 import Text from '../../atoms/Text/Text.jsx'
@@ -24,7 +25,7 @@ const SHARED_FILTERS = [
     { id: 'inbox', icon: IoMailOutline, text: 'Inbox' },
 ]
 
-export default function Sidebar({ activeFilter, onSelectFilter, account }) {
+function Sidebar({ activeFilter, onSelectFilter, account }) {
     return (
         <aside className='sidebar'>
             <div className='sidebar__content'>
@@ -73,6 +74,8 @@ export default function Sidebar({ activeFilter, onSelectFilter, account }) {
         </aside>
     )
 }
+
+export default memo(Sidebar)
 
 Sidebar.propTypes = {
     activeFilter: PropTypes.oneOf(['all', 'pinned', 'sent', 'inbox', 'trash']).isRequired,

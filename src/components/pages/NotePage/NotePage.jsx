@@ -3,7 +3,7 @@ import NoteList from '../../organisms/NoteList/NoteList.jsx';
 import NoteEditor from '../../organisms/NoteEditor/NoteEditor.jsx';
 import './NotePage.scss';
 
-import { useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 import { useAuth } from '../../../context/authContext.js';
 import Note from '../../../models/Note.js';
@@ -59,16 +59,19 @@ function jsonHeaders(token) {
     };
 }
 
-async function fetchServerNotes(token, accountId) {
+async function fetchServerNotes(token, accountId, signal) {
     const responses = await Promise.all([
         fetch(`${API_URL}/v1/notes?ownerId=${encodeURIComponent(accountId)}`, {
             headers: authHeaders(token),
+            signal,
         }),
         fetch(`${API_URL}/v1/notes?sharedWith=${encodeURIComponent(accountId)}`, {
             headers: authHeaders(token),
+            signal,
         }),
         fetch(`${API_URL}/v1/notes/trash`, {
             headers: authHeaders(token),
+            signal,
         }),
     ]);
 
@@ -237,19 +240,25 @@ export default function NotePage() {
             return;
         }
 
+        const controller = new AbortController();
+
         async function loadNotes() {
             try {
-                const serverNotes = await fetchServerNotes(token, accountId);
+                const serverNotes = await fetchServerNotes(token, accountId, controller.signal);
                 dispatch({
                     type: 'LOAD_NOTES',
                     notes: serverNotes.map(note => Note.from(note)),
                 });
             } catch (error) {
+                if (error.name === 'AbortError') {
+                    return;
+                }
                 console.error('Error fetching notes:', error);
             }
         }
 
         loadNotes();
+        return () => controller.abort();
     }, [accountId, token]);
 
     useEffect(() => {
@@ -335,22 +344,27 @@ export default function NotePage() {
         }
     }
 
-    function selectFilter(filter) {
+    const selectFilter = useCallback((filter) => {
         setActiveFilter(filter);
         setSelectedNote(null);
-    }
+    }, []);
 
     function createNote() {
         setActiveFilter('all');
         setSelectedNote(Note.draft());
     }
 
-    const filteredNotes = filterNotes(notes, activeFilter, accountId);
-    const visibleNotes = activeFilter === 'trash'
-        ? filteredNotes
-        : sortPinnedFirst(filteredNotes);
+    const visibleNotes = useMemo(() => {
+        const filteredNotes = filterNotes(notes, activeFilter, accountId);
+        return activeFilter === 'trash'
+            ? filteredNotes
+            : sortPinnedFirst(filteredNotes);
+    }, [notes, activeFilter, accountId]);
     const readOnlyReason = getReadOnlyReason(activeFilter, selectedNote, accountId);
-    const unreadInboxCount = countUnreadInbox(notes, accountId);
+    const unreadInboxCount = useMemo(
+        () => countUnreadInbox(notes, accountId),
+        [notes, accountId]
+    );
 
     return (
         <main className="note-page">
