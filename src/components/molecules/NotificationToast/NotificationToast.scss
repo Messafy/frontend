@@ -1,0 +1,90 @@
+@use '../../../styles/tokens' as *;
+
+.notification-toast {
+  position: fixed;
+  top: $spacing-24;
+  right: $spacing-24;
+  z-index: 999;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: $spacing-16;
+  width: min(420px, calc(100vw - #{$spacing-48}));
+  padding: $spacing-20;
+  @include soft-border(rgba($color-button, 0.55), $radius-md);
+  background-color: rgba($color-button, 0.12);
+  color: $color-text-primary;
+  box-shadow: $shadow-md;
+  animation: notification-toast-enter 180ms ease-out;
+
+  &__icon {
+    width: $spacing-32;
+    height: $spacing-32;
+    color: $color-button;
+  }
+
+  &__content {
+    min-width: 0;
+  }
+
+  &__title {
+    display: block;
+    margin-bottom: $spacing-8;
+    color: $color-text-primary;
+  }
+
+  &__message {
+    margin: 0;
+    color: $color-text-secondary;
+    line-height: 1.5;
+  }
+
+  &__close {
+    display: grid;
+    place-items: center;
+    width: $spacing-32;
+    height: $spacing-32;
+    padding: 0;
+    border: 0;
+    border-radius: $radius-md;
+    background: transparent;
+    color: $color-text-secondary;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba($color-text-primary, 0.1);
+      color: $color-text-primary;
+      outline: none;
+    }
+  }
+
+  .progress {
+    grid-column: 1 / -1;
+    align-self: end;
+  }
+
+  @media (max-width: 480px) {
+    top: $spacing-16;
+    right: $spacing-16;
+    width: calc(100vw - #{$spacing-32});
+  }
+}
+
+@keyframes notification-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-$spacing-8);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notification-toast {
+    animation: none;
+  }
+}

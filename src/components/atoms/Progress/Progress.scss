@@ -18,7 +18,7 @@
     background: linear-gradient(90deg, rgba($color-accent, 0.65), $color-accent);
     box-shadow: 0 0 8px rgba($color-accent, 0.2);
     transform-origin: left center;
-    animation: progress-countdown 5s linear forwards;
+    animation: progress-countdown var(--progress-duration, 5000ms) linear forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {

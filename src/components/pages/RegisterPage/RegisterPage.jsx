@@ -1,8 +1,8 @@
 
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import AuthFooterNote from '../../molecules/AuthFooterNote/AuthFooterNote.jsx'
+import NotificationToast from '../../molecules/NotificationToast/NotificationToast.jsx'
 import AuthPageHeader from '../../organisms/AuthPageHeader/AuthPageHeader.jsx'
 import AuthCard from '../../organisms/AuthCard/AuthCard.jsx'
 import RegisterForm from '../../organisms/RegisterForm/RegisterForm.jsx'
@@ -19,6 +19,7 @@ export default function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [lockerPassword, setLockerPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [notification, setNotification] = useState(null)
     const [error, setError] = useState({
         email: null,
         password: null,
@@ -27,7 +28,6 @@ export default function RegisterPage() {
         form: null,
     })
 
-    const navigate = useNavigate()
     const { login } = useAuth()
 
     function handleEmailChange(value) {
@@ -117,6 +117,11 @@ export default function RegisterPage() {
                 )
             }
 
+            setNotification({
+                title: 'Verification email sent',
+                message: `Check ${email} for a link to activate your account.`,
+            })
+
             const loginResponse = await fetch(
                 `${API_URL}/v1/auth/login`,
                 {
@@ -176,10 +181,6 @@ export default function RegisterPage() {
             }
 
             login(session)
-
-            navigate('/notes', {
-                replace: true,
-            })
         } catch (error) {
             console.error('Register error:', error)
             setError((currentError) => ({
@@ -217,6 +218,16 @@ export default function RegisterPage() {
                     Already have an account? <Link href='/login'>Sign in</Link>
                 </AuthFooterNote>
             </AuthCard>
+
+            {notification && (
+                <NotificationToast
+                    type='success'
+                    title={notification.title}
+                    onClose={() => setNotification(null)}
+                >
+                    {notification.message}
+                </NotificationToast>
+            )}
         </main>
     )
 }

@@ -1,0 +1,33 @@
+@use "../../../styles/tokens/index" as *;
+
+.notification {
+  @include inline-center;
+  @include soft-border(rgba($color-text-primary, 0.12), $radius-md);
+  padding: $spacing-8 $spacing-12;
+  width: fit-content;
+  min-height: 40px;
+  margin: $spacing-16 $spacing-24 $spacing-16 auto;
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  flex-direction: column;
+
+  &--warning {
+    background-color: rgba($color-button, 0.12);
+    border-color: rgba($color-button, 0.55);
+    color: $color-button;
+  }
+
+  &--error {
+    background-color: rgba($color-danger, 0.12);
+    border-color: rgba($color-danger, 0.3);
+    color: $color-danger;
+  }
+
+  &--success {
+    background-color: rgba($color-success, 0.12);
+    border-color: rgba($color-success, 0.3);
+    color: $color-success;
+  }
+}
