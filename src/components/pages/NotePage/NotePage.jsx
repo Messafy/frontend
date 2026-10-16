@@ -7,9 +7,9 @@ import { useEffect, useReducer, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 import { useAuth } from '../../../context/authContext.js';
 import Note from '../../../models/Note.js';
+import { API_URL, WEBSOCKET_URL } from '../../../utils/apiUrl.js';
 
 const initialNotes = [];
-const WEBSOCKET_URL = 'ws://localhost:8080/ws';
 
 const FILTER_TITLES = {
     all: 'All Notes',
@@ -61,13 +61,13 @@ function jsonHeaders(token) {
 
 async function fetchServerNotes(token, accountId) {
     const responses = await Promise.all([
-        fetch(`http://localhost:8080/v1/notes?ownerId=${encodeURIComponent(accountId)}`, {
+        fetch(`${API_URL}/v1/notes?ownerId=${encodeURIComponent(accountId)}`, {
             headers: authHeaders(token),
         }),
-        fetch(`http://localhost:8080/v1/notes?sharedWith=${encodeURIComponent(accountId)}`, {
+        fetch(`${API_URL}/v1/notes?sharedWith=${encodeURIComponent(accountId)}`, {
             headers: authHeaders(token),
         }),
-        fetch('http://localhost:8080/v1/notes/trash', {
+        fetch(`${API_URL}/v1/notes/trash`, {
             headers: authHeaders(token),
         }),
     ]);
@@ -92,7 +92,7 @@ function buildSaveRequest(note) {
     if (note.id) {
         if (note.type === 'SHARED' && note.originalType === 'PRIVATE') {
             return {
-                endpoint: `http://localhost:8080/v1/notes/${note.id}/share`,
+                endpoint: `${API_URL}/v1/notes/${note.id}/share`,
                 method: 'PATCH',
                 body: {
                     recipientPublicCode: note.recipientPublicCode,
@@ -101,7 +101,7 @@ function buildSaveRequest(note) {
             };
         }
         return {
-            endpoint: `http://localhost:8080/v1/notes/${note.id}`,
+            endpoint: `${API_URL}/v1/notes/${note.id}`,
             method: 'PATCH',
             body: baseBody,
         };
@@ -109,7 +109,7 @@ function buildSaveRequest(note) {
 
     if (note.type === 'SHARED') {
         return {
-            endpoint: 'http://localhost:8080/v1/notes/shared',
+            endpoint: `${API_URL}/v1/notes/shared`,
             method: 'POST',
             body: {
                 ...baseBody,
@@ -120,7 +120,7 @@ function buildSaveRequest(note) {
     }
 
     return {
-        endpoint: 'http://localhost:8080/v1/notes',
+        endpoint: `${API_URL}/v1/notes`,
         method: 'POST',
         body: baseBody,
     };
@@ -139,7 +139,7 @@ async function sendSaveRequest(token, request) {
 }
 
 async function sendDeleteRequest(token, id) {
-    const response = await fetch('http://localhost:8080/v1/notes', {
+    const response = await fetch(`${API_URL}/v1/notes`, {
         method: 'DELETE',
         headers: jsonHeaders(token),
         body: JSON.stringify({ id }),
@@ -150,7 +150,7 @@ async function sendDeleteRequest(token, id) {
 }
 
 async function sendPinRequest(token, id, pinned) {
-    const response = await fetch(`http://localhost:8080/v1/notes/${id}/pin`, {
+    const response = await fetch(`${API_URL}/v1/notes/${id}/pin`, {
         method: 'PATCH',
         headers: jsonHeaders(token),
         body: JSON.stringify({ pinned }),

@@ -9,6 +9,7 @@ import LoginForm from '../../organisms/LoginForm/LoginForm.jsx'
 import Link from '../../atoms/Link/Link.jsx'
 
 import { useAuth } from '../../../context/authContext.js'
+import { API_URL } from '../../../utils/apiUrl.js'
 
 import './LoginPage.scss'
 
@@ -65,7 +66,7 @@ export default function LoginPage() {
 
         try {
             const loginResponse = await fetch(
-                'http://localhost:8080/v1/auth/login',
+                `${API_URL}/v1/auth/login`,
                 {
                     method: 'POST',
                     headers: {
@@ -89,7 +90,7 @@ export default function LoginPage() {
             const loginData = await loginResponse.json()
 
             const accountResponse = await fetch(
-                'http://localhost:8080/v1/accounts/me',
+                `${API_URL}/v1/accounts/me`,
                 {
                     headers: {
                         Authorization: `Bearer ${loginData.token}`,

@@ -9,6 +9,7 @@ import RegisterForm from '../../organisms/RegisterForm/RegisterForm.jsx'
 import Link from '../../atoms/Link/Link.jsx'
 
 import { useAuth } from '../../../context/authContext.js'
+import { API_URL } from '../../../utils/apiUrl.js'
 
 import './RegisterPage.scss'
 
@@ -94,7 +95,7 @@ export default function RegisterPage() {
 
         try {
             const registerResponse = await fetch(
-                'http://localhost:8080/v1/auth/register',
+                `${API_URL}/v1/auth/register`,
                 {
                     method: 'POST',
                     headers: {
@@ -117,7 +118,7 @@ export default function RegisterPage() {
             }
 
             const loginResponse = await fetch(
-                'http://localhost:8080/v1/auth/login',
+                `${API_URL}/v1/auth/login`,
                 {
                     method: 'POST',
                     headers: {
@@ -141,7 +142,7 @@ export default function RegisterPage() {
             const loginData = await loginResponse.json()
 
             const accountResponse = await fetch(
-                'http://localhost:8080/v1/accounts/me',
+                `${API_URL}/v1/accounts/me`,
                 {
                     headers: {
                         Authorization: `Bearer ${loginData.token}`,

@@ -1,3 +1,5 @@
+import { API_URL } from './apiUrl.js';
+
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PRINTABLE_ASCII_PATTERN = /^[\x21-\x7E]+$/;
 
@@ -67,7 +69,7 @@ export function buildSessionFromAccount(token, accountData) {
 }
 
 export async function loginAndLoadSession({ email, password }) {
-    const loginResponse = await fetch('http://localhost:8080/v1/auth/login', {
+    const loginResponse = await fetch(`${API_URL}/v1/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, rawPassword: password }),
@@ -80,7 +82,7 @@ export async function loginAndLoadSession({ email, password }) {
 
     const loginData = await loginResponse.json();
 
-    const accountResponse = await fetch('http://localhost:8080/v1/accounts/me', {
+    const accountResponse = await fetch(`${API_URL}/v1/accounts/me`, {
         headers: { Authorization: `Bearer ${loginData.token}` },
     });
 
@@ -94,7 +96,7 @@ export async function loginAndLoadSession({ email, password }) {
 }
 
 export async function registerAccount({ email, password, lockerPassword }) {
-    const response = await fetch('http://localhost:8080/v1/auth/register', {
+    const response = await fetch(`${API_URL}/v1/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
