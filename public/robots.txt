@@ -1,0 +1,4 @@
+# Allow crawlers to read the noindex directive in HTML and HTTP headers.
+# This file is not an access-control mechanism.
+User-agent: *
+Allow: /
