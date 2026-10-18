@@ -6,19 +6,18 @@ import {
     RouterProvider,
 } from 'react-router-dom'
 
-import HomePage from '../components/pages/HomePage/HomePage.jsx'
-import LoadingPage from '../components/pages/LoadingPage/LoadingPage.jsx'
+import LoadingScreen from '../components/pages/LoadingScreen/LoadingScreen.jsx'
 
-const LoginPage = lazy(
-    () => import('../components/pages/LoginPage/LoginPage.jsx')
+const LoginScreen = lazy(
+    () => import('../components/pages/LoginScreen/LoginScreen.jsx')
 )
 
-const RegisterPage = lazy(
-    () => import('../components/pages/RegisterPage/RegisterPage.jsx')
+const RegistrationScreen = lazy(
+    () => import('../components/pages/RegistrationScreen/RegistrationScreen.jsx')
 )
 
-const NotePage = lazy(
-    () => import('../components/pages/NotePage/NotePage.jsx')
+const NotesWorkspacePage = lazy(
+    () => import('../components/pages/NotesWorkspacePage/NotesWorkspacePage.jsx')
 )
 
 import AuthProvider from '../context/AuthContext.jsx'
@@ -44,17 +43,21 @@ function requireGuest() {
     return null
 }
 
+function redirectHome() {
+    return redirect(getSession()?.token ? '/notes' : '/login')
+}
+
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <HomePage />,
+        loader: redirectHome,
     },
     {
         path: '/login',
         loader: requireGuest,
         element: (
-            <Suspense fallback={<LoadingPage />}>
-                <LoginPage />
+            <Suspense fallback={<LoadingScreen />}>
+                <LoginScreen />
             </Suspense>
         ),
     },
@@ -62,8 +65,8 @@ const router = createBrowserRouter([
         path: '/register',
         loader: requireGuest,
         element: (
-            <Suspense fallback={<LoadingPage />}>
-                <RegisterPage />
+            <Suspense fallback={<LoadingScreen />}>
+                <RegistrationScreen />
             </Suspense>
         ),
     },
@@ -71,8 +74,8 @@ const router = createBrowserRouter([
         path: '/notes',
         loader: requireAuth,
         element: (
-            <Suspense fallback={<LoadingPage />}>
-                <NotePage />
+            <Suspense fallback={<LoadingScreen />}>
+                <NotesWorkspacePage />
             </Suspense>
         ),
     },

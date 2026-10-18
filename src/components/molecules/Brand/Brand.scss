@@ -1,9 +1,0 @@
-@use '../../../styles/tokens' as *;
-
-.brand {
-    height: $spacing-64;
-    width: auto;
-    display: block;
-    flex-shrink: 0;
-    object-fit: contain;
-}
