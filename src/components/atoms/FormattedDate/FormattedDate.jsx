@@ -35,7 +35,7 @@ function formatDate (date, type) {
         return `${dayNumber} ${MONTHS[monthIndex]}`
     }
 
-    const parsedDate = new globalThis.FormattedDate(date)
+    const parsedDate = new globalThis.Date(date)
 
     if (Number.isNaN(parsedDate.getTime())) {
         return null

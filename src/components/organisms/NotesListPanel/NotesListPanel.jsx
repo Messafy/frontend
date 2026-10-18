@@ -42,7 +42,7 @@ function NotesListPanel({ title, notes, selectedNoteId, accountId, onSelectNote,
                         className='note-list__new-note-button'
                         onClick={onCreateNote}
                     >
-                        New NoteCard
+                        New Note
                     </ActionButton>
                 </div>
                 <div className='note-list__search'>
