@@ -28,7 +28,7 @@ export default function TextInput ({ children, error = null, variant, className,
 TextInput.propTypes = {
     children: PropTypes.node,
     error: PropTypes.instanceOf(Error),
-    variant: PropTypes.string,
+    variant: PropTypes.oneOf(['compact', 'transparent']),
     className: PropTypes.string,
     placeholder: PropTypes.string,
 }

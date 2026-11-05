@@ -1,58 +1,69 @@
-@use "../../../styles/tokens" as *;
+@use '../../../styles/tokens' as *;
 
 .button {
     @include inline-center;
     gap: $spacing-8;
-    cursor: pointer;
-    font: inherit;
     border: 0;
-    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background-color $duration-base ease,
+        border-color $duration-base ease,
+        box-shadow $duration-base ease,
+        color $duration-base ease;
 
     &:focus-visible {
         @include focus-ring(rgba($zinc-50, 0.25));
     }
-}
 
-.button--primary {
-    @include solid-button($color-primary-solid, $zinc-950, $color-primary-solid-hover);
-    @include control-border($color-button-border);
-    font-size: 14px;
-    min-height: $spacing-40;
-    padding: 0 $spacing-16;
-    letter-spacing: -0.011em;
-
-    &:hover {
-        box-shadow: none;
+    &:disabled {
+        cursor: not-allowed;
     }
 }
 
+.button--primary {
+    @include solid-button($color-accent, $color-accent-foreground, $color-accent-hover);
+    min-height: $spacing-40;
+    padding: 0 $spacing-16;
+    font-size: $font-size-control;
+    letter-spacing: -0.011em;
+
+    &:disabled {
+        opacity: 0.6;
+    }
+}
+
+.button--secondary {
+    @include solid-button($zinc-50, $zinc-950, $zinc-200);
+    min-height: $spacing-32;
+    padding: 0 $spacing-16;
+    font-size: $font-size-xs;
+
+    &:disabled {
+        background-color: $zinc-800;
+        color: $color-text-muted;
+    }
+}
+
+.button--save {
+    @include solid-button($color-accent, $color-accent-foreground, $color-accent-hover);
+    min-height: $spacing-36;
+    padding: 0 $spacing-12 0 $spacing-16;
+    font-size: $font-size-small;
+}
+
 .button--ghost {
-    gap: $spacing-8;
     min-height: $spacing-28;
     padding: 0;
-    color: $color-text-secondary;
     background: transparent;
+    color: $color-text-secondary;
 
     &:hover {
         color: $color-text-primary;
     }
 }
 
-.button--save {
-    gap: $spacing-8;
-    min-height: $spacing-36;
-    padding: 0 $spacing-12 0 $spacing-16;
-
-    @include solid-button($color-accent, $zinc-950, $color-primary-solid-hover);
-    font-size: 13px;
-
-    .icon {
-        height: $spacing-16;
-        width: $spacing-16;
-
-        svg {
-            height: 14px;
-            width: 14px;
-        }
-    }
+.button--icon {
+    @include icon-button;
 }

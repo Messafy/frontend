@@ -16,7 +16,7 @@ export default function ActionButton({children, icon = null, variant = 'primary'
 ActionButton.propTypes = {
     children: PropTypes.node,
     icon: PropTypes.elementType,
-    variant: PropTypes.oneOf(['primary', 'ghost', 'save']),
+    variant: PropTypes.oneOf(['primary', 'secondary', 'save', 'ghost', 'icon']),
     type: PropTypes.string,
     className: PropTypes.string,
 }

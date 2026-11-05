@@ -4,9 +4,9 @@
     position: fixed;
     inset: 0;
     z-index: 29;
-    background: rgba($zinc-950, 0.55);
+    background: $color-backdrop;
     cursor: default;
-    animation: tag-editor-backdrop-in 140ms ease-out;
+    animation: tag-editor-backdrop-in $duration-base ease-out;
 }
 
 .tag-editor {
@@ -16,18 +16,15 @@
     width: 272px;
     padding: $spacing-16;
     color: $color-text-primary;
-    background: $color-popover;
-    border: 1px solid $color-border-hover;
-    border-radius: $radius-xl;
-    box-shadow: $shadow-xl;
-    animation: tag-editor-in 140ms ease-out;
+    @include popover($color-border-hover);
+    animation: tag-editor-in $duration-base ease-out;
 
     &--below {
-        top: calc(100% + $spacing-8);
+        top: calc(100% + #{$spacing-8});
     }
 
     &--above {
-        bottom: calc(100% + $spacing-8);
+        bottom: calc(100% + #{$spacing-8});
     }
 
     &__header {
@@ -39,7 +36,7 @@
         border-bottom: 1px solid $color-border;
     }
 
-    &__close.button {
+    &__close.button--icon {
         @include icon-button($spacing-24, $radius-md, $spacing-12);
         color: $color-text-muted;
     }
@@ -48,61 +45,6 @@
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         gap: $spacing-8;
-
-        .input--tag {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            min-height: $spacing-32;
-            padding: 0 $spacing-8;
-            background-color: $color-input-fill;
-            border: 1px solid $color-input-border;
-            border-radius: $radius-xl;
-            box-shadow: none;
-            transition: border-color 160ms ease;
-
-            &:hover {
-                border-color: $color-border-hover;
-            }
-
-            &:focus-within {
-                border-color: $zinc-500;
-                box-shadow: none;
-                outline: 0;
-            }
-        }
-
-        .input--tag .input__control {
-            min-height: 0;
-            height: auto;
-            padding: 0;
-            font-size: $font-size-xs;
-            font-weight: 400;
-            letter-spacing: normal;
-            line-height: 1.2;
-        }
-
-        .button {
-            min-height: $spacing-32;
-            height: $spacing-32;
-            padding: 0 $spacing-16;
-            font-size: $font-size-xs;
-            font-weight: $font-weight-semibold;
-            border-radius: $radius-md;
-            background-color: $zinc-50;
-            color: $zinc-950;
-            white-space: nowrap;
-
-            &:hover:not(:disabled) {
-                background-color: $zinc-200;
-            }
-
-            &:disabled {
-                background-color: $zinc-800;
-                color: $color-text-muted;
-                cursor: not-allowed;
-            }
-        }
     }
 
     &__tags {
@@ -112,6 +54,7 @@
         max-height: 132px;
         margin-top: $spacing-12;
         padding-top: $spacing-12;
+        overflow-y: auto;
         border-top: 1px solid $color-border;
         @include scrollbar-thin;
     }
@@ -122,6 +65,7 @@
         opacity: 0;
         transform: translateY(-4px) scale(0.98);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -132,6 +76,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }

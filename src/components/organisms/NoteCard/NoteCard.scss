@@ -1,29 +1,31 @@
 @use '../../../styles/tokens' as *;
 
+$pin-inset: $spacing-12;
+$pin-size: $spacing-28;
+
 .note {
     position: relative;
+    cursor: pointer;
 
     .note-type-label {
         position: absolute;
         top: $spacing-16;
-        right: 50px;
+        right: $pin-inset + $pin-size + $spacing-8;
     }
 
     &__pin {
-        @include icon-button($spacing-28, $radius-md, $spacing-16);
+        @include icon-button($pin-size, $radius-md, $spacing-16);
         position: absolute;
-        top: $spacing-12;
-        right: $spacing-12;
+        top: $pin-inset;
+        right: $pin-inset;
         z-index: 1;
         color: $color-text-muted;
         opacity: 0.8;
-        transition: color 150ms ease, background-color 150ms ease;
+        transition: color $duration-base ease, background-color $duration-base ease;
 
         &:hover,
         &:focus-visible {
-            color: $color-text-primary;
             opacity: 1;
-            outline: none;
         }
 
         &--active,

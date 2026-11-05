@@ -38,7 +38,7 @@ export default function NoteFormattingToolbar({content, onFormat, onSave, onDele
                 {FORMAT_ACTIONS.map(action => (
                     <ActionButton
                         key={action.id}
-                        variant='ghost'
+                        variant='icon'
                         aria-label={action.label}
                         title={action.label}
                         onClick={() => onFormat(action.id)}
@@ -52,7 +52,7 @@ export default function NoteFormattingToolbar({content, onFormat, onSave, onDele
                 <StyledText as='span' size='small' color='secondary'>
                     {wordCount} words · {characterCount} characters
                 </StyledText>
-                <ActionButton type='button' variant='ghost' aria-label='Delete note' onClick={onDelete}>
+                <ActionButton type='button' variant='icon' aria-label='Delete note' onClick={onDelete}>
                     <UiIcon icon={LuTrash2} />
                 </ActionButton>
                 <ActionButton type='button' variant='save' onClick={onSave}>

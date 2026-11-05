@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 
 import AuthFooterMessage from '../../molecules/AuthFooterMessage/AuthFooterMessage.jsx'
@@ -9,7 +8,13 @@ import AccountRegistrationForm from '../../organisms/AccountRegistrationForm/Acc
 import NavigationLink from '../../atoms/NavigationLink/NavigationLink.jsx'
 
 import { useAuth } from '../../../context/authContext.js'
-import { API_URL } from '../../../utils/apiUrl.js'
+import {
+    isValidEmail,
+    loginAndLoadSession,
+    registerAccount,
+    validateLockerPassword,
+    validatePassword,
+} from '../../../utils/authApi.js'
 
 import './RegistrationScreen.scss'
 
@@ -31,31 +36,22 @@ export default function RegistrationScreen() {
     const { login } = useAuth()
 
     function handleEmailChange(value) {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-
         setError((currentError) => ({
             ...currentError,
-            email: emailRegex.test(value) ? null : new Error('Invalid email address'),
+            email: isValidEmail(value) ? null : new Error('Invalid email address'),
             form: null,
         }))
         setEmail(value)
     }
 
     function handlePasswordChange(value) {
-        const hasValidLength = value.length >= 8 && value.length <= 128;
-        const hasNumber = /\d/.test(value);
-        const hasSpecialCharacter = /[^\p{L}\p{N}\s]/u.test(value);
+        const message = validatePassword(value)
 
         setError((currentError) => ({
             ...currentError,
-            password: !hasValidLength || !hasNumber || !hasSpecialCharacter
-                ? new Error(
-                    'Password must be 8–128 characters and contain a number and a special character'
-                )
-                : null,
+            password: message ? new Error(message) : null,
             form: null,
         }))
-
         setPassword(value)
     }
 
@@ -65,20 +61,15 @@ export default function RegistrationScreen() {
             confirmPassword: value === password ? null : new Error('Passwords do not match'),
             form: null,
         }))
-
         setConfirmPassword(value)
     }
 
     function handleLockerPasswordChange(value) {
-        const valid = value.length >= 8
-            && value.length <= 64
-            && /^[\x21-\x7E]+$/.test(value)
+        const message = validateLockerPassword(value)
 
         setError((currentError) => ({
             ...currentError,
-            lockerPassword: valid
-                ? null
-                : new Error('Locker password must be 8–64 printable characters with no spaces'),
+            lockerPassword: message ? new Error(message) : null,
             form: null,
         }))
         setLockerPassword(value)
@@ -94,93 +85,12 @@ export default function RegistrationScreen() {
         setLoading(true)
 
         try {
-            const registerResponse = await fetch(
-                `${API_URL}/v1/auth/register`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email,
-                        rawPassword: password,
-                        rawLockerPassword: lockerPassword,
-                    }),
-                }
-            )
-
-            if (!registerResponse.ok) {
-                const errorData = await parseResponse(registerResponse)
-
-                throw new Error(
-                    errorData?.message ?? 'Registration failed'
-                )
-            }
-
+            await registerAccount({ email, password, lockerPassword })
             setNotification({
                 title: 'Verification email sent',
                 message: `Check ${email} for a link to activate your account.`,
             })
-
-            const loginResponse = await fetch(
-                `${API_URL}/v1/auth/login`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email,
-                        rawPassword: password,
-                    }),
-                }
-            )
-
-            if (!loginResponse.ok) {
-                const errorData = await parseResponse(loginResponse)
-
-                throw new Error(
-                    errorData?.message ?? 'Login failed'
-                )
-            }
-
-            const loginData = await loginResponse.json()
-
-            const accountResponse = await fetch(
-                `${API_URL}/v1/accounts/me`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${loginData.token}`,
-                    },
-                }
-            )
-
-            if (!accountResponse.ok) {
-                const errorData = await parseResponse(accountResponse)
-
-                throw new Error(
-                    errorData?.message ?? 'Failed to fetch account'
-                )
-            }
-
-            const accountData = await accountResponse.json()
-
-            const session = {
-                token: loginData.token,
-
-                account: {
-                    id: accountData.id,
-                    email: accountData.email,
-                    publicCode: accountData.publicCode,
-                    role: accountData.role,
-                    status: accountData.status,
-                    verified: accountData.verified,
-                    createdAt: accountData.createdAt,
-                    lastLoginAt: accountData.lastLoginAt,
-                },
-            }
-
-            login(session)
+            login(await loginAndLoadSession({ email, password }))
         } catch (error) {
             console.error('Register error:', error)
             setError((currentError) => ({
@@ -221,7 +131,6 @@ export default function RegistrationScreen() {
 
             {notification && (
                 <ToastNotification
-                    type='success'
                     title={notification.title}
                     onClose={() => setNotification(null)}
                 >
@@ -230,20 +139,4 @@ export default function RegistrationScreen() {
             )}
         </main>
     )
-}
-
-async function parseResponse(response) {
-    const text = await response.text()
-
-    if (!text) {
-        return null
-    }
-
-    try {
-        return JSON.parse(text)
-    } catch {
-        return {
-            message: text,
-        }
-    }
 }

@@ -1,7 +1,7 @@
 @use '../../../styles/tokens' as *;
 
 .collection-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-8;
 }

@@ -10,7 +10,7 @@ export default function LoginCredentialsForm({email, password, onEmailChange, on
     return (
         <form className='login-form' autoComplete='off' onSubmit={onSubmit}>
             <div className='login-form__field'>
-                <StyledText as='span' size='small' color='secondary' className='login-form__label'>
+                <StyledText as='span' size='small' color='secondary'>
                     Email address
                 </StyledText>
                 <TextInput
@@ -35,7 +35,7 @@ export default function LoginCredentialsForm({email, password, onEmailChange, on
             </div>
 
             <div className='login-form__field'>
-                <StyledText as='span' size='small' color='secondary' className='login-form__label'>
+                <StyledText as='span' size='small' color='secondary'>
                     Password
                 </StyledText>
                 <TextInput

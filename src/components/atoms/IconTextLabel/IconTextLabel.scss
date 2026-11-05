@@ -1,31 +1,28 @@
-@use "../../../styles/tokens/index" as *;
+@use '../../../styles/tokens' as *;
 
 .label {
-  display: flex;
-  align-items: center;
-  gap: $spacing-8;
-  width: 100%;
-  min-height: $spacing-28;
-  padding: $spacing-4 $spacing-8;
-  box-sizing: border-box;
-  background: none;
-  font: inherit;
-  text-align: left;
-  color: inherit;
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    width: 100%;
+    min-height: $spacing-28;
+    padding: $spacing-4 $spacing-8;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    @include soft-border(transparent);
+    transition:
+        background-color $duration-base ease,
+        color $duration-base ease,
+        box-shadow $duration-base ease;
 
-  @include soft-border(transparent, $radius-md);
-  cursor: pointer;
+    &:hover {
+        background-color: $color-ghost-hover;
+    }
 
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    box-shadow 180ms ease;
-
-  &:hover {
-    background-color: $color-ghost-hover;
-  }
-
-  &--active {
-    background-color: $color-selected;
-  }
+    &--active {
+        background-color: $color-selected;
+    }
 }

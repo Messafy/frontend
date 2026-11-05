@@ -24,7 +24,6 @@ export default function NoteCard ({ date, title, content = '', tags = [], pinned
             aria-label={title}
             aria-current={selected ? 'true' : undefined}
             onClick={onSelect}
-            style={{ cursor: 'pointer' }}
         >
             <NoteAccessTypeIndicator type={relationship} />
             {canPin && (

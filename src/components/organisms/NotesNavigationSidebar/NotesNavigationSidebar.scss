@@ -24,7 +24,6 @@
         display: flex;
         flex-direction: column;
         gap: $spacing-16;
-        padding-top: 0;
     }
 
     &__bottom {
@@ -73,42 +72,14 @@
         }
     }
 
-    .input {
-        min-height: $spacing-32;
-        padding: 0 $spacing-8;
-        color: $color-menu-aside-muted;
-        background-color: $color-input-fill;
-        border-color: $color-menu-aside-border;
-        box-shadow: none;
-    }
-
-    .input__control {
-        font-size: $font-size-xs;
-        color: $color-menu-aside-foreground;
-    }
-
     .label {
         color: $color-menu-aside-foreground;
 
-        &:hover {
-            background-color: $color-ghost-hover;
-        }
-
         &--active {
-            background-color: $color-selected;
             color: $color-text-primary;
             box-shadow: inset 2px 0 0 $color-accent;
         }
     }
 
-    .icon {
-        height: $spacing-16;
-        width: $spacing-16;
-        color: currentColor;
-
-        svg {
-            height: $spacing-12;
-            width: $spacing-12;
-        }
-    }
+    @include icon-size($spacing-16);
 }

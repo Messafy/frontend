@@ -2,23 +2,18 @@
 
 .note-type-label {
     display: inline-flex;
-    width: max-content;
     align-items: center;
     gap: $spacing-4;
+    width: max-content;
     height: $spacing-24;
     padding: 0 $spacing-8;
-    border: 1px solid $color-border;
-    border-radius: $radius-full-2;
+    @include soft-border($color-border, $radius-full);
     background-color: $color-badge;
     color: $color-text-secondary;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
-    line-height: 1;
-
-    .icon {
-        width: 12px;
-        height: 12px;
-    }
+    line-height: $line-height-heading;
+    @include icon-size($spacing-12);
 
     &--sent,
     &--inbox {

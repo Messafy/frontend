@@ -42,3 +42,8 @@ design-references/
 *.njsproj
 *.sln
 *.sw?
+
+# AI agent instructions (local only)
+CLAUDE.md
+.claude/
+AGENTS.md

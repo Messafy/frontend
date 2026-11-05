@@ -1,6 +1,18 @@
 @use '../../../styles/tokens' as *;
 
 $editor-gutter-x: $spacing-40;
+$meta-label-width: 132px;
+$meta-row-gap: $spacing-12;
+
+%meta-control {
+    @include inline-center;
+    gap: $spacing-8;
+    height: $spacing-28;
+    padding: 0 $spacing-8;
+    border-radius: $radius-md;
+    font-size: $font-size-xs;
+    @include icon-size($spacing-12);
+}
 
 .note-editor {
     display: flex;
@@ -29,17 +41,8 @@ $editor-gutter-x: $spacing-40;
         justify-content: space-between;
         gap: $spacing-24;
         padding: $spacing-16 $editor-gutter-x;
-
         background-color: $color-editor-header;
         border-bottom: 1px solid $color-border;
-        box-shadow: none;
-
-        .text--size-h2 {
-            font-size: $font-size-display;
-            font-weight: $font-weight-display;
-            line-height: $line-height-display;
-            letter-spacing: $letter-spacing-display;
-        }
     }
 
     &__title-group {
@@ -48,11 +51,11 @@ $editor-gutter-x: $spacing-40;
         gap: $spacing-8;
         min-width: 0;
 
-        .input__control {
+        > .input .input__control {
             color: $color-text-primary;
             font-size: $font-size-display;
-            font-weight: $font-weight-display;
-            line-height: $line-height-display;
+            font-weight: $font-weight-semibold;
+            line-height: $line-height-heading;
             letter-spacing: $letter-spacing-display;
         }
     }
@@ -67,7 +70,7 @@ $editor-gutter-x: $spacing-40;
     &__meta-row {
         display: flex;
         align-items: center;
-        gap: $spacing-12;
+        gap: $meta-row-gap;
 
         &--wrap {
             flex-wrap: wrap;
@@ -79,13 +82,11 @@ $editor-gutter-x: $spacing-40;
         display: inline-flex;
         align-items: center;
         gap: $spacing-8;
-        width: 132px;
         flex-shrink: 0;
+        width: $meta-label-width;
+        @include icon-size($spacing-12);
 
         .icon {
-            width: $spacing-12;
-            height: $spacing-12;
-            flex-shrink: 0;
             color: $color-text-secondary;
         }
     }
@@ -105,35 +106,13 @@ $editor-gutter-x: $spacing-40;
     &__recipient-input.input {
         flex: 0 1 auto;
         width: 260px;
-        min-width: 0;
         max-width: 100%;
-        min-height: $spacing-40;
-        background-color: $color-input-fill;
-        border-color: $color-input-border;
-        box-shadow: none;
-
-        &:hover {
-            border-color: $color-border-hover;
-        }
-
-        &:focus-within {
-            border-color: $zinc-500;
-            box-shadow: none;
-            outline: 0;
-        }
+        min-width: 0;
+        @include icon-size($spacing-12);
 
         .input__control {
             font-size: $font-size-small;
-            font-weight: $font-weight-regular;
             line-height: normal;
-            letter-spacing: normal;
-        }
-
-        > .icon {
-            width: $spacing-12;
-            height: $spacing-12;
-            flex-shrink: 0;
-            color: $color-text-muted;
         }
     }
 
@@ -141,15 +120,10 @@ $editor-gutter-x: $spacing-40;
         display: flex;
         align-items: center;
         gap: $spacing-8;
-        margin-left: 144px;
+        margin-left: $meta-label-width + $meta-row-gap;
         color: $color-accent;
         font-size: $font-size-xs;
-
-        .icon {
-            flex-shrink: 0;
-            width: $spacing-12;
-            height: $spacing-12;
-        }
+        @include icon-size($spacing-12);
     }
 
     &__visibility {
@@ -158,77 +132,49 @@ $editor-gutter-x: $spacing-40;
     }
 
     &__visibility-button {
-        @include inline-center;
-        gap: $spacing-8;
-        height: $spacing-28;
-        padding: 0 $spacing-8;
-        border-radius: $radius-md;
-        background-color: transparent;
+        @extend %meta-control;
         border: 1px solid transparent;
+        background-color: transparent;
         color: $color-text-primary;
-        font-size: $font-size-xs;
         cursor: pointer;
         @include control-transition;
 
-        .icon {
-            width: $spacing-12;
-            height: $spacing-12;
-        }
-
         &:hover,
         &:focus-visible {
-            background-color: $color-ghost-hover;
-            border-color: transparent;
             outline: 0;
-        }
-
-        .icon:last-child {
-            margin-left: 0;
+            background-color: $color-ghost-hover;
         }
     }
 
     &__visibility-readonly {
-        @include inline-center;
-        gap: $spacing-8;
-        height: $spacing-28;
-        padding: 0 $spacing-8;
-        border-radius: $radius-md;
-        background-color: $color-input-fill;
+        @extend %meta-control;
         border: 1px solid $color-input-border;
+        background-color: $color-input-fill;
         color: $color-text-secondary;
-        font-size: $font-size-xs;
-
-        .icon {
-            width: $spacing-12;
-            height: $spacing-12;
-        }
     }
 
     &__visibility-menu {
         position: absolute;
-        top: calc(100% + $spacing-8);
+        top: calc(100% + #{$spacing-8});
         left: 0;
         z-index: 10;
+        min-width: 166px;
         margin: 0;
         padding: $spacing-8;
         list-style: none;
-        min-width: 166px;
-        border-radius: $radius-xl;
-        background-color: $color-popover;
-        border: 1px solid $color-border;
-        box-shadow: $shadow-xl;
+        @include popover;
 
         li + li {
             margin-top: $spacing-4;
         }
 
         &::before {
+            content: '';
             position: absolute;
             top: -5px;
             left: $spacing-16;
             width: 9px;
             height: 9px;
-            content: '';
             background-color: $color-popover;
             border-top: 1px solid $color-border;
             border-left: 1px solid $color-border;
@@ -243,18 +189,19 @@ $editor-gutter-x: $spacing-40;
         width: 100%;
         height: $spacing-32;
         padding: 0 $spacing-8;
+        border: 0;
         border-radius: $radius-md;
         background: transparent;
-        border: 0;
         color: $color-text-primary;
         font-size: $font-size-small;
         text-align: left;
         cursor: pointer;
         @include control-transition;
+        @include icon-size($spacing-12);
 
-        .icon {
-            width: $spacing-12;
-            height: $spacing-12;
+        .icon:last-child {
+            margin-left: auto;
+            color: $color-accent;
         }
 
         &:hover {
@@ -266,15 +213,8 @@ $editor-gutter-x: $spacing-40;
             color: $color-accent;
 
             &:hover {
-                background-color: rgba(211, 216, 203, 0.18);
+                background-color: rgba($color-accent, 0.18);
             }
-        }
-
-        .icon:last-child {
-            width: $spacing-12;
-            height: $spacing-12;
-            margin-left: auto;
-            color: $color-accent;
         }
     }
 
@@ -283,20 +223,9 @@ $editor-gutter-x: $spacing-40;
     }
 
     &__tag-add-button.button {
-        display: inline-flex;
-        align-items: center;
+        @extend %meta-control;
         gap: $spacing-4;
-        height: $spacing-28;
         min-height: 0;
-        padding: 0 $spacing-8;
-        border-radius: $radius-md;
-        font-size: $font-size-xs;
-        color: $color-text-secondary;
-
-        .icon {
-            width: $spacing-12;
-            height: $spacing-12;
-        }
 
         &:hover,
         &:focus-visible {
@@ -305,21 +234,11 @@ $editor-gutter-x: $spacing-40;
         }
     }
 
-    &__meta {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: $spacing-8;
-        flex-shrink: 0;
-    }
-
     .textarea {
         flex: 1;
         min-height: 0;
-        width: 100%;
         padding: $spacing-28 $editor-gutter-x $spacing-40;
-        font-family: $font-family-base;
-        font-size: 16px;
-        line-height: 1.7;
+        font-size: $font-size-body;
+        line-height: $line-height-relaxed;
     }
 }

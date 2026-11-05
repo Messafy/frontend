@@ -1,61 +1,70 @@
-@use "../../../styles/tokens" as *;
+@use '../../../styles/tokens' as *;
 
 .input {
-  align-items: center;
-  background-color: $color-input;
-  @include control-border($color-input-border);
-  color: $color-text-secondary;
-  display: flex;
-  gap: $spacing-8;
-  min-height: $spacing-40;
-  padding: 0 $spacing-16;
-  @include control-transition;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    width: 100%;
+    min-height: $spacing-40;
+    padding: 0 $spacing-16;
+    color: $color-text-secondary;
+    background-color: $color-input-fill;
+    @include soft-border($color-input-border);
+    @include control-transition;
 
-  &:hover {
-    border-color: $zinc-700;
-  }
+    .icon {
+        color: $color-text-muted;
+    }
 
-  &:focus-within {
-    border-color: $zinc-500;
-    box-shadow: none;
-  }
+    &:hover {
+        border-color: $color-border-hover;
+    }
 
-  &--error,
-  &--error:hover,
-  &--error:focus-within {
-    border-color: $color-danger;
-    box-shadow: 0 0 0 3px rgba($color-danger, 0.2);
-  }
-
-  &--transparent {
-    background-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    min-height: auto;
-    padding: 0;
-
-    &:hover,
     &:focus-within {
-      background-color: transparent;
-      border-color: transparent;
-      box-shadow: none;
+        border-color: $color-border-focus;
     }
-  }
 
-  &__control {
-    background: transparent;
-    border: 0;
-    color: $color-text-primary;
-    flex: 1;
-    font: inherit;
-    font-size: 14px;
-    min-width: 0;
-    outline: 0;
-    padding: 0;
-
-    &::placeholder {
-      color: $color-text-muted;
+    &--error,
+    &--error:hover,
+    &--error:focus-within {
+        border-color: $color-danger;
+        box-shadow: 0 0 0 3px rgba($color-danger, 0.2);
     }
-  }
+
+    &--compact {
+        min-height: $spacing-32;
+        padding: 0 $spacing-8;
+
+        .input__control {
+            font-size: $font-size-xs;
+        }
+    }
+
+    &--transparent {
+        min-height: auto;
+        padding: 0;
+        background-color: transparent;
+
+        &,
+        &:hover,
+        &:focus-within {
+            border-color: transparent;
+        }
+    }
+
+    &__control {
+        flex: 1;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: $color-text-primary;
+        font: inherit;
+        font-size: $font-size-control;
+
+        &::placeholder {
+            color: $color-text-muted;
+        }
+    }
 }

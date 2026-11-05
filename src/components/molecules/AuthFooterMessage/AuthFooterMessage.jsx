@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import StyledText from '../../atoms/StyledText/StyledText.jsx'
-import './AuthFooterMessage.scss'
 
 export default function AuthFooterMessage({children, align = 'center'}) {
     return (

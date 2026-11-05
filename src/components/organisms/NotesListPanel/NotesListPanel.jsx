@@ -30,7 +30,7 @@ function NotesListPanel({ title, notes, selectedNoteId, accountId, onSelectNote,
             <header className='note-list__header'>
                 <div className='note-list__header-row'>
                     <div className='note-list__title'>
-                        <StyledText as='h2' size='h2' weight='semibold' id='note-list-title'>
+                        <StyledText as='h2' size='display' weight='semibold' id='note-list-title'>
                             {title}
                         </StyledText>
                         <StyledText as='span' size='small' color='secondary'>

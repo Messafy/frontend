@@ -1,28 +1,28 @@
-@use "../../../styles/tokens" as *;
+@use '../../../styles/tokens' as *;
 
 .tag {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-4;
-  background-color: $color-badge;
-  border: 0;
-  border-radius: $radius-full-2;
-  padding: $spacing-4 $spacing-12;
-  font-size: 12px;
-  font-weight: $font-weight-regular;
-  line-height: 1;
-  cursor: pointer;
-  @include ellipsis;
-  position: relative;
-
-  &__label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-4;
+    max-width: 100%;
+    padding: $spacing-4 $spacing-12;
+    border: 0;
+    border-radius: $radius-full;
+    background-color: $color-badge;
+    font-size: $font-size-xs;
+    line-height: $line-height-heading;
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    cursor: pointer;
 
-  &__remove {
-    @include icon-button($spacing-16, $radius-sm, $spacing-12);
-    color: $color-text-muted;
-  }
+    &__label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
+    &__remove {
+        @include icon-button($spacing-16, $radius-sm, $spacing-12);
+        color: $color-text-muted;
+    }
 }

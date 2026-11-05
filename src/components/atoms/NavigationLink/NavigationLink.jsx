@@ -13,7 +13,7 @@ export default function NavigationLink({ children, href, rel, target, ...props})
             target={target}
             {...props}
         >
-            <StyledText as='span' size='link' weight='medium' color='inherit'>
+            <StyledText as='span' size='small' weight='medium' color='inherit'>
                 {children}
             </StyledText>
         </a>

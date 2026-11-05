@@ -10,7 +10,7 @@ export default function AccountRegistrationForm({email, password, confirmPasswor
     return (
         <form className='register-form' autoComplete='off' onSubmit={onSubmit}>
             <div className='register-form__field'>
-                <StyledText as='span' size='small' color='secondary' className='register-form__label'>
+                <StyledText as='span' size='small' color='secondary'>
                     Email address
                 </StyledText>
                 <TextInput
@@ -35,7 +35,7 @@ export default function AccountRegistrationForm({email, password, confirmPasswor
             </div>
 
             <div className='register-form__field'>
-                <StyledText as='span' size='small' color='secondary' className='register-form__label'>
+                <StyledText as='span' size='small' color='secondary'>
                     Locker password
                 </StyledText>
                 <StyledText as='p' size='small' color='muted' className='register-form__notice'>
@@ -63,7 +63,7 @@ export default function AccountRegistrationForm({email, password, confirmPasswor
             </div>
 
             <div className='register-form__field'>
-                <StyledText as='span' size='small' color='secondary' className='register-form__label'>
+                <StyledText as='span' size='small' color='secondary'>
                     Password
                 </StyledText>
                 <TextInput
@@ -88,7 +88,7 @@ export default function AccountRegistrationForm({email, password, confirmPasswor
             </div>
 
             <div className='register-form__field'>
-                <StyledText as='span' size='small' color='secondary' className='register-form__label'>
+                <StyledText as='span' size='small' color='secondary'>
                     Confirm password
                 </StyledText>
                 <TextInput

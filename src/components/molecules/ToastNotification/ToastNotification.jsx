@@ -4,14 +4,14 @@ import { IoClose, IoCheckmarkCircle } from 'react-icons/io5'
 import TimedProgressBar from '../../atoms/TimedProgressBar/TimedProgressBar.jsx'
 import './ToastNotification.scss'
 
-export default function ToastNotification({ type = 'success', title, children, onClose }) {
+export default function ToastNotification({ title, children, onClose }) {
   useEffect(() => {
     const timeoutId = window.setTimeout(onClose, 5000)
     return () => window.clearTimeout(timeoutId)
   }, [onClose])
 
   return (
-    <section className={`notification-toast notification-toast--${type}`} role='status' aria-live='polite'>
+    <section className='notification-toast' role='status' aria-live='polite'>
       <IoCheckmarkCircle className='notification-toast__icon' aria-hidden='true' />
       <div className='notification-toast__content'>
         {title && <strong className='notification-toast__title'>{title}</strong>}

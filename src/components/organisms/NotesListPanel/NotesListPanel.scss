@@ -17,11 +17,6 @@
         width: 100%;
         padding: $spacing-24 $spacing-20 $spacing-16;
         flex-shrink: 0;
-
-        .text--size-h2 {
-            font-size: 24px;
-            letter-spacing: -0.02em;
-        }
     }
 
     &__header-row {
@@ -34,9 +29,9 @@
 
     &__new-note-button {
         transition:
-            background-color 160ms ease,
-            box-shadow 180ms ease,
-            transform 160ms ease;
+            background-color $duration-base ease,
+            box-shadow $duration-base ease,
+            transform $duration-base ease;
 
         &:hover {
             box-shadow: $shadow-xl;
@@ -46,7 +41,7 @@
         &:active {
             box-shadow: $shadow-sm;
             transform: scale(0.99);
-            transition-duration: 90ms;
+            transition-duration: $duration-fast;
         }
     }
 
@@ -57,29 +52,14 @@
         width: 100%;
 
         .input {
-            min-height: $spacing-40;
-            padding: 0 $spacing-16;
             padding-right: $spacing-48;
-            background-color: $color-input-fill;
-            border-color: $color-border;
-            box-shadow: none;
-        }
-
-        .input__control {
-            font-size: 15px;
-        }
-
-        .icon {
-            width: $spacing-16;
-            height: $spacing-16;
+            @include icon-size($spacing-16);
         }
 
         kbd {
             position: absolute;
             right: $spacing-8;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            @include inline-center;
             min-width: $spacing-24;
             height: $spacing-24;
             padding: 0 $spacing-4;
@@ -140,7 +120,6 @@
             height: 200px;
             min-height: 200px;
             flex: 0 0 200px;
-            box-sizing: border-box;
 
             > .text--size-body {
                 display: -webkit-box;

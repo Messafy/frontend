@@ -1,19 +1,17 @@
-@use "../../../styles/tokens/index" as *;
+@use '../../../styles/tokens' as *;
 
 .card {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-24;
-  width: 100%;
-  padding: $spacing-24;
-  background-color: $color-card;
-  border: 0;
-  border-radius: $radius-xl;
-  box-shadow: $shadow-subtle;
-  color: $color-text-primary;
-  transition: border-color 180ms ease;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-24;
+    width: 100%;
+    padding: $spacing-24;
+    background-color: $color-card;
+    @include soft-border($color-border, $radius-xl);
+    color: $color-text-primary;
+    transition: border-color $duration-base ease;
 
-  &:hover {
-    border-color: $color-border-hover;
-  }
+    &:hover {
+        border-color: $color-border-hover;
+    }
 }

@@ -52,7 +52,7 @@ export default function TagListEditor({ tags, onAdd, onClose, onRemove, placemen
                     <StyledText as='span' size='small' weight='semibold'>Add tag</StyledText>
                     <ActionButton
                         className='tag-editor__close'
-                        variant='ghost'
+                        variant='icon'
                         aria-label='Close tag editor'
                         onClick={onClose}
                     >
@@ -62,14 +62,14 @@ export default function TagListEditor({ tags, onAdd, onClose, onRemove, placemen
 
                 <form className='tag-editor__form' onSubmit={handleSubmit}>
                     <TextInput
-                        variant='tag'
+                        variant='compact'
                         value={value}
                         placeholder='Tag name...'
                         aria-label='Tag name'
                         autoFocus
                         onChange={event => setValue(event.target.value)}
                     />
-                    <ActionButton type='submit' disabled={!canAdd}>Add</ActionButton>
+                    <ActionButton type='submit' variant='secondary' disabled={!canAdd}>Add</ActionButton>
                 </form>
 
                 {tags.length > 0 && (

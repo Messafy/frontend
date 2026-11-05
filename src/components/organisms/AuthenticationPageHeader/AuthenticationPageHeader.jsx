@@ -5,7 +5,7 @@ import './AuthenticationPageHeader.scss'
 export default function AuthenticationPageHeader({title, subtitle}) {
     return (
         <header className='auth-page-header'>
-            <StyledText as='h1' size='h1' weight='bold'>{title}</StyledText>
+            <StyledText as='h1' size='h1' weight='semibold'>{title}</StyledText>
             {subtitle ? (
                 <StyledText as='p' size='body' color='secondary'>{subtitle}</StyledText>
             ) : null}

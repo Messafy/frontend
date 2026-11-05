@@ -59,6 +59,7 @@ export function buildSessionFromAccount(token, accountData) {
         account: {
             id: accountData.id,
             email: accountData.email,
+            publicCode: accountData.publicCode,
             role: accountData.role,
             status: accountData.status,
             verified: accountData.verified,

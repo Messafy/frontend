@@ -1,13 +1,9 @@
-import PropTypes from 'prop-types';
-import './ProfileAvatar.scss';
+import PropTypes from 'prop-types'
+import './ProfileAvatar.scss'
 
-export default function ProfileAvatar ({ initial = null, size = 'md' }) {
-    const classes = ['profile', size !== 'md' && `profile--${size}`]
-        .filter(Boolean)
-        .join(' ')
-
+export default function ProfileAvatar({ initial = null }) {
     return (
-        <div className={classes} aria-label='Profile'>
+        <div className='profile' aria-label='Profile'>
             {initial && <span className='profile__initial'>{initial}</span>}
         </div>
     )
@@ -15,5 +11,4 @@ export default function ProfileAvatar ({ initial = null, size = 'md' }) {
 
 ProfileAvatar.propTypes = {
     initial: PropTypes.string,
-    size: PropTypes.oneOf(['sm', 'md']),
 }

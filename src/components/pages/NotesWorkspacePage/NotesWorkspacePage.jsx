@@ -192,14 +192,6 @@ function noteMatchesFilter(note, activeFilter, accountId) {
     }
 }
 
-function countUnreadInbox(notes, accountId) {
-    return notes.filter(note =>
-        note.status !== 'DELETED'
-        && note.relationshipTo(accountId) === 'RECEIVED'
-        && !note.readAt
-    ).length;
-}
-
 function sortPinnedFirst(notes) {
     return [...notes].sort((a, b) => Number(b.pinned) - Number(a.pinned));
 }
@@ -361,17 +353,12 @@ export default function NotesWorkspacePage() {
             : sortPinnedFirst(filteredNotes);
     }, [notes, activeFilter, accountId]);
     const readOnlyReason = getReadOnlyReason(activeFilter, selectedNote, accountId);
-    const unreadInboxCount = useMemo(
-        () => countUnreadInbox(notes, accountId),
-        [notes, accountId]
-    );
 
     return (
         <main className="note-page">
             <NotesNavigationSidebar
                 activeFilter={activeFilter}
                 onSelectFilter={selectFilter}
-                unreadInboxCount={unreadInboxCount}
                 account={session?.account}
             />
             <NotesListPanel

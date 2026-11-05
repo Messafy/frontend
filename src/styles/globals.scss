@@ -1,90 +1,50 @@
 @use './tokens' as *;
 
-body {
-  background-color: $color-background;
-  color: $color-text-primary;
-  font-family: $font-family-base;
-  font-size: $font-size-body;
-  font-weight: $font-weight-regular;
-  line-height: $line-height-body;
-  margin: 0;
-  padding: 0;
-  letter-spacing: -0.01em;
-  font-feature-settings: 'cv01' 1, 'ss03' 1, 'zero' 1;
+* {
+    box-sizing: border-box;
 }
 
-* {
-  box-sizing: border-box;
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $color-background;
+    color: $color-text-primary;
+    font-family: $font-family-base;
+    font-size: $font-size-body;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-body;
+    letter-spacing: $letter-spacing-body;
+    font-feature-settings: 'cv01' 1, 'ss03' 1, 'zero' 1;
 }
 
 ::selection {
-  background-color: $color-primary;
-  color: $color-primary-foreground;
-  text-shadow: none;
+    background-color: $color-primary;
+    color: $color-primary-foreground;
+    text-shadow: none;
 }
 
 h1,
 h2,
 h3,
-h4,
 p {
-  margin: 0;
+    margin: 0;
 }
 
 h1,
 h2,
-h3,
-h4 {
-  color: $color-text-primary;
-  line-height: $line-height-heading;
-}
-
-h1 {
-  font-size: clamp(2.25rem, 5vw, 4rem);
-  font-weight: $font-weight-semibold;
-  letter-spacing: -0.022em;
-}
-
-h2 {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: $font-weight-semibold;
-  letter-spacing: -0.012em;
-}
-
 h3 {
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
-  font-weight: $font-weight-semibold;
-  letter-spacing: -0.012em;
-}
-
-h4 {
-  color: $color-text-secondary;
-  font-size: 1rem;
-  font-weight: $font-weight-semibold;
-  letter-spacing: -0.01em;
+    color: $color-text-primary;
+    letter-spacing: $letter-spacing-heading;
 }
 
 p {
-  color: $color-text-secondary;
-  font-size: $font-size-body;
-  line-height: $line-height-body;
-}
-
-small {
-  color: $color-text-muted;
-  font-size: $font-size-small;
-  line-height: $line-height-body;
-}
-
-a {
-  font-size: $font-size-link;
-  font-weight: $font-weight-medium;
+    color: $color-text-secondary;
 }
 
 button,
 input,
 textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: $line-height-control;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: $line-height-control;
 }
