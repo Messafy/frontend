@@ -47,3 +47,6 @@ design-references/
 CLAUDE.md
 .claude/
 AGENTS.md
+
+*storybook.log
+storybook-static
